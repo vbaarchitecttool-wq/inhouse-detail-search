@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import HighlightText from "./HighlightText";
+import PdfThumbnail from "./PdfThumbnail";
 
 const DetailCard = ({
   detail,
@@ -73,7 +74,15 @@ const DetailCard = ({
       title={detail?.title ?? ""}
     >
       <div className="detail-card-thumbnail" aria-hidden="true">
-        <span className="thumb-text">PDF</span>
+        {detail?.files?.pdf?.path ? (
+          <PdfThumbnail
+            path={detail.files.pdf.path}
+            cacheKey={detail.id}
+            alt={`${detail.title} のサムネイル`}
+          />
+        ) : (
+          <span className="thumb-text">PDF</span>
+        )}
       </div>
 
       <div className="detail-card-body">

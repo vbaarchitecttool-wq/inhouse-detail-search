@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -8,3 +9,15 @@ root.render(
     <App />
   </React.StrictMode>
 );
+
+// PWA: 本番ビルドのみ Service Worker を登録
+serviceWorkerRegistration.register({
+  onUpdate: (registration) => {
+    window.dispatchEvent(
+      new CustomEvent("sw-update-available", { detail: registration })
+    );
+  },
+  onReady: () => {
+    window.dispatchEvent(new CustomEvent("sw-ready"));
+  },
+});

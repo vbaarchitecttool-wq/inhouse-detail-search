@@ -16,6 +16,9 @@ import RecentlyViewed from "./components/RecentlyViewed";
 import BulkDownloadBar from "./components/BulkDownloadBar";
 import ShortcutsHelp from "./components/ShortcutsHelp";
 import ThemeToggle from "./components/ThemeToggle";
+import { SkeletonGrid } from "./components/SkeletonCard";
+import LiveRegion from "./components/LiveRegion";
+import UpdateBanner from "./components/UpdateBanner";
 
 import indexData from "./detail_index.json";
 import { searchDetails, sortDetails } from "./utils/search";
@@ -61,6 +64,9 @@ function App() {
   const [theme, setTheme] = useState(() => loadTheme());
   const [helpOpen, setHelpOpen] = useState(false);
   const [bulkSelected, setBulkSelected] = useState(() => new Set());
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [swRegistration, setSwRegistration] = useState(null);
+  const [updateBannerOpen, setUpdateBannerOpen] = useState(false);
 
   const searchRef = useRef(null);
   const restoredOnce = useRef(false);
@@ -76,24 +82,29 @@ function App() {
     saveTheme(theme);
   }, [theme]);
 
-  // 検索・絞り込み・ソート実行
+  // 検索・絞り込み・ソート実行（スケルトン表示用に短い isFiltering を立てる）
   useEffect(() => {
-    let results = searchDetails(
-      detailsData,
-      searchQuery,
-      selectedCategoryPaths,
-      selectedFileTypes
-    );
-    if (favoritesOnly) {
-      results = results.filter((d) => favorites.has(d.id));
-    }
-    results = sortDetails(results, sortType);
-    setFilteredDetails(results);
-    setSelectedIndex((prev) => {
-      if (prev < 0) return prev;
-      if (prev >= results.length) return -1;
-      return prev;
-    });
+    setIsFiltering(true);
+    const t = setTimeout(() => {
+      let results = searchDetails(
+        detailsData,
+        searchQuery,
+        selectedCategoryPaths,
+        selectedFileTypes
+      );
+      if (favoritesOnly) {
+        results = results.filter((d) => favorites.has(d.id));
+      }
+      results = sortDetails(results, sortType);
+      setFilteredDetails(results);
+      setSelectedIndex((prev) => {
+        if (prev < 0) return prev;
+        if (prev >= results.length) return -1;
+        return prev;
+      });
+      setIsFiltering(false);
+    }, 80);
+    return () => clearTimeout(t);
   }, [
     detailsData,
     searchQuery,
@@ -103,6 +114,16 @@ function App() {
     favoritesOnly,
     favorites,
   ]);
+
+  // SW 更新検知
+  useEffect(() => {
+    const onUpdate = (e) => {
+      setSwRegistration(e.detail);
+      setUpdateBannerOpen(true);
+    };
+    window.addEventListener("sw-update-available", onUpdate);
+    return () => window.removeEventListener("sw-update-available", onUpdate);
+  }, []);
 
   // URL同期（出力）
   useEffect(() => {
@@ -285,8 +306,15 @@ function App() {
     ]
   );
 
+  const liveMessage = isFiltering
+    ? "検索中"
+    : `${filteredDetails.length}件のディティールが見つかりました`;
+
   return (
     <div className="app">
+      <a href="#results-section" className="skip-link">
+        本文へスキップ
+      </a>
       <header className="app-header">
         <div className="header-row">
           <h1>社内ディティール検索</h1>
@@ -369,7 +397,7 @@ function App() {
           />
         </aside>
 
-        <main className="results-section">
+        <main className="results-section" id="results-section" tabIndex={-1}>
           <div className="results-header">
             <h2>検索結果：{filteredDetails.length}件</h2>
             <div className="results-controls">
@@ -413,6 +441,9 @@ function App() {
             </div>
           </div>
 
+          {isFiltering && filteredDetails.length === 0 ? (
+            <SkeletonGrid count={6} viewMode={viewMode} />
+          ) : (
           <div
             className={
               viewMode === "list" ? "results-list" : "results-grid"
@@ -444,8 +475,17 @@ function App() {
               </div>
             )}
           </div>
+          )}
         </main>
       </div>
+
+      <LiveRegion message={liveMessage} />
+
+      <UpdateBanner
+        open={updateBannerOpen}
+        registration={swRegistration}
+        onClose={() => setUpdateBannerOpen(false)}
+      />
 
       {selectedDetail && (
         <DetailModal

@@ -1,5 +1,6 @@
 // src/components/ShortcutsHelp.js
 import React, { useEffect } from "react";
+import useFocusTrap from "../hooks/useFocusTrap";
 
 const shortcuts = [
   { keys: ["⌘/Ctrl", "K"], desc: "検索フォーカス" },
@@ -12,6 +13,8 @@ const shortcuts = [
 ];
 
 const ShortcutsHelp = ({ open, onClose }) => {
+  const containerRef = useFocusTrap(open);
+
   useEffect(() => {
     if (!open) return;
     const h = (e) => {
@@ -32,6 +35,8 @@ const ShortcutsHelp = ({ open, onClose }) => {
       aria-label="キーボードショートカット"
     >
       <div
+        ref={containerRef}
+        tabIndex={-1}
         className="modal-content shortcut-modal"
         onClick={(e) => e.stopPropagation()}
       >

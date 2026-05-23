@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import RelatedDetails from "./RelatedDetails";
+import useFocusTrap from "../hooks/useFocusTrap";
 
 const DetailModal = ({
   detail,
@@ -15,6 +16,7 @@ const DetailModal = ({
   shareUrl,
 }) => {
   const [copied, setCopied] = useState(false);
+  const containerRef = useFocusTrap(!!detail);
 
   if (!detail) return null;
 
@@ -57,11 +59,17 @@ const DetailModal = ({
       onClick={onClose}
       role="dialog"
       aria-modal="true"
+      aria-labelledby="detail-modal-title"
     >
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div
+        ref={containerRef}
+        tabIndex={-1}
+        className="modal-content"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-header">
           <div style={{ display: "grid", gap: 4, minWidth: 0 }}>
-            <h2 className="modal-title">
+            <h2 className="modal-title" id="detail-modal-title">
               <button
                 type="button"
                 className={`star-btn star-btn-lg ${isFavorite ? "is-on" : ""}`}

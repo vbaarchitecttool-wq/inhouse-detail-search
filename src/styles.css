@@ -1464,6 +1464,200 @@ html[data-theme="dark"] .button-secondary {
   color: var(--text-softer);
 }
 
+/* ===== Skip link ===== */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  border-radius: 0 0 12px 0;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0;
+  outline: 3px solid var(--accent-light);
+}
+
+/* ===== Skeleton ===== */
+@keyframes skeleton-pulse {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeleton-card {
+  cursor: default;
+  pointer-events: none;
+}
+
+.skeleton-card:hover {
+  transform: none;
+  border-color: var(--line);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.skeleton-thumb,
+.skeleton-bar,
+.skeleton-pill {
+  background: linear-gradient(
+    90deg,
+    rgba(17, 24, 39, 0.06) 0,
+    rgba(17, 24, 39, 0.12) 40px,
+    rgba(17, 24, 39, 0.06) 80px
+  );
+  background-size: 600px 100%;
+  animation: skeleton-pulse 1.4s linear infinite;
+  border-radius: 8px;
+}
+
+html[data-theme="dark"] .skeleton-thumb,
+html[data-theme="dark"] .skeleton-bar,
+html[data-theme="dark"] .skeleton-pill {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0,
+    rgba(255, 255, 255, 0.1) 40px,
+    rgba(255, 255, 255, 0.05) 80px
+  );
+  background-size: 600px 100%;
+}
+
+.skeleton-bar {
+  height: 14px;
+  margin-bottom: 8px;
+}
+
+.skeleton-bar-title {
+  height: 18px;
+  width: 70%;
+  margin-bottom: 12px;
+}
+
+.skeleton-bar-meta {
+  height: 12px;
+  width: 90%;
+}
+
+.skeleton-bar-meta.short {
+  width: 60%;
+}
+
+.skeleton-pill {
+  width: 48px;
+  height: 18px;
+  border-radius: 999px;
+}
+
+/* ===== PDF Thumbnail ===== */
+.pdf-thumb-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+html[data-theme="dark"] .pdf-thumb-wrap {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.pdf-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #fff;
+}
+
+.pdf-thumb-loading,
+.pdf-thumb-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid rgba(17, 24, 39, 0.15);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.detail-card-list .pdf-thumb-img {
+  object-fit: cover;
+}
+
+/* ===== Update Banner ===== */
+.update-banner {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--panel-solid);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-soft);
+  animation: slideUp 0.2s ease-out;
+}
+
+.update-banner-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  border-radius: 999px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.update-banner-btn:hover {
+  filter: brightness(1.05);
+}
+
+.update-banner-close {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(17, 24, 39, 0.06);
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+html[data-theme="dark"] .update-banner-close {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 /* Responsive */
 @media (max-width: 980px) {
   .app {
