@@ -1,8 +1,14 @@
-// src/components/ThemeToggle.js
 import React from "react";
+import type { Theme } from "../types";
 
-const ThemeToggle = ({ theme, onChange }) => {
-  const next = theme === "dark" ? "light" : theme === "light" ? "auto" : "dark";
+interface Props {
+  theme: Theme;
+  onChange: (next: Theme) => void;
+}
+
+const ThemeToggle: React.FC<Props> = ({ theme, onChange }) => {
+  const next: Theme =
+    theme === "dark" ? "light" : theme === "light" ? "auto" : "dark";
   const icon = theme === "dark" ? "🌙" : theme === "light" ? "☀️" : "🌓";
   const label =
     theme === "dark" ? "ダーク" : theme === "light" ? "ライト" : "自動";

@@ -1,7 +1,11 @@
-// 結果ロード中のプレースホルダーカード
 import React from "react";
+import type { ViewMode } from "../types";
 
-const SkeletonCard = ({ viewMode = "grid" }) => (
+interface Props {
+  viewMode?: ViewMode;
+}
+
+const SkeletonCard: React.FC<Props> = ({ viewMode = "grid" }) => (
   <div
     className={`detail-card skeleton-card ${
       viewMode === "list" ? "detail-card-list" : ""
@@ -21,7 +25,15 @@ const SkeletonCard = ({ viewMode = "grid" }) => (
   </div>
 );
 
-export const SkeletonGrid = ({ count = 6, viewMode = "grid" }) => (
+interface GridProps {
+  count?: number;
+  viewMode?: ViewMode;
+}
+
+export const SkeletonGrid: React.FC<GridProps> = ({
+  count = 6,
+  viewMode = "grid",
+}) => (
   <div
     className={viewMode === "list" ? "results-list" : "results-grid"}
     aria-busy="true"

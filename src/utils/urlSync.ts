@@ -1,5 +1,4 @@
-// src/utils/urlSync.js
-// 検索条件・選択中ディティールを URL クエリパラメータと同期させる
+import type { UrlState, SortType } from "../types";
 
 const KEY_Q = "q";
 const KEY_CAT = "cat";
@@ -8,7 +7,21 @@ const KEY_SORT = "sort";
 const KEY_FAV = "fav";
 const KEY_ID = "id";
 
-export const readUrlState = () => {
+const SORT_VALUES: SortType[] = [
+  "category",
+  "relevance",
+  "name-asc",
+  "name-desc",
+  "date-desc",
+  "date-asc",
+];
+
+const toSort = (s: string | null): SortType => {
+  if (s && (SORT_VALUES as string[]).includes(s)) return s as SortType;
+  return "category";
+};
+
+export const readUrlState = (): UrlState => {
   if (typeof window === "undefined") {
     return {
       query: "",
@@ -30,14 +43,13 @@ export const readUrlState = () => {
       .split(",")
       .map((s) => s.trim().toLowerCase())
       .filter(Boolean),
-    sortType: sp.get(KEY_SORT) || "category",
+    sortType: toSort(sp.get(KEY_SORT)),
     favoritesOnly: sp.get(KEY_FAV) === "1",
     detailId: sp.get(KEY_ID) || null,
   };
 };
 
-export const writeUrlState = (state) => {
-  if (typeof window === "undefined") return;
+const buildParams = (state: UrlState): URLSearchParams => {
   const sp = new URLSearchParams();
   if (state.query) sp.set(KEY_Q, state.query);
   if (state.categories?.length) sp.set(KEY_CAT, state.categories.join("|"));
@@ -46,7 +58,12 @@ export const writeUrlState = (state) => {
     sp.set(KEY_SORT, state.sortType);
   if (state.favoritesOnly) sp.set(KEY_FAV, "1");
   if (state.detailId) sp.set(KEY_ID, state.detailId);
+  return sp;
+};
 
+export const writeUrlState = (state: UrlState): void => {
+  if (typeof window === "undefined") return;
+  const sp = buildParams(state);
   const qs = sp.toString();
   const next = qs ? `?${qs}` : window.location.pathname;
   const cur = window.location.search;
@@ -55,17 +72,9 @@ export const writeUrlState = (state) => {
   }
 };
 
-export const buildShareUrl = (state) => {
+export const buildShareUrl = (state: UrlState): string => {
   if (typeof window === "undefined") return "";
-  const sp = new URLSearchParams();
-  if (state.query) sp.set(KEY_Q, state.query);
-  if (state.categories?.length) sp.set(KEY_CAT, state.categories.join("|"));
-  if (state.fileTypes?.length) sp.set(KEY_TYPE, state.fileTypes.join(","));
-  if (state.sortType && state.sortType !== "category")
-    sp.set(KEY_SORT, state.sortType);
-  if (state.favoritesOnly) sp.set(KEY_FAV, "1");
-  if (state.detailId) sp.set(KEY_ID, state.detailId);
-  const qs = sp.toString();
+  const qs = buildParams(state).toString();
   const { origin, pathname } = window.location;
   return qs ? `${origin}${pathname}?${qs}` : `${origin}${pathname}`;
 };

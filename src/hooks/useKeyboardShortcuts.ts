@@ -1,19 +1,26 @@
-// src/hooks/useKeyboardShortcuts.js
 import { useEffect } from "react";
 
-// グローバルなキーボードショートカットを束ねる
-// handlers: { onFocusSearch, onOpenHelp, onCloseModal, onPrev, onNext, onToggleFavorite, isModalOpen }
-export default function useKeyboardShortcuts(handlers) {
+export interface ShortcutHandlers {
+  isModalOpen?: boolean;
+  onFocusSearch?: () => void;
+  onOpenHelp?: () => void;
+  onCloseHelp?: () => void;
+  onCloseModal?: () => void;
+  onPrev?: () => void;
+  onNext?: () => void;
+  onToggleFavorite?: () => void;
+}
+
+export default function useKeyboardShortcuts(handlers: ShortcutHandlers): void {
   useEffect(() => {
-    const handler = (e) => {
-      const target = e.target;
+    const handler = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
       const isTyping =
-        target &&
+        !!target &&
         (target.tagName === "INPUT" ||
           target.tagName === "TEXTAREA" ||
           target.isContentEditable);
 
-      // Cmd/Ctrl + K → 検索フォーカス（入力中でも有効）
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         handlers.onFocusSearch?.();
@@ -22,7 +29,6 @@ export default function useKeyboardShortcuts(handlers) {
 
       if (isTyping) return;
 
-      // モーダル中
       if (handlers.isModalOpen) {
         if (e.key === "Escape") {
           e.preventDefault();
@@ -40,7 +46,6 @@ export default function useKeyboardShortcuts(handlers) {
         return;
       }
 
-      // モーダル外
       if (e.key === "/") {
         e.preventDefault();
         handlers.onFocusSearch?.();

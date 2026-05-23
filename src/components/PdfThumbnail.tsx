@@ -1,16 +1,12 @@
-// PDF 1ページ目をサムネイルとして描画する Lazy コンポーネント
-// - IntersectionObserver で可視時のみロード
-// - IndexedDB にキャッシュ
-// - 失敗時は "PDF" バッジ風プレースホルダー
 import React, { useEffect, useRef, useState } from "react";
 import { getThumb, putThumb } from "../utils/thumbCache";
 
-let pdfjsPromise = null;
-const loadPdfJs = () => {
+let pdfjsPromise: Promise<any> | null = null;
+const loadPdfJs = (): Promise<any> => {
   if (!pdfjsPromise) {
-    pdfjsPromise = import("pdfjs-dist/build/pdf").then((mod) => {
+    // @ts-ignore - dynamic import of .mjs lacks declared types in some setups
+    pdfjsPromise = import("pdfjs-dist").then((mod: any) => {
       const pdfjs = mod;
-      // CRA は new URL でワーカーを bundle できないので CDN を使う
       pdfjs.GlobalWorkerOptions.workerSrc =
         "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.mjs";
       return pdfjs;
@@ -19,7 +15,7 @@ const loadPdfJs = () => {
   return pdfjsPromise;
 };
 
-const generateThumb = async (path, width = 220) => {
+const generateThumb = async (path: string, width = 220): Promise<string> => {
   const pdfjs = await loadPdfJs();
   const loadingTask = pdfjs.getDocument(path);
   const pdf = await loadingTask.promise;
@@ -31,14 +27,23 @@ const generateThumb = async (path, width = 220) => {
   canvas.width = scaled.width;
   canvas.height = scaled.height;
   const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("canvas 2d context unavailable");
   await page.render({ canvasContext: ctx, viewport: scaled }).promise;
   return canvas.toDataURL("image/png");
 };
 
-const PdfThumbnail = ({ path, cacheKey, alt = "" }) => {
-  const ref = useRef(null);
-  const [src, setSrc] = useState(null);
-  const [state, setState] = useState("idle"); // idle | loading | done | error
+interface Props {
+  path?: string;
+  cacheKey?: string;
+  alt?: string;
+}
+
+type State = "idle" | "loading" | "done" | "error";
+
+const PdfThumbnail: React.FC<Props> = ({ path, cacheKey, alt = "" }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [src, setSrc] = useState<string | null>(null);
+  const [state, setState] = useState<State>("idle");
   const triedRef = useRef(false);
 
   useEffect(() => {
@@ -71,7 +76,7 @@ const PdfThumbnail = ({ path, cacheKey, alt = "" }) => {
         setSrc(dataUrl);
         setState("done");
         putThumb(key, dataUrl);
-      } catch (e) {
+      } catch {
         if (cancelled) return;
         setState("error");
       }

@@ -1,8 +1,30 @@
 import React, { useMemo, useState } from "react";
 import RelatedDetails from "./RelatedDetails";
 import useFocusTrap from "../hooks/useFocusTrap";
+import type { Detail } from "../types";
 
-const DetailModal = ({
+interface Props {
+  detail: Detail | null;
+  index: number;
+  total: number;
+  onPrev: () => void;
+  onNext: () => void;
+  onClose: () => void;
+  allDetails: Detail[];
+  onOpenById: (id: string) => void;
+  isFavorite: boolean;
+  onToggleFavorite: (id: string) => void;
+  shareUrl: string;
+}
+
+const formatFileSize = (bytes?: number): string => {
+  if (!bytes) return "";
+  return bytes > 1000000
+    ? `${(bytes / 1000000).toFixed(1)} MB`
+    : `${(bytes / 1000).toFixed(0)} KB`;
+};
+
+const DetailModal: React.FC<Props> = ({
   detail,
   index,
   total,
@@ -16,28 +38,21 @@ const DetailModal = ({
   shareUrl,
 }) => {
   const [copied, setCopied] = useState(false);
-  const containerRef = useFocusTrap(!!detail);
-
-  if (!detail) return null;
-
-  const formatFileSize = (bytes) => {
-    if (!bytes) return "";
-    return bytes > 1000000
-      ? `${(bytes / 1000000).toFixed(1)} MB`
-      : `${(bytes / 1000).toFixed(0)} KB`;
-  };
+  const containerRef = useFocusTrap<HTMLDivElement>(!!detail);
 
   const categoryText = useMemo(() => {
-    const arr = Array.isArray(detail?.categoryPath) ? detail.categoryPath : [];
+    const arr = Array.isArray(detail?.categoryPath) ? detail!.categoryPath : [];
     return arr.join(" › ");
   }, [detail]);
 
   const tags = useMemo(() => {
-    const t = Array.isArray(detail?.tags) ? detail.tags : [];
+    const t = Array.isArray(detail?.tags) ? detail!.tags : [];
     return t;
   }, [detail]);
 
-  const hasPdf = Boolean(detail?.files?.pdf?.path);
+  if (!detail) return null;
+
+  const hasPdf = Boolean(detail.files?.pdf?.path);
   const canPrev = index > 0;
   const canNext = index < total - 1;
 
@@ -48,7 +63,6 @@ const DetailModal = ({
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {
-      // クリップボード非対応環境 → プロンプト
       window.prompt("URLをコピー:", shareUrl);
     }
   };
@@ -73,7 +87,7 @@ const DetailModal = ({
               <button
                 type="button"
                 className={`star-btn star-btn-lg ${isFavorite ? "is-on" : ""}`}
-                onClick={() => onToggleFavorite?.(detail.id)}
+                onClick={() => onToggleFavorite(detail.id)}
                 aria-pressed={isFavorite}
                 aria-label={isFavorite ? "お気に入り解除" : "お気に入りに追加"}
                 title="お気に入り (F)"
@@ -174,7 +188,7 @@ const DetailModal = ({
               {hasPdf ? (
                 <iframe
                   title="pdf-preview"
-                  src={detail.files.pdf.path}
+                  src={detail.files.pdf!.path}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -190,7 +204,7 @@ const DetailModal = ({
             {hasPdf && (
               <div className="pdf-subactions">
                 <a
-                  href={detail.files.pdf.path}
+                  href={detail.files.pdf!.path}
                   target="_blank"
                   rel="noreferrer"
                   className="link-strong"

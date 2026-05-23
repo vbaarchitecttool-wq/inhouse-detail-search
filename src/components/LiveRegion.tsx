@@ -1,7 +1,11 @@
-// スクリーンリーダーに動的変更を通知する非表示ライブリージョン
 import React from "react";
 
-const LiveRegion = ({ message, polite = true }) => (
+interface Props {
+  message: string;
+  polite?: boolean;
+}
+
+const LiveRegion: React.FC<Props> = ({ message, polite = true }) => (
   <div
     className="sr-only"
     role="status"

@@ -1,8 +1,18 @@
-// src/components/ActiveFilters.js
 import React from "react";
 
-// 現在の絞り込み条件をチップ表示し、個別解除＆全クリアできる
-const ActiveFilters = ({
+interface Props {
+  query: string;
+  categories: string[];
+  fileTypes: string[];
+  favoritesOnly: boolean;
+  onClearQuery: () => void;
+  onRemoveCategory: (c: string) => void;
+  onRemoveFileType: (t: string) => void;
+  onClearFavoritesOnly: () => void;
+  onClearAll: () => void;
+}
+
+const ActiveFilters: React.FC<Props> = ({
   query,
   categories,
   fileTypes,

@@ -1,16 +1,16 @@
-// Service Worker 登録
-// 開発時は登録しない（localhost のみ可）
+export interface SwCallbacks {
+  onUpdate?: (registration: ServiceWorkerRegistration) => void;
+  onReady?: (registration: ServiceWorkerRegistration) => void;
+}
 
-export const register = (callbacks = {}) => {
+export const register = (callbacks: SwCallbacks = {}): void => {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
 
-  // CRA dev server (localhost:3000) では SW を切る
   const isLocalhost =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1" ||
     window.location.hostname === "[::1]";
 
-  // 開発時は登録解除のみ行う
   if (isLocalhost) {
     unregister();
     return;
@@ -41,7 +41,7 @@ export const register = (callbacks = {}) => {
   });
 };
 
-export const unregister = () => {
+export const unregister = (): void => {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
   navigator.serviceWorker.ready
     .then((reg) => reg.unregister())

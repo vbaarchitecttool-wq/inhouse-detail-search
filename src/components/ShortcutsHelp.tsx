@@ -1,8 +1,7 @@
-// src/components/ShortcutsHelp.js
 import React, { useEffect } from "react";
 import useFocusTrap from "../hooks/useFocusTrap";
 
-const shortcuts = [
+const shortcuts: { keys: string[]; desc: string }[] = [
   { keys: ["⌘/Ctrl", "K"], desc: "検索フォーカス" },
   { keys: ["/"], desc: "検索フォーカス" },
   { keys: ["?"], desc: "このヘルプを開く" },
@@ -12,12 +11,17 @@ const shortcuts = [
   { keys: ["Enter / Space"], desc: "カード選択" },
 ];
 
-const ShortcutsHelp = ({ open, onClose }) => {
-  const containerRef = useFocusTrap(open);
+interface Props {
+  open: boolean;
+  onClose: () => void;
+}
+
+const ShortcutsHelp: React.FC<Props> = ({ open, onClose }) => {
+  const containerRef = useFocusTrap<HTMLDivElement>(open);
 
   useEffect(() => {
     if (!open) return;
-    const h = (e) => {
+    const h = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", h);

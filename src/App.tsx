@@ -1,4 +1,3 @@
-// File: src/App.js
 import React, {
   useState,
   useEffect,
@@ -6,7 +5,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import SearchBar from "./components/SearchBar";
+import SearchBar, { SearchBarHandle } from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
 import FileTypeFilter from "./components/FileTypeFilter";
 import DetailCard from "./components/DetailCard";
@@ -20,7 +19,7 @@ import { SkeletonGrid } from "./components/SkeletonCard";
 import LiveRegion from "./components/LiveRegion";
 import UpdateBanner from "./components/UpdateBanner";
 
-import indexData from "./detail_index.json";
+import indexDataRaw from "./detail_index.json";
 import { searchDetails, sortDetails } from "./utils/search";
 import {
   loadFavorites,
@@ -35,43 +34,57 @@ import {
 } from "./utils/storage";
 import { readUrlState, writeUrlState, buildShareUrl } from "./utils/urlSync";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
+import type { Detail, CategoryNode, SortType, ViewMode, Theme } from "./types";
 import "./styles.css";
 
-function App() {
-  const detailsData = useMemo(
+const indexData = indexDataRaw as unknown as {
+  details: Detail[];
+  categories: CategoryNode[];
+};
+
+const App: React.FC = () => {
+  const detailsData = useMemo<Detail[]>(
     () => (Array.isArray(indexData.details) ? indexData.details : []),
     []
   );
-  const categoriesData = useMemo(
+  const categoriesData = useMemo<CategoryNode[]>(
     () => (Array.isArray(indexData.categories) ? indexData.categories : []),
     []
   );
 
   const initial = useMemo(() => readUrlState(), []);
 
-  const [searchQuery, setSearchQuery] = useState(initial.query);
-  const [selectedCategoryPaths, setSelectedCategoryPaths] = useState(
+  const [searchQuery, setSearchQuery] = useState<string>(initial.query);
+  const [selectedCategoryPaths, setSelectedCategoryPaths] = useState<string[]>(
     initial.categories
   );
-  const [selectedFileTypes, setSelectedFileTypes] = useState(initial.fileTypes);
-  const [sortType, setSortType] = useState(initial.sortType);
-  const [favoritesOnly, setFavoritesOnly] = useState(initial.favoritesOnly);
-  const [filteredDetails, setFilteredDetails] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [favorites, setFavorites] = useState(() => new Set(loadFavorites()));
-  const [recentIds, setRecentIds] = useState(() => loadRecent());
-  const [viewMode, setViewMode] = useState(() => loadViewMode());
-  const [theme, setTheme] = useState(() => loadTheme());
-  const [helpOpen, setHelpOpen] = useState(false);
-  const [bulkSelected, setBulkSelected] = useState(() => new Set());
-  const [isFiltering, setIsFiltering] = useState(false);
-  const [swRegistration, setSwRegistration] = useState(null);
-  const [updateBannerOpen, setUpdateBannerOpen] = useState(false);
+  const [selectedFileTypes, setSelectedFileTypes] = useState<string[]>(
+    initial.fileTypes
+  );
+  const [sortType, setSortType] = useState<SortType>(initial.sortType);
+  const [favoritesOnly, setFavoritesOnly] = useState<boolean>(
+    initial.favoritesOnly
+  );
+  const [filteredDetails, setFilteredDetails] = useState<Detail[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  const [favorites, setFavorites] = useState<Set<string>>(
+    () => new Set(loadFavorites())
+  );
+  const [recentIds, setRecentIds] = useState<string[]>(() => loadRecent());
+  const [viewMode, setViewMode] = useState<ViewMode>(() => loadViewMode());
+  const [theme, setTheme] = useState<Theme>(() => loadTheme());
+  const [helpOpen, setHelpOpen] = useState<boolean>(false);
+  const [bulkSelected, setBulkSelected] = useState<Set<string>>(
+    () => new Set()
+  );
+  const [isFiltering, setIsFiltering] = useState<boolean>(false);
+  const [swRegistration, setSwRegistration] =
+    useState<ServiceWorkerRegistration | null>(null);
+  const [updateBannerOpen, setUpdateBannerOpen] = useState<boolean>(false);
 
-  const searchRef = useRef(null);
-  const restoredOnce = useRef(false);
+  const searchRef = useRef<SearchBarHandle>(null);
+  const restoredOnce = useRef<boolean>(false);
 
-  // テーマ反映
   useEffect(() => {
     const html = document.documentElement;
     if (theme === "auto") {
@@ -82,7 +95,6 @@ function App() {
     saveTheme(theme);
   }, [theme]);
 
-  // 検索・絞り込み・ソート実行（スケルトン表示用に短い isFiltering を立てる）
   useEffect(() => {
     setIsFiltering(true);
     const t = setTimeout(() => {
@@ -115,17 +127,20 @@ function App() {
     favorites,
   ]);
 
-  // SW 更新検知
   useEffect(() => {
-    const onUpdate = (e) => {
-      setSwRegistration(e.detail);
+    const onUpdate = (e: Event) => {
+      const ce = e as CustomEvent<ServiceWorkerRegistration>;
+      setSwRegistration(ce.detail);
       setUpdateBannerOpen(true);
     };
-    window.addEventListener("sw-update-available", onUpdate);
-    return () => window.removeEventListener("sw-update-available", onUpdate);
+    window.addEventListener("sw-update-available", onUpdate as EventListener);
+    return () =>
+      window.removeEventListener(
+        "sw-update-available",
+        onUpdate as EventListener
+      );
   }, []);
 
-  // URL同期（出力）
   useEffect(() => {
     writeUrlState({
       query: searchQuery,
@@ -146,7 +161,6 @@ function App() {
     filteredDetails,
   ]);
 
-  // 初回ロード時に URL の detailId を復元
   useEffect(() => {
     if (restoredOnce.current) return;
     if (!initial.detailId) {
@@ -158,7 +172,6 @@ function App() {
       setSelectedIndex(idx);
       restoredOnce.current = true;
     } else if (filteredDetails.length > 0) {
-      // フィルタ変わって居場所が無い場合は全件から開く
       const fullIdx = detailsData.findIndex((d) => d.id === initial.detailId);
       if (fullIdx >= 0) {
         setSelectedCategoryPaths([]);
@@ -169,10 +182,9 @@ function App() {
     }
   }, [filteredDetails, initial.detailId, detailsData]);
 
-  // ハンドラ群
-  const handleSearch = useCallback((query) => setSearchQuery(query), []);
+  const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
 
-  const handleToggleCategoryPath = (payload) => {
+  const handleToggleCategoryPath = (payload: string | string[]) => {
     setSelectedCategoryPaths((prev) => {
       if (Array.isArray(payload)) {
         const allExist = payload.every((p) => prev.includes(p));
@@ -189,7 +201,7 @@ function App() {
     });
   };
 
-  const handleToggleFileType = (fileType) => {
+  const handleToggleFileType = (fileType: string) => {
     const t = String(fileType || "");
     if (!t) return;
     setSelectedFileTypes((prev) =>
@@ -197,7 +209,7 @@ function App() {
     );
   };
 
-  const handleToggleFavorite = (id) => {
+  const handleToggleFavorite = (id: string) => {
     setFavorites((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -207,7 +219,7 @@ function App() {
     });
   };
 
-  const handleToggleBulkSelect = (id) => {
+  const handleToggleBulkSelect = (id: string) => {
     setBulkSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -219,13 +231,12 @@ function App() {
   const handleClearBulk = () => setBulkSelected(new Set());
 
   const openDetailById = useCallback(
-    (id) => {
+    (id: string) => {
       const idx = filteredDetails.findIndex((d) => d.id === id);
       if (idx >= 0) {
         setSelectedIndex(idx);
         setRecentIds(pushRecent(id));
       } else {
-        // 結果外なら全件から開く（フィルタを一旦無視）
         const fullIdx = detailsData.findIndex((d) => d.id === id);
         if (fullIdx >= 0) {
           setSearchQuery("");
@@ -243,7 +254,7 @@ function App() {
     [filteredDetails, detailsData]
   );
 
-  const handleCardClick = (detail) => {
+  const handleCardClick = (detail: Detail) => {
     const idx = filteredDetails.findIndex((d) => d.id === detail.id);
     if (idx >= 0) {
       setSelectedIndex(idx);
@@ -258,12 +269,11 @@ function App() {
     setFavoritesOnly(false);
   };
 
-  const selectedDetail =
+  const selectedDetail: Detail | null =
     selectedIndex >= 0 && filteredDetails[selectedIndex]
       ? filteredDetails[selectedIndex]
       : null;
 
-  // キーボードショートカット
   useKeyboardShortcuts({
     isModalOpen: !!selectedDetail || helpOpen,
     onFocusSearch: () => searchRef.current?.focus(),
@@ -281,7 +291,7 @@ function App() {
     },
   });
 
-  const handleSetViewMode = (m) => {
+  const handleSetViewMode = (m: ViewMode) => {
     setViewMode(m);
     saveViewMode(m);
   };
@@ -425,7 +435,7 @@ function App() {
                 ソート：
                 <select
                   value={sortType}
-                  onChange={(e) => setSortType(e.target.value)}
+                  onChange={(e) => setSortType(e.target.value as SortType)}
                   className="sort-select"
                 >
                   <option value="category">カテゴリ順</option>
@@ -444,37 +454,35 @@ function App() {
           {isFiltering && filteredDetails.length === 0 ? (
             <SkeletonGrid count={6} viewMode={viewMode} />
           ) : (
-          <div
-            className={
-              viewMode === "list" ? "results-list" : "results-grid"
-            }
-          >
-            {filteredDetails.length > 0 ? (
-              filteredDetails.map((detail) => (
-                <DetailCard
-                  key={detail.id}
-                  detail={detail}
-                  query={searchQuery}
-                  isFavorite={favorites.has(detail.id)}
-                  onToggleFavorite={handleToggleFavorite}
-                  isSelected={bulkSelected.has(detail.id)}
-                  onToggleSelect={handleToggleBulkSelect}
-                  viewMode={viewMode}
-                  onClick={handleCardClick}
-                />
-              ))
-            ) : (
-              <div className="no-results">
-                <p>
-                  {favoritesOnly && favorites.size === 0
-                    ? "★ お気に入りはまだありません。カード右上の☆をタップして追加できます。"
-                    : selectedCategoryPaths.length === 0 && !searchQuery
-                    ? "カテゴリをチェックするか、キーワードを入力すると検索結果が表示されます。"
-                    : "検索条件に一致するディティールが見つかりませんでした。"}
-                </p>
-              </div>
-            )}
-          </div>
+            <div
+              className={viewMode === "list" ? "results-list" : "results-grid"}
+            >
+              {filteredDetails.length > 0 ? (
+                filteredDetails.map((detail) => (
+                  <DetailCard
+                    key={detail.id}
+                    detail={detail}
+                    query={searchQuery}
+                    isFavorite={favorites.has(detail.id)}
+                    onToggleFavorite={handleToggleFavorite}
+                    isSelected={bulkSelected.has(detail.id)}
+                    onToggleSelect={handleToggleBulkSelect}
+                    viewMode={viewMode}
+                    onClick={handleCardClick}
+                  />
+                ))
+              ) : (
+                <div className="no-results">
+                  <p>
+                    {favoritesOnly && favorites.size === 0
+                      ? "★ お気に入りはまだありません。カード右上の☆をタップして追加できます。"
+                      : selectedCategoryPaths.length === 0 && !searchQuery
+                      ? "カテゴリをチェックするか、キーワードを入力すると検索結果が表示されます。"
+                      : "検索条件に一致するディティールが見つかりませんでした。"}
+                  </p>
+                </div>
+              )}
+            </div>
           )}
         </main>
       </div>
@@ -516,6 +524,6 @@ function App() {
       <ShortcutsHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
     </div>
   );
-}
+};
 
 export default App;

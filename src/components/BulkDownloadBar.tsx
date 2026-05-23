@@ -1,10 +1,23 @@
-// src/components/BulkDownloadBar.js
 import React, { useState } from "react";
 import JSZip from "jszip";
+import type { Detail } from "../types";
 
-// 選択されたディティールを ZIP にまとめてダウンロード
-// 注：PDF/DWG/DXF の path が同一オリジンで fetch 可能であること
-const BulkDownloadBar = ({ selectedIds, allDetails, onClear }) => {
+interface Props {
+  selectedIds: string[];
+  allDetails: Detail[];
+  onClear: () => void;
+}
+
+const safeName = (s: string): string =>
+  String(s || "")
+    .replace(/[\\/:*?"<>|]/g, "_")
+    .slice(0, 80);
+
+const BulkDownloadBar: React.FC<Props> = ({
+  selectedIds,
+  allDetails,
+  onClear,
+}) => {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -19,6 +32,7 @@ const BulkDownloadBar = ({ selectedIds, allDetails, onClear }) => {
       const zip = new JSZip();
       for (const d of detailsToZip) {
         const folder = zip.folder(safeName(d.title || d.id));
+        if (!folder) continue;
         for (const [type, info] of Object.entries(d.files || {})) {
           if (!info?.path) continue;
           try {
@@ -27,7 +41,6 @@ const BulkDownloadBar = ({ selectedIds, allDetails, onClear }) => {
             const blob = await res.blob();
             folder.file(`${safeName(d.title || d.id)}.${type}`, blob);
           } catch (e) {
-            // 個別失敗はメモを残してスキップ
             folder.file(
               `_${type}_FAILED.txt`,
               `Failed to fetch: ${info.path}\n${String(e)}`
@@ -78,10 +91,5 @@ const BulkDownloadBar = ({ selectedIds, allDetails, onClear }) => {
     </div>
   );
 };
-
-const safeName = (s) =>
-  String(s || "")
-    .replace(/[\\/:*?"<>|]/g, "_")
-    .slice(0, 80);
 
 export default BulkDownloadBar;

@@ -1,9 +1,8 @@
-// PDFサムネイル用 IndexedDB キャッシュ
 const DB_NAME = "ids-thumb-cache";
 const STORE = "thumbs";
 const VERSION = 1;
 
-const openDB = () =>
+const openDB = (): Promise<IDBDatabase> =>
   new Promise((resolve, reject) => {
     if (typeof indexedDB === "undefined") {
       reject(new Error("IndexedDB not supported"));
@@ -20,13 +19,13 @@ const openDB = () =>
     req.onerror = () => reject(req.error);
   });
 
-export const getThumb = async (key) => {
+export const getThumb = async (key: string): Promise<string | null> => {
   try {
     const db = await openDB();
     return await new Promise((resolve) => {
       const tx = db.transaction(STORE, "readonly");
       const req = tx.objectStore(STORE).get(key);
-      req.onsuccess = () => resolve(req.result || null);
+      req.onsuccess = () => resolve((req.result as string) || null);
       req.onerror = () => resolve(null);
     });
   } catch {
@@ -34,7 +33,7 @@ export const getThumb = async (key) => {
   }
 };
 
-export const putThumb = async (key, dataUrl) => {
+export const putThumb = async (key: string, dataUrl: string): Promise<boolean> => {
   try {
     const db = await openDB();
     return await new Promise((resolve) => {
@@ -48,7 +47,7 @@ export const putThumb = async (key, dataUrl) => {
   }
 };
 
-export const clearThumbs = async () => {
+export const clearThumbs = async (): Promise<boolean> => {
   try {
     const db = await openDB();
     return await new Promise((resolve) => {

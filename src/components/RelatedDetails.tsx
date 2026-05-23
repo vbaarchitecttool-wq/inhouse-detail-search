@@ -1,12 +1,20 @@
-// src/components/RelatedDetails.js
 import React, { useMemo } from "react";
+import type { Detail } from "../types";
 
-const RelatedDetails = ({ detail, allDetails, onOpen }) => {
+interface Props {
+  detail: Detail;
+  allDetails: Detail[];
+  onOpen: (id: string) => void;
+}
+
+const RelatedDetails: React.FC<Props> = ({ detail, allDetails, onOpen }) => {
   const items = useMemo(() => {
     const ids = Array.isArray(detail?.relatedIds) ? detail.relatedIds : [];
     if (ids.length === 0) return [];
-    const map = new Map(allDetails.map((d) => [d.id, d]));
-    return ids.map((id) => map.get(id)).filter(Boolean);
+    const map = new Map<string, Detail>(allDetails.map((d) => [d.id, d]));
+    return ids
+      .map((id) => map.get(id))
+      .filter((d): d is Detail => Boolean(d));
   }, [detail, allDetails]);
 
   if (items.length === 0) return null;

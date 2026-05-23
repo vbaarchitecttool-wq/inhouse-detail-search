@@ -1,10 +1,13 @@
-// src/utils/search.js
 import Fuse from "fuse.js";
+import type { Detail, SortType } from "../types";
 
-const safeStr = (v) => (v === null || v === undefined ? "" : String(v));
-const normalize = (s) => safeStr(s).toLowerCase().replace(/\s+/g, " ").trim();
+const safeStr = (v: unknown): string =>
+  v === null || v === undefined ? "" : String(v);
 
-const buildSearchBlob = (detail) => {
+const normalize = (s: unknown): string =>
+  safeStr(s).toLowerCase().replace(/\s+/g, " ").trim();
+
+const buildSearchBlob = (detail: Detail): string => {
   const title = safeStr(detail?.title);
   const desc = safeStr(detail?.description);
   const tags = Array.isArray(detail?.tags) ? detail.tags.join(" ") : "";
@@ -17,12 +20,12 @@ const buildSearchBlob = (detail) => {
   return normalize(blob);
 };
 
-const buildCategoryPathKey = (detail) => {
+const buildCategoryPathKey = (detail: Detail): string => {
   if (!Array.isArray(detail?.categoryPath)) return "";
   return detail.categoryPath.join("/");
 };
 
-const matchCategory = (detail, selectedCategories) => {
+const matchCategory = (detail: Detail, selectedCategories: string[]): boolean => {
   if (!Array.isArray(selectedCategories) || selectedCategories.length === 0)
     return true;
 
@@ -47,7 +50,7 @@ const matchCategory = (detail, selectedCategories) => {
   });
 };
 
-const matchFileType = (detail, selectedFileTypes) => {
+const matchFileType = (detail: Detail, selectedFileTypes: string[]): boolean => {
   if (!Array.isArray(selectedFileTypes) || selectedFileTypes.length === 0)
     return true;
 
@@ -65,9 +68,8 @@ const matchFileType = (detail, selectedFileTypes) => {
   });
 };
 
-// Fuse.js でファジー検索（タイポ・表記揺れに強い）
-const buildFuse = (details) => {
-  return new Fuse(details, {
+const buildFuse = (details: Detail[]): Fuse<Detail> =>
+  new Fuse(details, {
     keys: [
       { name: "title", weight: 3 },
       { name: "tags", weight: 2 },
@@ -81,14 +83,13 @@ const buildFuse = (details) => {
     minMatchCharLength: 1,
     useExtendedSearch: false,
   });
-};
 
 export const searchDetails = (
-  details,
-  query,
-  selectedCategories,
-  selectedFileTypes
-) => {
+  details: Detail[],
+  query: string,
+  selectedCategories: string[],
+  selectedFileTypes: string[]
+): Detail[] => {
   const list = Array.isArray(details) ? details : [];
   const q = normalize(query);
 
@@ -102,15 +103,10 @@ export const searchDetails = (
     return baseFiltered.map((d) => ({ ...d, _matchScore: 0 }));
   }
 
-  // まず厳密な部分一致を取る
-  const exactHits = baseFiltered.filter((d) =>
-    buildSearchBlob(d).includes(q)
-  );
+  const exactHits = baseFiltered.filter((d) => buildSearchBlob(d).includes(q));
 
-  // 厳密一致がある程度あれば、それを優先しスコア0で返す
   if (exactHits.length >= 1) {
     const exactIds = new Set(exactHits.map((d) => d.id));
-    // Fuseでファジーも取り、足りない分を追加
     const fuse = buildFuse(baseFiltered);
     const fuzzy = fuse.search(q);
     const additional = fuzzy
@@ -123,19 +119,16 @@ export const searchDetails = (
     ];
   }
 
-  // 厳密一致が無ければファジーのみ
   const fuse = buildFuse(baseFiltered);
   return fuse.search(q).map((r) => ({ ...r.item, _matchScore: r.score ?? 0.5 }));
 };
 
-export const sortDetails = (details, sortType) => {
+export const sortDetails = (details: Detail[], sortType: SortType): Detail[] => {
   const list = Array.isArray(details) ? [...details] : [];
   const type = safeStr(sortType);
 
   if (type === "relevance") {
-    list.sort(
-      (a, b) => (a._matchScore ?? 1) - (b._matchScore ?? 1)
-    );
+    list.sort((a, b) => (a._matchScore ?? 1) - (b._matchScore ?? 1));
     return list;
   }
   if (type === "name-asc") {
@@ -173,14 +166,18 @@ export const sortDetails = (details, sortType) => {
   return list;
 };
 
-// ハイライト用：テキスト中の query 出現位置を強調 React 要素に
-export const highlightText = (text, query) => {
+export type HighlightPart = { text: string; hit: boolean };
+
+export const highlightText = (
+  text: unknown,
+  query: unknown
+): HighlightPart[] | string => {
   const t = safeStr(text);
   const q = normalize(query);
   if (!q || !t) return t;
 
   const lowerT = t.toLowerCase();
-  const parts = [];
+  const parts: HighlightPart[] = [];
   let i = 0;
   while (i < t.length) {
     const idx = lowerT.indexOf(q, i);

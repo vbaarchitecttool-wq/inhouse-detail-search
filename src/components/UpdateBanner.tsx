@@ -1,7 +1,12 @@
-// 新バージョンの SW が待機状態の時に表示する更新バナー
 import React from "react";
 
-const UpdateBanner = ({ open, registration, onClose }) => {
+interface Props {
+  open: boolean;
+  registration: ServiceWorkerRegistration | null;
+  onClose: () => void;
+}
+
+const UpdateBanner: React.FC<Props> = ({ open, registration, onClose }) => {
   if (!open) return null;
 
   const handleReload = () => {

@@ -1,8 +1,27 @@
 import React, { useMemo } from "react";
 import HighlightText from "./HighlightText";
 import PdfThumbnail from "./PdfThumbnail";
+import type { Detail, ViewMode } from "../types";
 
-const DetailCard = ({
+interface Props {
+  detail: Detail;
+  onClick: (d: Detail) => void;
+  query?: string;
+  isFavorite?: boolean;
+  onToggleFavorite?: (id: string) => void;
+  isSelected?: boolean;
+  onToggleSelect?: (id: string) => void;
+  viewMode?: ViewMode;
+}
+
+const formatFileSize = (bytes?: number): string => {
+  if (!bytes) return "";
+  return bytes > 1000000
+    ? `${(bytes / 1000000).toFixed(1)} MB`
+    : `${(bytes / 1000).toFixed(0)} KB`;
+};
+
+const DetailCard: React.FC<Props> = ({
   detail,
   onClick,
   query,
@@ -12,20 +31,13 @@ const DetailCard = ({
   onToggleSelect,
   viewMode = "grid",
 }) => {
-  const formatFileSize = (bytes) => {
-    if (!bytes) return "";
-    return bytes > 1000000
-      ? `${(bytes / 1000000).toFixed(1)} MB`
-      : `${(bytes / 1000).toFixed(0)} KB`;
-  };
-
   const categoryText = useMemo(() => {
     const arr = Array.isArray(detail?.categoryPath) ? detail.categoryPath : [];
     return arr.join(" › ");
   }, [detail]);
 
   const fileMeta = useMemo(() => {
-    const parts = [];
+    const parts: string[] = [];
     if (detail?.files?.pdf?.size)
       parts.push(`PDF ${formatFileSize(detail.files.pdf.size)}`);
     if (detail?.files?.dwg?.size)
@@ -40,12 +52,12 @@ const DetailCard = ({
     return t.slice(0, 3);
   }, [detail]);
 
-  const handleStar = (e) => {
+  const handleStar = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleFavorite?.(detail.id);
   };
 
-  const handleSelect = (e) => {
+  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     onToggleSelect?.(detail.id);
   };
@@ -95,7 +107,7 @@ const DetailCard = ({
               type="button"
               className={`star-btn ${isFavorite ? "is-on" : ""}`}
               onClick={handleStar}
-              aria-pressed={isFavorite}
+              aria-pressed={!!isFavorite}
               aria-label={isFavorite ? "お気に入り解除" : "お気に入りに追加"}
               title={isFavorite ? "お気に入り解除" : "お気に入りに追加"}
             >

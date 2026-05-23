@@ -3,14 +3,16 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const container = document.getElementById("root");
+if (!container) throw new Error("#root not found");
+
+const root = ReactDOM.createRoot(container);
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
 
-// PWA: 本番ビルドのみ Service Worker を登録
 serviceWorkerRegistration.register({
   onUpdate: (registration) => {
     window.dispatchEvent(
