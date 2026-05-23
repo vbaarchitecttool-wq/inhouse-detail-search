@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import JSZip from "jszip";
+import { resolveFileUrl } from "../utils/fileUrl";
 import type { Detail } from "../types";
 
 interface Props {
@@ -36,7 +37,7 @@ const BulkDownloadBar: React.FC<Props> = ({
         for (const [type, info] of Object.entries(d.files || {})) {
           if (!info?.path) continue;
           try {
-            const res = await fetch(info.path);
+            const res = await fetch(resolveFileUrl(info.path));
             if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
             const blob = await res.blob();
             folder.file(`${safeName(d.title || d.id)}.${type}`, blob);

@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import RelatedDetails from "./RelatedDetails";
 import useFocusTrap from "../hooks/useFocusTrap";
+import { resolveFileUrl } from "../utils/fileUrl";
 import type { Detail } from "../types";
 
 type PdfStatus = "checking" | "ok" | "missing";
@@ -53,7 +54,7 @@ const DetailModal: React.FC<Props> = ({
     }
     let cancelled = false;
     setPdfStatus("checking");
-    fetch(path, { method: "HEAD" })
+    fetch(resolveFileUrl(path), { method: "HEAD" })
       .then((res) => {
         if (cancelled) return;
         const ct = (res.headers.get("content-type") || "").toLowerCase();
@@ -219,7 +220,7 @@ const DetailModal: React.FC<Props> = ({
               {pdfStatus === "ok" && hasPdf ? (
                 <iframe
                   title="pdf-preview"
-                  src={`${detail.files.pdf!.path}#view=FitH`}
+                  src={`${resolveFileUrl(detail.files.pdf!.path)}#view=FitH`}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -250,7 +251,7 @@ const DetailModal: React.FC<Props> = ({
             {pdfStatus === "ok" && hasPdf && (
               <div className="pdf-subactions">
                 <a
-                  href={detail.files.pdf!.path}
+                  href={resolveFileUrl(detail.files.pdf!.path)}
                   target="_blank"
                   rel="noreferrer"
                   className="link-strong"
@@ -268,7 +269,7 @@ const DetailModal: React.FC<Props> = ({
             <h3>ファイル</h3>
             {detail.files?.pdf && (
               <a
-                href={detail.files.pdf.path}
+                href={resolveFileUrl(detail.files.pdf.path)}
                 className="download-button"
                 download
               >
@@ -277,7 +278,7 @@ const DetailModal: React.FC<Props> = ({
             )}
             {detail.files?.dwg && (
               <a
-                href={detail.files.dwg.path}
+                href={resolveFileUrl(detail.files.dwg.path)}
                 className="download-button"
                 download
               >
@@ -286,7 +287,7 @@ const DetailModal: React.FC<Props> = ({
             )}
             {detail.files?.dxf && (
               <a
-                href={detail.files.dxf.path}
+                href={resolveFileUrl(detail.files.dxf.path)}
                 className="download-button"
                 download
               >

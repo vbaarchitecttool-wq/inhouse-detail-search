@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import HighlightText from "./HighlightText";
 import PdfThumbnail from "./PdfThumbnail";
+import { resolveFileUrl } from "../utils/fileUrl";
 import type { Detail, ViewMode } from "../types";
 
 interface Props {
@@ -88,7 +89,7 @@ const DetailCard: React.FC<Props> = ({
       <div className="detail-card-thumbnail" aria-hidden="true">
         {detail?.files?.pdf?.path ? (
           <PdfThumbnail
-            path={detail.files.pdf.path}
+            path={resolveFileUrl(detail.files.pdf.path)}
             cacheKey={detail.id}
             alt={`${detail.title} のサムネイル`}
           />
