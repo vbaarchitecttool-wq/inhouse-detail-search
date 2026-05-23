@@ -1,10 +1,18 @@
 {
   "name": "react",
-  "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "main": "src/index.tsx",
+  "version": "1.1.0",
+  "description": "社内ディティール検索 — 検索/フィルタ/お気に入り/最近見た/URL共有/一括DLを備えた建築ディティール閲覧ツール",
+  "keywords": [
+    "architecture",
+    "detail",
+    "search",
+    "react"
+  ],
+  "main": "src/index.js",
   "dependencies": {
+    "ajv": "^8.20.0",
+    "fuse.js": "^7.0.0",
+    "jszip": "^3.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "^5.0.0"
@@ -21,5 +29,10 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

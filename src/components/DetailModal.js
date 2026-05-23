@@ -1,6 +1,21 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo, useState } from "react";
+import RelatedDetails from "./RelatedDetails";
 
-const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
+const DetailModal = ({
+  detail,
+  index,
+  total,
+  onPrev,
+  onNext,
+  onClose,
+  allDetails,
+  onOpenById,
+  isFavorite,
+  onToggleFavorite,
+  shareUrl,
+}) => {
+  const [copied, setCopied] = useState(false);
+
   if (!detail) return null;
 
   const formatFileSize = (bytes) => {
@@ -24,16 +39,17 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
   const canPrev = index > 0;
   const canNext = index < total - 1;
 
-  // ✅ キーボード操作：Escで閉じる、←/→でスライド
-  useEffect(() => {
-    const handler = (e) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft" && canPrev) onPrev();
-      if (e.key === "ArrowRight" && canNext) onNext();
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [onClose, onPrev, onNext, canPrev, canNext]);
+  const handleCopyShare = async () => {
+    if (!shareUrl) return;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // クリップボード非対応環境 → プロンプト
+      window.prompt("URLをコピー:", shareUrl);
+    }
+  };
 
   return (
     <div
@@ -43,17 +59,34 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
       aria-modal="true"
     >
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        {/* Header */}
         <div className="modal-header">
-          <div style={{ display: "grid", gap: 4 }}>
-            <h2>{detail.title}</h2>
-            <div style={{ fontSize: 12, color: "rgba(107, 114, 128, 0.95)" }}>
-              {categoryText}
-            </div>
+          <div style={{ display: "grid", gap: 4, minWidth: 0 }}>
+            <h2 className="modal-title">
+              <button
+                type="button"
+                className={`star-btn star-btn-lg ${isFavorite ? "is-on" : ""}`}
+                onClick={() => onToggleFavorite?.(detail.id)}
+                aria-pressed={isFavorite}
+                aria-label={isFavorite ? "お気に入り解除" : "お気に入りに追加"}
+                title="お気に入り (F)"
+              >
+                {isFavorite ? "★" : "☆"}
+              </button>
+              <span>{detail.title}</span>
+            </h2>
+            <div className="modal-cat">{categoryText}</div>
           </div>
 
-          {/* ✅ 右上アクション：Prev / Next / Close */}
           <div className="modal-actions">
+            <button
+              type="button"
+              className="icon-button"
+              onClick={handleCopyShare}
+              aria-label="共有URLをコピー"
+              title="共有URLをコピー"
+            >
+              🔗
+            </button>
             <button
               className="icon-button"
               onClick={onPrev}
@@ -84,49 +117,23 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
         </div>
 
         <div className="modal-body">
-          {/* 小さくページ表示（00-1〜00-3の体感） */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              marginBottom: 10,
-            }}
-          >
-            <div style={{ fontSize: 12, color: "rgba(107,114,128,0.95)" }}>
+          <div className="modal-pageinfo">
+            {copied ? (
+              <span className="copy-toast">✓ URLをコピーしました</span>
+            ) : (
+              <span style={{ visibility: "hidden" }}>placeholder</span>
+            )}
+            <span style={{ fontSize: 12, color: "rgba(107,114,128,0.95)" }}>
               {index + 1} / {total}
-            </div>
+            </span>
           </div>
 
-          {/* Meta Card */}
-          <div
-            style={{
-              background: "rgba(255,255,255,0.75)",
-              border: "1px solid rgba(17,24,39,0.10)",
-              borderRadius: 16,
-              padding: 16,
-              marginBottom: 16,
-              boxShadow: "0 1px 0 rgba(255,255,255,0.75)",
-            }}
-          >
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "140px 1fr",
-                rowGap: 10,
-                columnGap: 12,
-                alignItems: "start",
-                fontSize: 13,
-                color: "rgba(17,24,39,0.78)",
-              }}
-            >
-              <div style={{ color: "rgba(107,114,128,0.95)", fontWeight: 800 }}>
-                更新日
-              </div>
+          <div className="modal-meta-card">
+            <div className="meta-grid">
+              <div className="meta-key">更新日</div>
               <div>{detail.updatedAt}</div>
 
-              <div style={{ color: "rgba(107,114,128,0.95)", fontWeight: 800 }}>
-                形式
-              </div>
+              <div className="meta-key">形式</div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 {detail.files?.pdf && (
                   <span className="badge badge-pdf">PDF</span>
@@ -139,9 +146,7 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
                 )}
               </div>
 
-              <div style={{ color: "rgba(107,114,128,0.95)", fontWeight: 800 }}>
-                タグ
-              </div>
+              <div className="meta-key">タグ</div>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {tags.length > 0 ? (
                   tags.map((tag, idx) => (
@@ -156,20 +161,8 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
             </div>
           </div>
 
-          {/* PDF Preview */}
           <div style={{ marginBottom: 18 }}>
-            <div
-              className="pdf-preview-placeholder"
-              style={{
-                height: 520,
-                borderStyle: "solid",
-                borderWidth: 1,
-                borderColor: "rgba(17,24,39,0.10)",
-                borderRadius: 16,
-                overflow: "hidden",
-                background: "rgba(255,255,255,0.85)",
-              }}
-            >
+            <div className="pdf-frame">
               {hasPdf ? (
                 <iframe
                   title="pdf-preview"
@@ -182,40 +175,17 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
                   }}
                 />
               ) : (
-                <div
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "rgba(107,114,128,0.95)",
-                    fontSize: 14,
-                  }}
-                >
-                  PDFファイルがありません
-                </div>
+                <div className="pdf-empty">PDFファイルがありません</div>
               )}
             </div>
 
             {hasPdf && (
-              <div
-                style={{
-                  marginTop: 10,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  fontSize: 13,
-                }}
-              >
+              <div className="pdf-subactions">
                 <a
                   href={detail.files.pdf.path}
                   target="_blank"
                   rel="noreferrer"
-                  style={{
-                    textDecoration: "none",
-                    color: "rgba(37,99,235,0.95)",
-                    fontWeight: 800,
-                  }}
+                  className="link-strong"
                 >
                   別タブで開く
                 </a>
@@ -226,10 +196,8 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
             )}
           </div>
 
-          {/* Downloads */}
           <div className="modal-downloads">
             <h3>ファイル</h3>
-
             {detail.files?.pdf && (
               <a
                 href={detail.files.pdf.path}
@@ -239,7 +207,6 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
                 PDF をダウンロード（{formatFileSize(detail.files.pdf.size)}）
               </a>
             )}
-
             {detail.files?.dwg && (
               <a
                 href={detail.files.dwg.path}
@@ -249,7 +216,6 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
                 DWG をダウンロード（{formatFileSize(detail.files.dwg.size)}）
               </a>
             )}
-
             {detail.files?.dxf && (
               <a
                 href={detail.files.dxf.path}
@@ -261,11 +227,16 @@ const DetailModal = ({ detail, index, total, onPrev, onNext, onClose }) => {
             )}
           </div>
 
-          {/* Description */}
           <div className="modal-description">
             <h3>説明</h3>
             <p>{detail.description}</p>
           </div>
+
+          <RelatedDetails
+            detail={detail}
+            allDetails={allDetails || []}
+            onOpen={onOpenById}
+          />
         </div>
 
         <div className="modal-footer">

@@ -1,12 +1,9 @@
 // src/utils/search.js
+import Fuse from "fuse.js";
 
-// 文字列安全化
 const safeStr = (v) => (v === null || v === undefined ? "" : String(v));
-
-// 正規化（全角半角・大文字小文字など、最低限の揺れを吸収）
 const normalize = (s) => safeStr(s).toLowerCase().replace(/\s+/g, " ").trim();
 
-// detail の全文検索用文字列を作る（searchText があればそれ優先）
 const buildSearchBlob = (detail) => {
   const title = safeStr(detail?.title);
   const desc = safeStr(detail?.description);
@@ -15,50 +12,36 @@ const buildSearchBlob = (detail) => {
     ? detail.categoryPath.join(" ")
     : "";
   const searchText = safeStr(detail?.searchText);
-
-  // searchText が用意されているならそれを最優先（無い場合は合成）
   const blob =
     searchText.length > 0 ? searchText : `${title} ${desc} ${tags} ${category}`;
   return normalize(blob);
 };
 
-// detail のカテゴリパス（"外部/陸屋根/01_..."）を作る
 const buildCategoryPathKey = (detail) => {
   if (!Array.isArray(detail?.categoryPath)) return "";
   return detail.categoryPath.join("/");
 };
 
-// selectedCategories の1要素が
-// - "外部/陸屋根/01_..." のような「パス」
-// - "陸屋根" のような「名前」
-// どちらでも、detail とマッチできるようにする
 const matchCategory = (detail, selectedCategories) => {
   if (!Array.isArray(selectedCategories) || selectedCategories.length === 0)
     return true;
 
-  const detailPath = buildCategoryPathKey(detail); // "外部/陸屋根/01_..."
+  const detailPath = buildCategoryPathKey(detail);
   const detailPathNorm = normalize(detailPath);
-
   const detailNames = Array.isArray(detail?.categoryPath)
     ? detail.categoryPath
     : [];
   const detailNamesNorm = detailNames.map((n) => normalize(n));
 
-  // どれか1つでも一致したらOK（OR条件）
   return selectedCategories.some((selRaw) => {
     const sel = safeStr(selRaw);
     if (!sel) return false;
-
-    // パス指定っぽいなら（"/" を含む）→ 前方一致もOKにする
     if (sel.includes("/")) {
       const selNorm = normalize(sel);
-      // 完全一致 or 「親カテゴリ選択」で子も含めたいので startsWith
       return (
         detailPathNorm === selNorm || detailPathNorm.startsWith(selNorm + "/")
       );
     }
-
-    // 名前指定なら、categoryPath のどこかに含まれるか
     const selNorm = normalize(sel);
     return detailNamesNorm.includes(selNorm);
   });
@@ -73,13 +56,30 @@ const matchFileType = (detail, selectedFileTypes) => {
   const hasDwg = !!files.dwg?.path;
   const hasDxf = !!files.dxf?.path;
 
-  // どれか1つでも一致したらOK（OR条件）
   return selectedFileTypes.some((t) => {
     const key = safeStr(t).toLowerCase();
     if (key === "pdf") return hasPdf;
     if (key === "dwg") return hasDwg;
     if (key === "dxf") return hasDxf;
     return false;
+  });
+};
+
+// Fuse.js でファジー検索（タイポ・表記揺れに強い）
+const buildFuse = (details) => {
+  return new Fuse(details, {
+    keys: [
+      { name: "title", weight: 3 },
+      { name: "tags", weight: 2 },
+      { name: "categoryPath", weight: 1.5 },
+      { name: "description", weight: 1 },
+      { name: "searchText", weight: 2 },
+    ],
+    threshold: 0.35,
+    ignoreLocation: true,
+    includeMatches: true,
+    minMatchCharLength: 1,
+    useExtendedSearch: false,
   });
 };
 
@@ -92,25 +92,52 @@ export const searchDetails = (
   const list = Array.isArray(details) ? details : [];
   const q = normalize(query);
 
-  return list.filter((detail) => {
-    // 1) カテゴリ絞り込み
+  const baseFiltered = list.filter((detail) => {
     if (!matchCategory(detail, selectedCategories)) return false;
-
-    // 2) ファイル種別絞り込み
     if (!matchFileType(detail, selectedFileTypes)) return false;
-
-    // 3) フリーワード（空なら通す）
-    if (!q) return true;
-
-    const blob = buildSearchBlob(detail);
-    return blob.includes(q);
+    return true;
   });
+
+  if (!q) {
+    return baseFiltered.map((d) => ({ ...d, _matchScore: 0 }));
+  }
+
+  // まず厳密な部分一致を取る
+  const exactHits = baseFiltered.filter((d) =>
+    buildSearchBlob(d).includes(q)
+  );
+
+  // 厳密一致がある程度あれば、それを優先しスコア0で返す
+  if (exactHits.length >= 1) {
+    const exactIds = new Set(exactHits.map((d) => d.id));
+    // Fuseでファジーも取り、足りない分を追加
+    const fuse = buildFuse(baseFiltered);
+    const fuzzy = fuse.search(q);
+    const additional = fuzzy
+      .filter((r) => !exactIds.has(r.item.id))
+      .map((r) => ({ ...r.item, _matchScore: r.score ?? 0.5 }));
+
+    return [
+      ...exactHits.map((d) => ({ ...d, _matchScore: 0 })),
+      ...additional,
+    ];
+  }
+
+  // 厳密一致が無ければファジーのみ
+  const fuse = buildFuse(baseFiltered);
+  return fuse.search(q).map((r) => ({ ...r.item, _matchScore: r.score ?? 0.5 }));
 };
 
 export const sortDetails = (details, sortType) => {
   const list = Array.isArray(details) ? [...details] : [];
   const type = safeStr(sortType);
 
+  if (type === "relevance") {
+    list.sort(
+      (a, b) => (a._matchScore ?? 1) - (b._matchScore ?? 1)
+    );
+    return list;
+  }
   if (type === "name-asc") {
     list.sort((a, b) =>
       safeStr(a?.title).localeCompare(safeStr(b?.title), "ja")
@@ -136,7 +163,6 @@ export const sortDetails = (details, sortType) => {
     return list;
   }
 
-  // デフォルト：カテゴリ順（categoryPath を文字列化して並べる）
   list.sort((a, b) => {
     const ap = safeStr(buildCategoryPathKey(a));
     const bp = safeStr(buildCategoryPathKey(b));
@@ -145,4 +171,26 @@ export const sortDetails = (details, sortType) => {
     return safeStr(a?.title).localeCompare(safeStr(b?.title), "ja");
   });
   return list;
+};
+
+// ハイライト用：テキスト中の query 出現位置を強調 React 要素に
+export const highlightText = (text, query) => {
+  const t = safeStr(text);
+  const q = normalize(query);
+  if (!q || !t) return t;
+
+  const lowerT = t.toLowerCase();
+  const parts = [];
+  let i = 0;
+  while (i < t.length) {
+    const idx = lowerT.indexOf(q, i);
+    if (idx === -1) {
+      parts.push({ text: t.slice(i), hit: false });
+      break;
+    }
+    if (idx > i) parts.push({ text: t.slice(i, idx), hit: false });
+    parts.push({ text: t.slice(idx, idx + q.length), hit: true });
+    i = idx + q.length;
+  }
+  return parts;
 };
