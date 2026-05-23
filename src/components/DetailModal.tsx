@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import RelatedDetails from "./RelatedDetails";
 import useFocusTrap from "../hooks/useFocusTrap";
 import type { Detail } from "../types";
+
+type PdfStatus = "checking" | "ok" | "missing";
 
 interface Props {
   detail: Detail | null;
@@ -38,7 +40,36 @@ const DetailModal: React.FC<Props> = ({
   shareUrl,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [pdfStatus, setPdfStatus] = useState<PdfStatus>("checking");
   const containerRef = useFocusTrap<HTMLDivElement>(!!detail);
+
+  // PDFファイルが本当に存在するか HEAD で確認
+  // dev server (CRA) は 404 でも index.html を返すため、content-type で判定する
+  useEffect(() => {
+    const path = detail?.files?.pdf?.path;
+    if (!path) {
+      setPdfStatus("missing");
+      return;
+    }
+    let cancelled = false;
+    setPdfStatus("checking");
+    fetch(path, { method: "HEAD" })
+      .then((res) => {
+        if (cancelled) return;
+        const ct = (res.headers.get("content-type") || "").toLowerCase();
+        if (res.ok && (ct.includes("pdf") || ct.includes("octet-stream"))) {
+          setPdfStatus("ok");
+        } else {
+          setPdfStatus("missing");
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setPdfStatus("missing");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [detail?.id, detail?.files?.pdf?.path]);
 
   const categoryText = useMemo(() => {
     const arr = Array.isArray(detail?.categoryPath) ? detail!.categoryPath : [];
@@ -185,10 +216,10 @@ const DetailModal: React.FC<Props> = ({
 
           <div style={{ marginBottom: 18 }}>
             <div className="pdf-frame">
-              {hasPdf ? (
+              {pdfStatus === "ok" && hasPdf ? (
                 <iframe
                   title="pdf-preview"
-                  src={detail.files.pdf!.path}
+                  src={`${detail.files.pdf!.path}#view=FitH`}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -196,12 +227,27 @@ const DetailModal: React.FC<Props> = ({
                     background: "white",
                   }}
                 />
+              ) : pdfStatus === "checking" ? (
+                <div className="pdf-empty">
+                  <span className="spinner" /> PDFを確認中…
+                </div>
               ) : (
-                <div className="pdf-empty">PDFファイルがありません</div>
+                <div className="pdf-empty pdf-missing">
+                  <div style={{ fontSize: 36, marginBottom: 8 }}>📄</div>
+                  <div style={{ fontWeight: 800, marginBottom: 4 }}>
+                    PDFが見つかりません
+                  </div>
+                  <div style={{ fontSize: 12, opacity: 0.75, marginTop: 8 }}>
+                    期待パス: <code>{detail.files?.pdf?.path}</code>
+                  </div>
+                  <div style={{ fontSize: 12, opacity: 0.6, marginTop: 6 }}>
+                    public/files/ にファイルが配置されていません
+                  </div>
+                </div>
               )}
             </div>
 
-            {hasPdf && (
+            {pdfStatus === "ok" && hasPdf && (
               <div className="pdf-subactions">
                 <a
                   href={detail.files.pdf!.path}
@@ -209,10 +255,10 @@ const DetailModal: React.FC<Props> = ({
                   rel="noreferrer"
                   className="link-strong"
                 >
-                  別タブで開く
+                  別タブで全画面表示
                 </a>
                 <span style={{ color: "rgba(107,114,128,0.95)" }}>
-                  埋め込み表示が白い場合はこちら
+                  埋め込み表示が見にくい場合はこちら
                 </span>
               </div>
             )}
