@@ -39,8 +39,18 @@ export async function onRequest(context) {
   }
 
   // params.path は配列または単一文字列
+  // URL内の日本語などは %エンコードで届くため、R2のキー(生の文字列)に合わせて
+  // decodeURIComponent で元に戻してから join する
   const pathParts = Array.isArray(params.path) ? params.path : [params.path];
-  const safeParts = pathParts.filter((p) => p && !p.includes(".."));
+  const safeParts = pathParts
+    .map((p) => {
+      try {
+        return decodeURIComponent(p);
+      } catch {
+        return p;
+      }
+    })
+    .filter((p) => p && !p.includes(".."));
   if (safeParts.length === 0) {
     return new Response("Invalid path", {
       status: 400,
