@@ -15,6 +15,8 @@ import ch10 from "./ch10";
 import ch11 from "./ch11";
 import ch12 from "./ch12";
 import ch13 from "./ch13";
+import ch14 from "./ch14";
+import ch15 from "./ch15";
 
 const commentaryMap: Record<string, Commentary> = {
   ...ch01,
@@ -30,6 +32,8 @@ const commentaryMap: Record<string, Commentary> = {
   ...ch11,
   ...ch12,
   ...ch13,
+  ...ch14,
+  ...ch15,
 };
 
 export default commentaryMap;
