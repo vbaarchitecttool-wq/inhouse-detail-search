@@ -81,6 +81,8 @@ const App: React.FC = () => {
   const [swRegistration, setSwRegistration] =
     useState<ServiceWorkerRegistration | null>(null);
   const [updateBannerOpen, setUpdateBannerOpen] = useState<boolean>(false);
+  // 一度に描画するカード数の上限（大量ヒット時のDOM肥大を防ぐ）。フィルタ更新でリセット
+  const [visibleCount, setVisibleCount] = useState<number>(120);
 
   const searchRef = useRef<SearchBarHandle>(null);
   const restoredOnce = useRef<boolean>(false);
@@ -93,6 +95,16 @@ const App: React.FC = () => {
       html.setAttribute("data-theme", theme);
     }
     saveTheme(theme);
+
+    // モバイルのアドレスバー色（theme-color）を実効テーマの背景色に合わせる
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const effectiveDark = theme === "dark" || (theme === "auto" && prefersDark);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      meta.setAttribute("content", effectiveDark ? "#0b1020" : "#f9fafb");
+    }
   }, [theme]);
 
   useEffect(() => {
@@ -121,6 +133,7 @@ const App: React.FC = () => {
         }
       }
       setFilteredDetails(results);
+      setVisibleCount(120);
       setSelectedIndex((prev) => {
         if (prev < 0) return prev;
         if (prev >= results.length) return -1;
@@ -422,18 +435,20 @@ const App: React.FC = () => {
                   className={`view-btn ${viewMode === "grid" ? "is-on" : ""}`}
                   onClick={() => handleSetViewMode("grid")}
                   aria-pressed={viewMode === "grid"}
+                  aria-label="グリッド表示"
                   title="グリッド表示"
                 >
-                  ▦
+                  <span aria-hidden="true">▦</span>
                 </button>
                 <button
                   type="button"
                   className={`view-btn ${viewMode === "list" ? "is-on" : ""}`}
                   onClick={() => handleSetViewMode("list")}
                   aria-pressed={viewMode === "list"}
+                  aria-label="リスト表示"
                   title="リスト表示"
                 >
-                  ☰
+                  <span aria-hidden="true">☰</span>
                 </button>
               </div>
               <label>
@@ -455,33 +470,51 @@ const App: React.FC = () => {
           {isFiltering && filteredDetails.length === 0 ? (
             <SkeletonGrid count={6} viewMode={viewMode} />
           ) : (
-            <div
-              className={viewMode === "list" ? "results-list" : "results-grid"}
-            >
-              {filteredDetails.length > 0 ? (
-                filteredDetails.map((detail) => (
-                  <DetailCard
-                    key={detail.id}
-                    detail={detail}
-                    query={searchQuery}
-                    isFavorite={favorites.has(detail.id)}
-                    onToggleFavorite={handleToggleFavorite}
-                    viewMode={viewMode}
-                    onClick={handleCardClick}
-                  />
-                ))
-              ) : (
-                <div className="no-results">
-                  <p>
-                    {favoritesOnly && favorites.size === 0
-                      ? "★ お気に入りはまだありません。カード右上の☆をタップして追加できます。"
-                      : selectedCategoryPaths.length === 0 && !searchQuery
-                      ? "左の章をチェックするか、キーワードを入力すると条項が表示されます。"
-                      : "検索条件に一致する条項が見つかりませんでした。"}
-                  </p>
+            <>
+              <div
+                className={
+                  viewMode === "list" ? "results-list" : "results-grid"
+                }
+              >
+                {filteredDetails.length > 0 ? (
+                  filteredDetails
+                    .slice(0, visibleCount)
+                    .map((detail) => (
+                      <DetailCard
+                        key={detail.id}
+                        detail={detail}
+                        query={searchQuery}
+                        isFavorite={favorites.has(detail.id)}
+                        onToggleFavorite={handleToggleFavorite}
+                        viewMode={viewMode}
+                        onClick={handleCardClick}
+                      />
+                    ))
+                ) : (
+                  <div className="no-results">
+                    <p>
+                      {favoritesOnly && favorites.size === 0
+                        ? "★ お気に入りはまだありません。カード右上の☆をタップして追加できます。"
+                        : selectedCategoryPaths.length === 0 && !searchQuery
+                        ? "左の章をチェックするか、キーワードを入力すると条項が表示されます。"
+                        : "検索条件に一致する条項が見つかりませんでした。"}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {filteredDetails.length > visibleCount ? (
+                <div className="load-more">
+                  <button
+                    type="button"
+                    className="load-more-btn"
+                    onClick={() => setVisibleCount((c) => c + 200)}
+                  >
+                    残り{filteredDetails.length - visibleCount}件を表示
+                  </button>
                 </div>
-              )}
-            </div>
+              ) : null}
+            </>
           )}
         </main>
       </div>

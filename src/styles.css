@@ -377,6 +377,39 @@ a:focus-visible,
   outline-offset: 2px;
 }
 
+/* タップ操作の応答性を上げ、モバイルのダブルタップズーム遅延をなくす */
+button,
+a,
+select,
+.detail-card,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+/* 検索結果の描画上限「もっと見る」 */
+.load-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.load-more-btn {
+  padding: 10px 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--panel-solid);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.load-more-btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
+}
+
 /* ===== Active Filters Chips ===== */
 .active-filters {
   display: flex;
@@ -1031,6 +1064,7 @@ mark.search-hit {
   width: 96%;
   max-height: 94vh;
   overflow-y: auto;
+  overscroll-behavior: contain;
   border: 1px solid var(--line);
   box-shadow: var(--shadow-lg);
   color: var(--text);

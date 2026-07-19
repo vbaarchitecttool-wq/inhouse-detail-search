@@ -57,7 +57,7 @@ const SearchBar = forwardRef<SearchBarHandle, Props>(
             ref={inputRef}
             id="search-input"
             type="text"
-            placeholder="例：かぶり厚さ、5.3.2、アスファルト防水"
+            placeholder="例：かぶり厚さ、5.3.2、アスファルト防水…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="search-input"
