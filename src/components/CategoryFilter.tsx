@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import type { CategoryNode } from "../types";
 
 interface Props {
@@ -29,9 +29,21 @@ const CategoryFilter: React.FC<Props> = ({
     [selectedCategoryPaths]
   );
 
+  // 展開中のノードid（既定は空＝章のみ表示。章をクリックすると節が開く）
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const toggleExpand = (id: string) => {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
   const getChildren = (node: CategoryNode | undefined): CategoryNode[] =>
     node && Array.isArray(node.children) ? node.children : [];
-  const isLeaf = (node: CategoryNode | undefined) => getChildren(node).length === 0;
+  const isLeaf = (node: CategoryNode | undefined) =>
+    getChildren(node).length === 0;
 
   const collectLeafPaths = (
     node: CategoryNode,
@@ -70,8 +82,14 @@ const CategoryFilter: React.FC<Props> = ({
     const name = node?.name ?? "";
     const id = node?.id ?? `${parentPathArr.join("/")}/${name}`;
     const children = getChildren(node);
+    const hasChildren = children.length > 0;
+    const isOpen = expanded.has(id);
     const state = getNodeCheckState(node, parentPathArr);
     const checked = state.allChecked;
+    const countLabel =
+      typeof node?.count === "number" ? (
+        <span className="cat-count">({node.count})</span>
+      ) : null;
 
     const onChange = () => {
       if (isLeaf(node)) {
@@ -83,26 +101,60 @@ const CategoryFilter: React.FC<Props> = ({
     };
 
     return (
-      <div key={id} style={{ marginLeft: depth * 14, marginTop: 6 }}>
-        <label style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <input
-            type="checkbox"
-            checked={checked}
-            ref={(el) => {
-              if (el) el.indeterminate = state.someChecked;
-            }}
-            onChange={onChange}
-          />
-          <span style={{ userSelect: "none" }}>
-            {name}{" "}
-            {typeof node?.count === "number" ? (
-              <span style={{ color: "#6b7280" }}>({node.count})</span>
-            ) : null}
-          </span>
-        </label>
+      <div key={id} className="cat-node" style={{ marginLeft: depth * 14 }}>
+        <div className="cat-row">
+          {hasChildren ? (
+            <button
+              type="button"
+              className="cat-caret"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? `${name} を閉じる` : `${name} を開く`}
+              onClick={() => toggleExpand(id)}
+            >
+              <span aria-hidden="true">{isOpen ? "▾" : "▸"}</span>
+            </button>
+          ) : (
+            <span className="cat-caret-spacer" aria-hidden="true" />
+          )}
 
-        {children.length > 0 ? (
-          <div style={{ marginTop: 4 }}>
+          {hasChildren ? (
+            <>
+              <input
+                type="checkbox"
+                className="cat-checkbox"
+                checked={checked}
+                ref={(el) => {
+                  if (el) el.indeterminate = state.someChecked;
+                }}
+                onChange={onChange}
+                aria-label={`${name} をすべて選択`}
+              />
+              <button
+                type="button"
+                className="cat-name cat-name-parent"
+                aria-expanded={isOpen}
+                onClick={() => toggleExpand(id)}
+              >
+                {name} {countLabel}
+              </button>
+            </>
+          ) : (
+            <label className="cat-leaf-label">
+              <input
+                type="checkbox"
+                className="cat-checkbox"
+                checked={checked}
+                onChange={onChange}
+              />
+              <span className="cat-name">
+                {name} {countLabel}
+              </span>
+            </label>
+          )}
+        </div>
+
+        {hasChildren && isOpen ? (
+          <div className="cat-children">
             {children.map((ch) =>
               renderNode(ch, [...parentPathArr, name], depth + 1)
             )}
@@ -114,9 +166,7 @@ const CategoryFilter: React.FC<Props> = ({
 
   return (
     <div>
-      <div
-        style={{ fontWeight: 700, marginBottom: 8, display: "flex", gap: 6 }}
-      >
+      <div className="cat-heading">
         <span>📁</span>
         <span>カテゴリ</span>
       </div>
@@ -124,9 +174,7 @@ const CategoryFilter: React.FC<Props> = ({
       {safeCategories.length > 0 ? (
         safeCategories.map((root) => renderNode(root, [], 0))
       ) : (
-        <div style={{ color: "#6b7280", fontSize: 12 }}>
-          カテゴリがありません
-        </div>
+        <div className="cat-empty">カテゴリがありません</div>
       )}
     </div>
   );

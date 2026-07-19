@@ -57,10 +57,11 @@ export const saveViewMode = (mode: ViewMode): void => {
 };
 
 export const loadTheme = (): Theme => {
-  if (typeof window === "undefined") return "auto";
+  // 既定はライト（明るい背景）。ユーザーはトグルで自動/ダークにも切替できる
+  if (typeof window === "undefined") return "light";
   const v = window.localStorage.getItem(KEY_THEME);
   if (v === "dark" || v === "light" || v === "auto") return v;
-  return "auto";
+  return "light";
 };
 
 export const saveTheme = (theme: Theme): void => {
