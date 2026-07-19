@@ -1,16 +1,17 @@
 {
-  "name": "react",
-  "version": "1.1.0",
-  "description": "社内ディティール検索 — 検索/フィルタ/お気に入り/最近見た/URL共有/一括DLを備えた建築ディティール閲覧ツール",
+  "name": "na-spec-viewer",
+  "version": "2.0.0",
+  "description": "NA 建築工事標準仕様書 — 公共建築工事標準仕様書（建築工事編）令和7年版ベースの検索・閲覧ツール。やさしい解説・図解つき",
   "keywords": [
     "architecture",
-    "detail",
+    "specification",
     "search",
     "react"
   ],
   "main": "src/index.js",
   "dependencies": {
     "ajv": "^8.20.0",
+    "dompurify": "^3.4.12",
     "fuse.js": "^7.0.0",
     "jszip": "^3.10.1",
     "pdfjs-dist": "^4.10.38",

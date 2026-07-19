@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import HighlightText from "./HighlightText";
-import PdfThumbnail from "./PdfThumbnail";
-import { resolveFileUrl } from "../utils/fileUrl";
+import { hasCommentary, hasDiagram } from "../utils/search";
 import type { Detail, ViewMode } from "../types";
 
 interface Props {
@@ -10,17 +9,10 @@ interface Props {
   query?: string;
   isFavorite?: boolean;
   onToggleFavorite?: (id: string) => void;
-  isSelected?: boolean;
-  onToggleSelect?: (id: string) => void;
   viewMode?: ViewMode;
 }
 
-const formatFileSize = (bytes?: number): string => {
-  if (!bytes) return "";
-  return bytes > 1000000
-    ? `${(bytes / 1000000).toFixed(1)} MB`
-    : `${(bytes / 1000).toFixed(0)} KB`;
-};
+const SNIPPET_LEN = 90;
 
 const DetailCard: React.FC<Props> = ({
   detail,
@@ -28,8 +20,6 @@ const DetailCard: React.FC<Props> = ({
   query,
   isFavorite,
   onToggleFavorite,
-  isSelected,
-  onToggleSelect,
   viewMode = "grid",
 }) => {
   const categoryText = useMemo(() => {
@@ -37,16 +27,17 @@ const DetailCard: React.FC<Props> = ({
     return arr.join(" › ");
   }, [detail]);
 
-  const fileMeta = useMemo(() => {
-    const parts: string[] = [];
-    if (detail?.files?.pdf?.size)
-      parts.push(`PDF ${formatFileSize(detail.files.pdf.size)}`);
-    if (detail?.files?.dwg?.size)
-      parts.push(`DWG ${formatFileSize(detail.files.dwg.size)}`);
-    if (detail?.files?.dxf?.size)
-      parts.push(`DXF ${formatFileSize(detail.files.dxf.size)}`);
-    return parts.join(" · ");
+  const snippet = useMemo(() => {
+    const summary = detail?.commentary?.plainSummary || "";
+    const src = summary || detail?.original || "";
+    const oneLine = src.replace(/\s+/g, " ").trim();
+    return oneLine.length > SNIPPET_LEN
+      ? `${oneLine.slice(0, SNIPPET_LEN)}…`
+      : oneLine;
   }, [detail]);
+
+  const commented = hasCommentary(detail);
+  const diagrammed = hasDiagram(detail);
 
   const tags = useMemo(() => {
     const t = Array.isArray(detail?.tags) ? detail.tags : [];
@@ -58,15 +49,9 @@ const DetailCard: React.FC<Props> = ({
     onToggleFavorite?.(detail.id);
   };
 
-  const handleSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    onToggleSelect?.(detail.id);
-  };
-
   const cardClass = [
     "detail-card",
     viewMode === "list" ? "detail-card-list" : "",
-    isSelected ? "detail-card-selected" : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -83,24 +68,15 @@ const DetailCard: React.FC<Props> = ({
           onClick(detail);
         }
       }}
-      aria-label={`${detail?.title ?? "ディティール"} を開く`}
-      title={detail?.title ?? ""}
+      aria-label={`${detail?.number ?? ""} ${detail?.title ?? "条項"} を開く`}
+      title={`${detail?.number ?? ""} ${detail?.title ?? ""}`}
     >
-      <div className="detail-card-thumbnail" aria-hidden="true">
-        {detail?.files?.pdf?.path ? (
-          <PdfThumbnail
-            path={resolveFileUrl(detail.files.pdf.path)}
-            cacheKey={detail.id}
-            alt={`${detail.title} のサムネイル`}
-          />
-        ) : (
-          <span className="thumb-text">PDF</span>
-        )}
-      </div>
-
       <div className="detail-card-body">
         <div className="detail-card-top">
           <h3 className="detail-card-title">
+            <span className="spec-number">
+              <HighlightText text={detail.number} query={query} />
+            </span>
             <HighlightText text={detail.title} query={query} />
           </h3>
           <div className="detail-card-quick-actions">
@@ -114,15 +90,6 @@ const DetailCard: React.FC<Props> = ({
             >
               {isFavorite ? "★" : "☆"}
             </button>
-            <input
-              type="checkbox"
-              className="select-checkbox"
-              checked={!!isSelected}
-              onChange={handleSelect}
-              onClick={(e) => e.stopPropagation()}
-              aria-label="一括ダウンロード対象に追加"
-              title="一括DL選択"
-            />
           </div>
         </div>
 
@@ -130,16 +97,17 @@ const DetailCard: React.FC<Props> = ({
           <p className="detail-card-category">
             <HighlightText text={categoryText} query={query} />
           </p>
-          <p className="detail-card-date">
-            更新：{detail.updatedAt}
-            {fileMeta ? <span style={{ marginLeft: 10 }}>· {fileMeta}</span> : null}
-          </p>
         </div>
 
+        {snippet ? (
+          <p className="detail-card-snippet">
+            <HighlightText text={snippet} query={query} />
+          </p>
+        ) : null}
+
         <div className="detail-card-badges">
-          {detail.files?.pdf && <span className="badge badge-pdf">PDF</span>}
-          {detail.files?.dwg && <span className="badge badge-dwg">DWG</span>}
-          {detail.files?.dxf && <span className="badge badge-dxf">DXF</span>}
+          {commented && <span className="badge badge-commentary">💡 解説</span>}
+          {diagrammed && <span className="badge badge-diagram">🖼 図解</span>}
         </div>
 
         {tags.length > 0 && (

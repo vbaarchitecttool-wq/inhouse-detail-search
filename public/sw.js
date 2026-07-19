@@ -5,7 +5,7 @@
 //  - PDF/DWG/DXF: cache-first（一度開いたら次回はオフラインでも閲覧可能）
 //  - データJSON: stale-while-revalidate
 
-const VERSION = "v1.1.0";
+const VERSION = "v2.0.0";
 const STATIC_CACHE = `ids-static-${VERSION}`;
 const ASSET_CACHE = `ids-assets-${VERSION}`;
 const FILES_CACHE = `ids-files-${VERSION}`;

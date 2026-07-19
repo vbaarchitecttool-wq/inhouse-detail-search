@@ -2,19 +2,12 @@ import type { UrlState, SortType } from "../types";
 
 const KEY_Q = "q";
 const KEY_CAT = "cat";
-const KEY_TYPE = "type";
+const KEY_FLAG = "flag";
 const KEY_SORT = "sort";
 const KEY_FAV = "fav";
 const KEY_ID = "id";
 
-const SORT_VALUES: SortType[] = [
-  "category",
-  "relevance",
-  "name-asc",
-  "name-desc",
-  "date-desc",
-  "date-asc",
-];
+const SORT_VALUES: SortType[] = ["category", "relevance"];
 
 const toSort = (s: string | null): SortType => {
   if (s && (SORT_VALUES as string[]).includes(s)) return s as SortType;
@@ -26,7 +19,7 @@ export const readUrlState = (): UrlState => {
     return {
       query: "",
       categories: [],
-      fileTypes: [],
+      contentFlags: [],
       sortType: "category",
       favoritesOnly: false,
       detailId: null,
@@ -39,7 +32,7 @@ export const readUrlState = (): UrlState => {
       .split("|")
       .map((s) => s.trim())
       .filter(Boolean),
-    fileTypes: (sp.get(KEY_TYPE) || "")
+    contentFlags: (sp.get(KEY_FLAG) || "")
       .split(",")
       .map((s) => s.trim().toLowerCase())
       .filter(Boolean),
@@ -53,7 +46,7 @@ const buildParams = (state: UrlState): URLSearchParams => {
   const sp = new URLSearchParams();
   if (state.query) sp.set(KEY_Q, state.query);
   if (state.categories?.length) sp.set(KEY_CAT, state.categories.join("|"));
-  if (state.fileTypes?.length) sp.set(KEY_TYPE, state.fileTypes.join(","));
+  if (state.contentFlags?.length) sp.set(KEY_FLAG, state.contentFlags.join(","));
   if (state.sortType && state.sortType !== "category")
     sp.set(KEY_SORT, state.sortType);
   if (state.favoritesOnly) sp.set(KEY_FAV, "1");

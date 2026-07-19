@@ -21,7 +21,7 @@ const RelatedDetails: React.FC<Props> = ({ detail, allDetails, onOpen }) => {
 
   return (
     <div className="related-section">
-      <h3>関連するディティール</h3>
+      <h3>関連する条項</h3>
       <div className="related-list">
         {items.map((d) => (
           <button
@@ -31,7 +31,7 @@ const RelatedDetails: React.FC<Props> = ({ detail, allDetails, onOpen }) => {
             onClick={() => onOpen(d.id)}
             title={d.title}
           >
-            <span className="related-thumb">PDF</span>
+            <span className="related-thumb">{d.number}</span>
             <div className="related-meta">
               <div className="related-title">{d.title}</div>
               <div className="related-cat">

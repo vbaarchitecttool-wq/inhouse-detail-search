@@ -24,7 +24,7 @@ const RecentlyViewed: React.FC<Props> = ({
   if (items.length === 0) return null;
 
   return (
-    <div className="recent-strip" aria-label="最近見たディティール">
+    <div className="recent-strip" aria-label="最近見た条項">
       <div className="recent-header">
         <span className="recent-title">🕘 最近見た</span>
         <button
@@ -45,7 +45,7 @@ const RecentlyViewed: React.FC<Props> = ({
             onClick={() => onOpen(d.id)}
             title={d.title}
           >
-            <span className="recent-thumb">PDF</span>
+            <span className="recent-thumb">{d.number}</span>
             <span className="recent-name">{d.title}</span>
           </button>
         ))}

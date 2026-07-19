@@ -1,10 +1,9 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
+import DOMPurify from "dompurify";
 import RelatedDetails from "./RelatedDetails";
 import useFocusTrap from "../hooks/useFocusTrap";
-import { resolveFileUrl } from "../utils/fileUrl";
+import { hasCommentary } from "../utils/search";
 import type { Detail } from "../types";
-
-type PdfStatus = "checking" | "ok" | "missing";
 
 interface Props {
   detail: Detail | null;
@@ -20,12 +19,7 @@ interface Props {
   shareUrl: string;
 }
 
-const formatFileSize = (bytes?: number): string => {
-  if (!bytes) return "";
-  return bytes > 1000000
-    ? `${(bytes / 1000000).toFixed(1)} MB`
-    : `${(bytes / 1000).toFixed(0)} KB`;
-};
+const SOURCE_NOTE = "出典：公共建築工事標準仕様書（建築工事編）令和7年版（国土交通省）";
 
 const DetailModal: React.FC<Props> = ({
   detail,
@@ -41,36 +35,7 @@ const DetailModal: React.FC<Props> = ({
   shareUrl,
 }) => {
   const [copied, setCopied] = useState(false);
-  const [pdfStatus, setPdfStatus] = useState<PdfStatus>("checking");
   const containerRef = useFocusTrap<HTMLDivElement>(!!detail);
-
-  // PDFファイルが本当に存在するか HEAD で確認
-  // dev server (CRA) は 404 でも index.html を返すため、content-type で判定する
-  useEffect(() => {
-    const path = detail?.files?.pdf?.path;
-    if (!path) {
-      setPdfStatus("missing");
-      return;
-    }
-    let cancelled = false;
-    setPdfStatus("checking");
-    fetch(resolveFileUrl(path), { method: "HEAD" })
-      .then((res) => {
-        if (cancelled) return;
-        const ct = (res.headers.get("content-type") || "").toLowerCase();
-        if (res.ok && (ct.includes("pdf") || ct.includes("octet-stream"))) {
-          setPdfStatus("ok");
-        } else {
-          setPdfStatus("missing");
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setPdfStatus("missing");
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [detail?.id, detail?.files?.pdf?.path]);
 
   const categoryText = useMemo(() => {
     const arr = Array.isArray(detail?.categoryPath) ? detail!.categoryPath : [];
@@ -84,9 +49,13 @@ const DetailModal: React.FC<Props> = ({
 
   if (!detail) return null;
 
-  const hasPdf = Boolean(detail.files?.pdf?.path);
   const canPrev = index > 0;
   const canNext = index < total - 1;
+  const commentary = detail.commentary;
+  const commented = hasCommentary(detail);
+  const diagrams = commentary?.diagrams || [];
+  const glossary = commentary?.glossary || [];
+  const points = commentary?.points || [];
 
   const handleCopyShare = async () => {
     if (!shareUrl) return;
@@ -126,7 +95,12 @@ const DetailModal: React.FC<Props> = ({
               >
                 {isFavorite ? "★" : "☆"}
               </button>
-              <span>{detail.title}</span>
+              <span>
+                <span className="spec-number spec-number-lg">
+                  {detail.number}
+                </span>
+                {detail.title}
+              </span>
             </h2>
             <div className="modal-cat">{categoryText}</div>
           </div>
@@ -182,124 +156,97 @@ const DetailModal: React.FC<Props> = ({
             </span>
           </div>
 
-          <div className="modal-meta-card">
-            <div className="meta-grid">
-              <div className="meta-key">更新日</div>
-              <div>{detail.updatedAt}</div>
-
-              <div className="meta-key">形式</div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {detail.files?.pdf && (
-                  <span className="badge badge-pdf">PDF</span>
-                )}
-                {detail.files?.dwg && (
-                  <span className="badge badge-dwg">DWG</span>
-                )}
-                {detail.files?.dxf && (
-                  <span className="badge badge-dxf">DXF</span>
-                )}
-              </div>
-
-              <div className="meta-key">タグ</div>
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                {tags.length > 0 ? (
-                  tags.map((tag, idx) => (
-                    <span key={idx} className="tag">
-                      #{tag}
-                    </span>
-                  ))
-                ) : (
-                  <span style={{ color: "rgba(107,114,128,0.95)" }}>—</span>
-                )}
-              </div>
+          {commentary?.plainSummary ? (
+            <div className="spec-summary-box">
+              <div className="spec-summary-label">💡 一言でいうと</div>
+              <p className="spec-summary-text">{commentary.plainSummary}</p>
             </div>
-          </div>
+          ) : null}
 
-          <div style={{ marginBottom: 18 }}>
-            <div className="pdf-frame">
-              {pdfStatus === "ok" && hasPdf ? (
-                <iframe
-                  title="pdf-preview"
-                  src={`${resolveFileUrl(detail.files.pdf!.path)}#view=FitH`}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    border: "none",
-                    background: "white",
-                  }}
-                />
-              ) : pdfStatus === "checking" ? (
-                <div className="pdf-empty">
-                  <span className="spinner" /> PDFを確認中…
+          <section className="spec-section spec-original">
+            <h3>📖 原文（標準仕様書より）</h3>
+            <div className="spec-original-text">{detail.original}</div>
+            <p className="spec-source-note">{SOURCE_NOTE}</p>
+          </section>
+
+          {commented ? (
+            <section className="spec-section spec-commentary">
+              <h3>🧑‍🏫 やさしい解説</h3>
+
+              {commentary?.why ? (
+                <div className="spec-block">
+                  <h4>🤔 なぜこの規定があるの？</h4>
+                  <div className="spec-block-text">{commentary.why}</div>
                 </div>
-              ) : (
-                <div className="pdf-empty pdf-missing">
-                  <div style={{ fontSize: 36, marginBottom: 8 }}>📄</div>
-                  <div style={{ fontWeight: 800, marginBottom: 4 }}>
-                    PDFが見つかりません
-                  </div>
-                  <div style={{ fontSize: 12, opacity: 0.75, marginTop: 8 }}>
-                    期待パス: <code>{detail.files?.pdf?.path}</code>
-                  </div>
-                  <div style={{ fontSize: 12, opacity: 0.6, marginTop: 6 }}>
-                    public/files/ にファイルが配置されていません
-                  </div>
+              ) : null}
+
+              {points.length > 0 ? (
+                <div className="spec-block">
+                  <h4>✅ 現場でのチェックポイント</h4>
+                  <ul className="spec-points">
+                    {points.map((p, i) => (
+                      <li key={i}>{p}</li>
+                    ))}
+                  </ul>
                 </div>
-              )}
+              ) : null}
+
+              {diagrams.length > 0 ? (
+                <div className="spec-block">
+                  <h4>🖼 図解</h4>
+                  {diagrams.map((dg, i) => (
+                    <figure key={i} className="spec-diagram">
+                      <div
+                        className="spec-diagram-svg"
+                        // 図解SVGは自作コンテンツのみだが、多層防御としてサニタイズする
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(dg.svg, {
+                            USE_PROFILES: { svg: true, svgFilters: true },
+                          }),
+                        }}
+                      />
+                      {dg.caption ? (
+                        <figcaption>{dg.caption}</figcaption>
+                      ) : null}
+                    </figure>
+                  ))}
+                </div>
+              ) : null}
+
+              {glossary.length > 0 ? (
+                <div className="spec-block">
+                  <h4>📚 用語ミニ辞典</h4>
+                  <dl className="spec-glossary">
+                    {glossary.map((g, i) => (
+                      <React.Fragment key={i}>
+                        <dt>{g.term}</dt>
+                        <dd>{g.meaning}</dd>
+                      </React.Fragment>
+                    ))}
+                  </dl>
+                </div>
+              ) : null}
+
+              <p className="spec-commentary-note">
+                ※ この解説は理解を助けるための補足です。実務上の判断は必ず原文
+                及び設計図書（特記仕様書等）によってください。
+              </p>
+            </section>
+          ) : (
+            <div className="spec-commentary-pending">
+              🧑‍🏫 この条項のやさしい解説は準備中です。上の原文をご覧ください。
             </div>
+          )}
 
-            {pdfStatus === "ok" && hasPdf && (
-              <div className="pdf-subactions">
-                <a
-                  href={resolveFileUrl(detail.files.pdf!.path)}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="link-strong"
-                >
-                  別タブで全画面表示
-                </a>
-                <span style={{ color: "rgba(107,114,128,0.95)" }}>
-                  埋め込み表示が見にくい場合はこちら
+          {tags.length > 0 ? (
+            <div className="detail-card-tags" style={{ marginBottom: 16 }}>
+              {tags.map((tag, idx) => (
+                <span key={idx} className="tag">
+                  #{tag}
                 </span>
-              </div>
-            )}
-          </div>
-
-          <div className="modal-downloads">
-            <h3>ファイル</h3>
-            {detail.files?.pdf && (
-              <a
-                href={resolveFileUrl(detail.files.pdf.path)}
-                className="download-button"
-                download
-              >
-                PDF をダウンロード（{formatFileSize(detail.files.pdf.size)}）
-              </a>
-            )}
-            {detail.files?.dwg && (
-              <a
-                href={resolveFileUrl(detail.files.dwg.path)}
-                className="download-button"
-                download
-              >
-                DWG をダウンロード（{formatFileSize(detail.files.dwg.size)}）
-              </a>
-            )}
-            {detail.files?.dxf && (
-              <a
-                href={resolveFileUrl(detail.files.dxf.path)}
-                className="download-button"
-                download
-              >
-                DXF をダウンロード（{formatFileSize(detail.files.dxf.size)}）
-              </a>
-            )}
-          </div>
-
-          <div className="modal-description">
-            <h3>説明</h3>
-            <p>{detail.description}</p>
-          </div>
+              ))}
+            </div>
+          ) : null}
 
           <RelatedDetails
             detail={detail}

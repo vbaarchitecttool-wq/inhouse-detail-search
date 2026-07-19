@@ -6,7 +6,7 @@ const shortcuts: { keys: string[]; desc: string }[] = [
   { keys: ["/"], desc: "検索フォーカス" },
   { keys: ["?"], desc: "このヘルプを開く" },
   { keys: ["Esc"], desc: "モーダル / ヘルプを閉じる" },
-  { keys: ["←", "→"], desc: "前 / 次のディティール（モーダル内）" },
+  { keys: ["←", "→"], desc: "前 / 次の条項（モーダル内）" },
   { keys: ["F"], desc: "お気に入りトグル（モーダル内）" },
   { keys: ["Enter / Space"], desc: "カード選択" },
 ];

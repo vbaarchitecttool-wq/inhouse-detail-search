@@ -8,16 +8,22 @@ const normalize = (s: unknown): string =>
   safeStr(s).toLowerCase().replace(/\s+/g, " ").trim();
 
 const buildSearchBlob = (detail: Detail): string => {
+  const number = safeStr(detail?.number);
   const title = safeStr(detail?.title);
-  const desc = safeStr(detail?.description);
+  const original = safeStr(detail?.original);
   const tags = Array.isArray(detail?.tags) ? detail.tags.join(" ") : "";
   const category = Array.isArray(detail?.categoryPath)
     ? detail.categoryPath.join(" ")
     : "";
-  const searchText = safeStr(detail?.searchText);
-  const blob =
-    searchText.length > 0 ? searchText : `${title} ${desc} ${tags} ${category}`;
-  return normalize(blob);
+  const c = detail?.commentary;
+  const commentaryText = c
+    ? `${safeStr(c.plainSummary)} ${safeStr(c.why)} ${(c.points || []).join(
+        " "
+      )} ${(c.glossary || []).map((g) => `${g.term} ${g.meaning}`).join(" ")}`
+    : "";
+  return normalize(
+    `${number} ${title} ${category} ${tags} ${original} ${commentaryText}`
+  );
 };
 
 const buildCategoryPathKey = (detail: Detail): string => {
@@ -50,20 +56,29 @@ const matchCategory = (detail: Detail, selectedCategories: string[]): boolean =>
   });
 };
 
-const matchFileType = (detail: Detail, selectedFileTypes: string[]): boolean => {
-  if (!Array.isArray(selectedFileTypes) || selectedFileTypes.length === 0)
-    return true;
+export const hasCommentary = (detail: Detail): boolean => {
+  const c = detail?.commentary;
+  if (!c) return false;
+  return Boolean(
+    safeStr(c.plainSummary) ||
+      safeStr(c.why) ||
+      (c.points && c.points.length > 0)
+  );
+};
 
-  const files = detail?.files || {};
-  const hasPdf = !!files.pdf?.path;
-  const hasDwg = !!files.dwg?.path;
-  const hasDxf = !!files.dxf?.path;
+export const hasDiagram = (detail: Detail): boolean =>
+  Boolean(detail?.commentary?.diagrams && detail.commentary.diagrams.length > 0);
 
-  return selectedFileTypes.some((t) => {
-    const key = safeStr(t).toLowerCase();
-    if (key === "pdf") return hasPdf;
-    if (key === "dwg") return hasDwg;
-    if (key === "dxf") return hasDxf;
+const matchContentFlags = (
+  detail: Detail,
+  selectedFlags: string[]
+): boolean => {
+  if (!Array.isArray(selectedFlags) || selectedFlags.length === 0) return true;
+
+  return selectedFlags.some((f) => {
+    const key = safeStr(f).toLowerCase();
+    if (key === "commentary") return hasCommentary(detail);
+    if (key === "diagram") return hasDiagram(detail);
     return false;
   });
 };
@@ -71,11 +86,11 @@ const matchFileType = (detail: Detail, selectedFileTypes: string[]): boolean => 
 const buildFuse = (details: Detail[]): Fuse<Detail> =>
   new Fuse(details, {
     keys: [
+      { name: "number", weight: 4 },
       { name: "title", weight: 3 },
       { name: "tags", weight: 2 },
       { name: "categoryPath", weight: 1.5 },
-      { name: "description", weight: 1 },
-      { name: "searchText", weight: 2 },
+      { name: "commentary.plainSummary", weight: 1 },
     ],
     threshold: 0.35,
     ignoreLocation: true,
@@ -88,14 +103,14 @@ export const searchDetails = (
   details: Detail[],
   query: string,
   selectedCategories: string[],
-  selectedFileTypes: string[]
+  selectedContentFlags: string[]
 ): Detail[] => {
   const list = Array.isArray(details) ? details : [];
   const q = normalize(query);
 
   const baseFiltered = list.filter((detail) => {
     if (!matchCategory(detail, selectedCategories)) return false;
-    if (!matchFileType(detail, selectedFileTypes)) return false;
+    if (!matchContentFlags(detail, selectedContentFlags)) return false;
     return true;
   });
 
@@ -123,46 +138,39 @@ export const searchDetails = (
   return fuse.search(q).map((r) => ({ ...r.item, _matchScore: r.score ?? 0.5 }));
 };
 
+/** 条項番号 "1.2.3" → [1, 2, 3]。数値でない場合は大きな値で末尾へ */
+const numberKey = (detail: Detail): number[] => {
+  const parts = safeStr(detail?.number).split(".");
+  if (parts.length !== 3) return [999, 999, 999];
+  return parts.map((p) => {
+    const n = parseInt(p, 10);
+    return Number.isFinite(n) ? n : 999;
+  });
+};
+
+const compareByNumber = (a: Detail, b: Detail): number => {
+  const ka = numberKey(a);
+  const kb = numberKey(b);
+  for (let i = 0; i < 3; i++) {
+    if (ka[i] !== kb[i]) return ka[i] - kb[i];
+  }
+  return 0;
+};
+
 export const sortDetails = (details: Detail[], sortType: SortType): Detail[] => {
   const list = Array.isArray(details) ? [...details] : [];
-  const type = safeStr(sortType);
 
-  if (type === "relevance") {
-    list.sort((a, b) => (a._matchScore ?? 1) - (b._matchScore ?? 1));
-    return list;
-  }
-  if (type === "name-asc") {
-    list.sort((a, b) =>
-      safeStr(a?.title).localeCompare(safeStr(b?.title), "ja")
-    );
-    return list;
-  }
-  if (type === "name-desc") {
-    list.sort((a, b) =>
-      safeStr(b?.title).localeCompare(safeStr(a?.title), "ja")
-    );
-    return list;
-  }
-  if (type === "date-desc") {
-    list.sort((a, b) =>
-      safeStr(b?.updatedAt).localeCompare(safeStr(a?.updatedAt))
-    );
-    return list;
-  }
-  if (type === "date-asc") {
-    list.sort((a, b) =>
-      safeStr(a?.updatedAt).localeCompare(safeStr(b?.updatedAt))
-    );
+  if (safeStr(sortType) === "relevance") {
+    list.sort((a, b) => {
+      const c = (a._matchScore ?? 1) - (b._matchScore ?? 1);
+      if (c !== 0) return c;
+      return compareByNumber(a, b);
+    });
     return list;
   }
 
-  list.sort((a, b) => {
-    const ap = safeStr(buildCategoryPathKey(a));
-    const bp = safeStr(buildCategoryPathKey(b));
-    const c = ap.localeCompare(bp, "ja");
-    if (c !== 0) return c;
-    return safeStr(a?.title).localeCompare(safeStr(b?.title), "ja");
-  });
+  // 既定: 条項順（章.節.項の番号順）
+  list.sort(compareByNumber);
   return list;
 };
 

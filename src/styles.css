@@ -1763,3 +1763,273 @@ html[data-theme="dark"] .update-banner-close {
     padding-right: 44px;
   }
 }
+
+/* ===============================
+   仕様書ビューア（NA 建築工事標準仕様書）
+   =============================== */
+
+.header-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* 条項番号チップ */
+.spec-number {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 0.9em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+html[data-theme="dark"] .spec-number {
+  background: rgba(96, 165, 250, 0.14);
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+.spec-number-lg {
+  font-size: 15px;
+  padding: 2px 10px;
+}
+
+/* カードのスニペット */
+.detail-card-snippet {
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--text-softer);
+  margin: 6px 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-wrap: pretty;
+}
+
+/* コンテンツバッジ */
+.badge-commentary {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+  border: 1px solid rgba(37, 99, 235, 0.25);
+}
+
+html[data-theme="dark"] .badge-commentary {
+  background: rgba(96, 165, 250, 0.14);
+  color: #93c5fd;
+  border-color: rgba(96, 165, 250, 0.35);
+}
+
+.badge-diagram {
+  background: rgba(5, 150, 105, 0.1);
+  color: #047857;
+  border: 1px solid rgba(5, 150, 105, 0.3);
+}
+
+html[data-theme="dark"] .badge-diagram {
+  background: rgba(52, 211, 153, 0.12);
+  color: #6ee7b7;
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+/* 一言でいうと */
+.spec-summary-box {
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.06);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+html[data-theme="dark"] .spec-summary-box {
+  border-color: rgba(96, 165, 250, 0.35);
+  background: rgba(96, 165, 250, 0.08);
+}
+
+.spec-summary-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.spec-summary-text {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--text);
+  font-weight: 600;
+  text-wrap: pretty;
+}
+
+/* セクション共通 */
+.spec-section {
+  margin-bottom: 22px;
+}
+
+.spec-section > h3 {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+/* 原文ブロック（正とするコンテンツ。中立の枠で区別） */
+.spec-original-text {
+  border: 1px solid var(--line-strong);
+  background: var(--panel-sub);
+  border-radius: var(--r-sm);
+  padding: 16px 18px;
+  font-size: 14px;
+  line-height: 1.95;
+  color: var(--text-soft);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-width: 76ch;
+}
+
+.spec-source-note {
+  margin-top: 6px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* やさしい解説 */
+.spec-commentary {
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel);
+  padding: 16px 18px;
+}
+
+.spec-commentary > h3 {
+  margin-bottom: 14px;
+}
+
+.spec-block {
+  margin-bottom: 16px;
+}
+
+.spec-block > h4 {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-soft);
+  margin-bottom: 8px;
+}
+
+.spec-block-text {
+  font-size: 14px;
+  line-height: 1.9;
+  color: var(--text-soft);
+  white-space: pre-wrap;
+  text-wrap: pretty;
+  max-width: 72ch;
+}
+
+.spec-points {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.spec-points li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-soft);
+  text-wrap: pretty;
+}
+
+.spec-points li::before {
+  content: "☑";
+  position: absolute;
+  left: 2px;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+/* 図解 */
+.spec-diagram {
+  margin: 10px 0 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--panel-solid);
+  padding: 12px;
+  overflow-x: auto;
+}
+
+.spec-diagram-svg svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.spec-diagram figcaption {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* 用語ミニ辞典 */
+.spec-glossary {
+  display: grid;
+  grid-template-columns: minmax(90px, max-content) 1fr;
+  gap: 8px 14px;
+  font-size: 13.5px;
+}
+
+.spec-glossary dt {
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.spec-glossary dd {
+  color: var(--text-soft);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.spec-commentary-note {
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+/* 解説準備中 */
+.spec-commentary-pending {
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-sm);
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+
+@media (max-width: 640px) {
+  .spec-glossary {
+    grid-template-columns: 1fr;
+    gap: 2px 0;
+  }
+  .spec-glossary dd {
+    margin-bottom: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

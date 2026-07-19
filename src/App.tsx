@@ -7,19 +7,19 @@ import React, {
 } from "react";
 import SearchBar, { SearchBarHandle } from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
-import FileTypeFilter from "./components/FileTypeFilter";
+import ContentFilter from "./components/ContentFilter";
 import DetailCard from "./components/DetailCard";
 import DetailModal from "./components/DetailModal";
 import ActiveFilters from "./components/ActiveFilters";
 import RecentlyViewed from "./components/RecentlyViewed";
-import BulkDownloadBar from "./components/BulkDownloadBar";
 import ShortcutsHelp from "./components/ShortcutsHelp";
 import ThemeToggle from "./components/ThemeToggle";
 import { SkeletonGrid } from "./components/SkeletonCard";
 import LiveRegion from "./components/LiveRegion";
 import UpdateBanner from "./components/UpdateBanner";
 
-import indexDataRaw from "./detail_index.json";
+import indexDataRaw from "./spec_index.json";
+import commentaryMap from "./commentary";
 import { searchDetails, sortDetails } from "./utils/search";
 import {
   loadFavorites,
@@ -43,10 +43,13 @@ const indexData = indexDataRaw as unknown as {
 };
 
 const App: React.FC = () => {
-  const detailsData = useMemo<Detail[]>(
-    () => (Array.isArray(indexData.details) ? indexData.details : []),
-    []
-  );
+  const detailsData = useMemo<Detail[]>(() => {
+    const raw = Array.isArray(indexData.details) ? indexData.details : [];
+    // 原文データ（spec_index.json）に、別管理の「やさしい解説」をマージする
+    return raw.map((d) =>
+      commentaryMap[d.id] ? { ...d, commentary: commentaryMap[d.id] } : d
+    );
+  }, []);
   const categoriesData = useMemo<CategoryNode[]>(
     () => (Array.isArray(indexData.categories) ? indexData.categories : []),
     []
@@ -58,8 +61,8 @@ const App: React.FC = () => {
   const [selectedCategoryPaths, setSelectedCategoryPaths] = useState<string[]>(
     initial.categories
   );
-  const [selectedFileTypes, setSelectedFileTypes] = useState<string[]>(
-    initial.fileTypes
+  const [selectedContentFlags, setSelectedContentFlags] = useState<string[]>(
+    initial.contentFlags
   );
   const [sortType, setSortType] = useState<SortType>(initial.sortType);
   const [favoritesOnly, setFavoritesOnly] = useState<boolean>(
@@ -74,9 +77,6 @@ const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>(() => loadViewMode());
   const [theme, setTheme] = useState<Theme>(() => loadTheme());
   const [helpOpen, setHelpOpen] = useState<boolean>(false);
-  const [bulkSelected, setBulkSelected] = useState<Set<string>>(
-    () => new Set()
-  );
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
   const [swRegistration, setSwRegistration] =
     useState<ServiceWorkerRegistration | null>(null);
@@ -102,12 +102,24 @@ const App: React.FC = () => {
         detailsData,
         searchQuery,
         selectedCategoryPaths,
-        selectedFileTypes
+        selectedContentFlags
       );
       if (favoritesOnly) {
         results = results.filter((d) => favorites.has(d.id));
       }
       results = sortDetails(results, sortType);
+      // 条項番号そのもの（例: 5.3.2）で検索されたときは、完全一致の項を先頭に固定する
+      const qn = searchQuery.trim();
+      if (/^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(qn)) {
+        const idx = results.findIndex((d) => d.number === qn);
+        if (idx > 0) {
+          results = [
+            results[idx],
+            ...results.slice(0, idx),
+            ...results.slice(idx + 1),
+          ];
+        }
+      }
       setFilteredDetails(results);
       setSelectedIndex((prev) => {
         if (prev < 0) return prev;
@@ -121,7 +133,7 @@ const App: React.FC = () => {
     detailsData,
     searchQuery,
     selectedCategoryPaths,
-    selectedFileTypes,
+    selectedContentFlags,
     sortType,
     favoritesOnly,
     favorites,
@@ -145,7 +157,7 @@ const App: React.FC = () => {
     writeUrlState({
       query: searchQuery,
       categories: selectedCategoryPaths,
-      fileTypes: selectedFileTypes,
+      contentFlags: selectedContentFlags,
       sortType,
       favoritesOnly,
       detailId:
@@ -154,7 +166,7 @@ const App: React.FC = () => {
   }, [
     searchQuery,
     selectedCategoryPaths,
-    selectedFileTypes,
+    selectedContentFlags,
     sortType,
     favoritesOnly,
     selectedIndex,
@@ -175,7 +187,7 @@ const App: React.FC = () => {
       const fullIdx = detailsData.findIndex((d) => d.id === initial.detailId);
       if (fullIdx >= 0) {
         setSelectedCategoryPaths([]);
-        setSelectedFileTypes([]);
+        setSelectedContentFlags([]);
         setFavoritesOnly(false);
       }
       restoredOnce.current = true;
@@ -201,10 +213,10 @@ const App: React.FC = () => {
     });
   };
 
-  const handleToggleFileType = (fileType: string) => {
-    const t = String(fileType || "");
+  const handleToggleContentFlag = (flag: string) => {
+    const t = String(flag || "");
     if (!t) return;
-    setSelectedFileTypes((prev) =>
+    setSelectedContentFlags((prev) =>
       prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
     );
   };
@@ -219,17 +231,6 @@ const App: React.FC = () => {
     });
   };
 
-  const handleToggleBulkSelect = (id: string) => {
-    setBulkSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const handleClearBulk = () => setBulkSelected(new Set());
-
   const openDetailById = useCallback(
     (id: string) => {
       const idx = filteredDetails.findIndex((d) => d.id === id);
@@ -241,7 +242,7 @@ const App: React.FC = () => {
         if (fullIdx >= 0) {
           setSearchQuery("");
           setSelectedCategoryPaths([]);
-          setSelectedFileTypes([]);
+          setSelectedContentFlags([]);
           setFavoritesOnly(false);
           setTimeout(() => {
             const i = detailsData.findIndex((d) => d.id === id);
@@ -265,7 +266,7 @@ const App: React.FC = () => {
   const handleClearAll = () => {
     setSearchQuery("");
     setSelectedCategoryPaths([]);
-    setSelectedFileTypes([]);
+    setSelectedContentFlags([]);
     setFavoritesOnly(false);
   };
 
@@ -301,7 +302,7 @@ const App: React.FC = () => {
       buildShareUrl({
         query: searchQuery,
         categories: selectedCategoryPaths,
-        fileTypes: selectedFileTypes,
+        contentFlags: selectedContentFlags,
         sortType,
         favoritesOnly,
         detailId: selectedDetail?.id || null,
@@ -309,7 +310,7 @@ const App: React.FC = () => {
     [
       searchQuery,
       selectedCategoryPaths,
-      selectedFileTypes,
+      selectedContentFlags,
       sortType,
       favoritesOnly,
       selectedDetail,
@@ -318,7 +319,7 @@ const App: React.FC = () => {
 
   const liveMessage = isFiltering
     ? "検索中"
-    : `${filteredDetails.length}件のディティールが見つかりました`;
+    : `${filteredDetails.length}件の条項が見つかりました`;
 
   return (
     <div className="app">
@@ -327,7 +328,7 @@ const App: React.FC = () => {
       </a>
       <header className="app-header">
         <div className="header-row">
-          <h1>社内ディティール検索</h1>
+          <h1>NA 建築工事標準仕様書</h1>
           <div className="header-actions">
             <button
               type="button"
@@ -353,6 +354,10 @@ const App: React.FC = () => {
             <ThemeToggle theme={theme} onChange={setTheme} />
           </div>
         </div>
+        <p className="header-subtitle">
+          公共建築工事標準仕様書（建築工事編）令和7年版ベース ＋
+          1年生向けやさしい解説
+        </p>
       </header>
 
       <div className="search-section">
@@ -362,7 +367,7 @@ const App: React.FC = () => {
           onSearch={handleSearch}
         />
         <p id="search-hint" className="search-hint">
-          例：RC パラペット、開口部 抱き　・
+          例：かぶり厚さ、山留め、5.3.2　・
           <kbd>⌘K</kbd> または <kbd>/</kbd> で検索フォーカス　・
           <kbd>?</kbd> でショートカット
         </p>
@@ -370,14 +375,14 @@ const App: React.FC = () => {
         <ActiveFilters
           query={searchQuery}
           categories={selectedCategoryPaths}
-          fileTypes={selectedFileTypes}
+          contentFlags={selectedContentFlags}
           favoritesOnly={favoritesOnly}
           onClearQuery={() => setSearchQuery("")}
           onRemoveCategory={(c) =>
             setSelectedCategoryPaths((p) => p.filter((x) => x !== c))
           }
-          onRemoveFileType={(t) =>
-            setSelectedFileTypes((p) => p.filter((x) => x !== t))
+          onRemoveContentFlag={(t) =>
+            setSelectedContentFlags((p) => p.filter((x) => x !== t))
           }
           onClearFavoritesOnly={() => setFavoritesOnly(false)}
           onClearAll={handleClearAll}
@@ -401,9 +406,9 @@ const App: React.FC = () => {
             selectedCategoryPaths={selectedCategoryPaths}
             onToggleCategoryPath={handleToggleCategoryPath}
           />
-          <FileTypeFilter
-            selectedFileTypes={selectedFileTypes}
-            onToggleFileType={handleToggleFileType}
+          <ContentFilter
+            selectedContentFlags={selectedContentFlags}
+            onToggleContentFlag={handleToggleContentFlag}
           />
         </aside>
 
@@ -438,14 +443,10 @@ const App: React.FC = () => {
                   onChange={(e) => setSortType(e.target.value as SortType)}
                   className="sort-select"
                 >
-                  <option value="category">カテゴリ順</option>
+                  <option value="category">条項順</option>
                   {searchQuery ? (
                     <option value="relevance">関連度順</option>
                   ) : null}
-                  <option value="name-asc">名称（昇順）</option>
-                  <option value="name-desc">名称（降順）</option>
-                  <option value="date-desc">更新日（新しい順）</option>
-                  <option value="date-asc">更新日（古い順）</option>
                 </select>
               </label>
             </div>
@@ -465,8 +466,6 @@ const App: React.FC = () => {
                     query={searchQuery}
                     isFavorite={favorites.has(detail.id)}
                     onToggleFavorite={handleToggleFavorite}
-                    isSelected={bulkSelected.has(detail.id)}
-                    onToggleSelect={handleToggleBulkSelect}
                     viewMode={viewMode}
                     onClick={handleCardClick}
                   />
@@ -477,8 +476,8 @@ const App: React.FC = () => {
                     {favoritesOnly && favorites.size === 0
                       ? "★ お気に入りはまだありません。カード右上の☆をタップして追加できます。"
                       : selectedCategoryPaths.length === 0 && !searchQuery
-                      ? "カテゴリをチェックするか、キーワードを入力すると検索結果が表示されます。"
-                      : "検索条件に一致するディティールが見つかりませんでした。"}
+                      ? "左の章をチェックするか、キーワードを入力すると条項が表示されます。"
+                      : "検索条件に一致する条項が見つかりませんでした。"}
                   </p>
                 </div>
               )}
@@ -514,12 +513,6 @@ const App: React.FC = () => {
           onClose={() => setSelectedIndex(-1)}
         />
       )}
-
-      <BulkDownloadBar
-        selectedIds={Array.from(bulkSelected)}
-        allDetails={detailsData}
-        onClear={handleClearBulk}
-      />
 
       <ShortcutsHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
     </div>

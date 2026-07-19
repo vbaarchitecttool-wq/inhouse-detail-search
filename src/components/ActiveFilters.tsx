@@ -1,13 +1,18 @@
 import React from "react";
 
+const FLAG_LABELS: Record<string, string> = {
+  commentary: "💡 解説あり",
+  diagram: "🖼 図解あり",
+};
+
 interface Props {
   query: string;
   categories: string[];
-  fileTypes: string[];
+  contentFlags: string[];
   favoritesOnly: boolean;
   onClearQuery: () => void;
   onRemoveCategory: (c: string) => void;
-  onRemoveFileType: (t: string) => void;
+  onRemoveContentFlag: (t: string) => void;
   onClearFavoritesOnly: () => void;
   onClearAll: () => void;
 }
@@ -15,18 +20,18 @@ interface Props {
 const ActiveFilters: React.FC<Props> = ({
   query,
   categories,
-  fileTypes,
+  contentFlags,
   favoritesOnly,
   onClearQuery,
   onRemoveCategory,
-  onRemoveFileType,
+  onRemoveContentFlag,
   onClearFavoritesOnly,
   onClearAll,
 }) => {
   const hasAny =
     (query && query.length > 0) ||
     (categories && categories.length > 0) ||
-    (fileTypes && fileTypes.length > 0) ||
+    (contentFlags && contentFlags.length > 0) ||
     favoritesOnly;
 
   if (!hasAny) return null;
@@ -34,7 +39,7 @@ const ActiveFilters: React.FC<Props> = ({
   const total =
     (query ? 1 : 0) +
     (categories?.length || 0) +
-    (fileTypes?.length || 0) +
+    (contentFlags?.length || 0) +
     (favoritesOnly ? 1 : 0);
 
   return (
@@ -63,15 +68,15 @@ const ActiveFilters: React.FC<Props> = ({
         </button>
       ) : null}
 
-      {fileTypes?.map((t) => (
+      {contentFlags?.map((t) => (
         <button
-          key={`type-${t}`}
+          key={`flag-${t}`}
           type="button"
-          className={`chip chip-type chip-${t}`}
-          onClick={() => onRemoveFileType(t)}
-          title={`${t.toUpperCase()} 絞り込みを解除`}
+          className="chip chip-type"
+          onClick={() => onRemoveContentFlag(t)}
+          title="コンテンツ絞り込みを解除"
         >
-          {t.toUpperCase()} <span className="chip-x">×</span>
+          {FLAG_LABELS[t] || t} <span className="chip-x">×</span>
         </button>
       ))}
 
