@@ -3,6 +3,7 @@ import DOMPurify from "dompurify";
 import RelatedDetails from "./RelatedDetails";
 import useFocusTrap from "../hooks/useFocusTrap";
 import { hasCommentary } from "../utils/search";
+import { reflowSpecText } from "../utils/text";
 import type { Detail } from "../types";
 
 interface Props {
@@ -46,6 +47,12 @@ const DetailModal: React.FC<Props> = ({
     const t = Array.isArray(detail?.tags) ? detail!.tags : [];
     return t;
   }, [detail]);
+
+  // PDF由来の文中改行を詰めて、原文を枠幅で自然に折り返す
+  const originalText = useMemo(
+    () => reflowSpecText(detail?.original || ""),
+    [detail]
+  );
 
   if (!detail) return null;
 
@@ -165,7 +172,7 @@ const DetailModal: React.FC<Props> = ({
 
           <section className="spec-section spec-original">
             <h3>📖 原文（標準仕様書より）</h3>
-            <div className="spec-original-text">{detail.original}</div>
+            <div className="spec-original-text">{originalText}</div>
             <p className="spec-source-note">{SOURCE_NOTE}</p>
           </section>
 
