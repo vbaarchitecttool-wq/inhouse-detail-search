@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NPM_FLAGS = "--legacy-peer-deps"
+  CI = "false"
+
+# SPA（React）用: どのパスに来ても index.html を返す
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
