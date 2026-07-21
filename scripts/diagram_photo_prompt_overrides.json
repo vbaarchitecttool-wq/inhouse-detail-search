@@ -42,5 +42,29 @@
     "Composition/framing: landscape 3:2 medium close-up centered on the already-joined undersized bulge, surrounding burner, and opposed clamping/press jaws; worker remains secondary but safe operation is clear.",
     "Lighting/mood: neutral site light with controlled orange heat glow, high technical clarity.",
     "Constraints: this is corrective reheating and repressing of an EXISTING pressure-welded joint; bar is already continuous and has a visible small central bulge before correction; no butt gap, no two separated cut ends, no arc welding, no filler rod, no brazing, no single handheld cutting torch, no sparks, no cutting, no grinding, no coupler, no sleeve, no unrelated joints, no text, labels, arrows, logos, trademarks, or watermark; realistic Japanese gas-pressure-welding equipment and safe PPE."
+  ],
+  "スランプ試験。高さ30センチのスランプコーンにコンクリートを詰めて引き上げ、頂部からの下がり量をスランプ値とする。スランプ8から18センチの許容差はプラスマイナス2.5センチ": [
+    "Use case: scientific-educational",
+    "Asset type: landscape visual layer for Japanese construction specification item 6.2.4, workability and slump",
+    "Input images: the user-supplied photograph is a visual reference for the real slump-measurement setup and naturally collapsed concrete shape; do not copy its exact site or markings.",
+    "Primary request: Create a highly photorealistic Japanese construction-site receiving-inspection photograph showing the correct measurement stage of a JIS A 1101 concrete slump test immediately after the 300 mm slump cone has been lifted vertically.",
+    "Scene/backdrop: level rigid damp metal base plate near a ready-mix concrete truck at the unloading point, clean controlled testing area.",
+    "Subject: a cohesive mound of fresh concrete has slumped substantially into a low rounded irregular shape without segregation. The empty metal slump cone stands upright immediately beside the mound. A straight steel tamping rod rests perfectly horizontal across the cone top and extends over the central highest point. A separate vertical metric rule measures the clear vertical drop from the underside of the horizontal rod to the concrete's central highest point; its flat lower tip only touches the surface and never enters the concrete.",
+    "Style/medium: documentary construction inspection photography, realistic wet concrete, aggregate texture, galvanized cone, steel rod, ruler, gloves, boots, and base plate.",
+    "Composition/framing: landscape 3:2, close three-quarter overhead view; cone, horizontal reference rod, vertical air-gap measurement, and low slumped mound are unobstructed.",
+    "Lighting/mood: neutral daylight, high inspection clarity, natural color.",
+    "Constraints: technically plausible JIS-style measurement; no tall intact cone-shaped specimen; no ruler or rod inserted into concrete; no measurement from the base plate to the top; no slump-flow diameter measurement; no unsupported freehand horizontal rod; no extra cones, collage, text, labels, arrows, logos, trademarks, or watermark; safe PPE."
+  ],
+  "コンクリート強度の関係。設計基準強度Fcに構造体強度補正値Sを加えたものが調合管理強度。レディーミクストコンクリートの呼び強度は調合管理強度以上とする": [
+    "Use case: scientific-educational",
+    "Asset type: landscape visual layer for Japanese construction specification item 6.3.2, concrete mix proportion and trial-mix confirmation",
+    "Input images: the user-supplied photograph is the reference for the required real-world measurement arrangement: a low slumped mound, a vertical calibrated staff beside it, and a horizontal straightedge meeting the staff.",
+    "Primary request: Create a highly photorealistic concrete quality-control photograph showing the slump confirmation step during a trial mix used to verify the planned concrete mix.",
+    "Scene/backdrop: clean outdoor quality-control area at a Japanese ready-mixed-concrete plant or site laboratory, level rigid damp metal base plate, mixing pan softly visible in the background.",
+    "Subject: a cohesive fresh-concrete specimen has settled into a low broad naturally irregular mound without segregation. A vertical metric measuring staff stands on the plate immediately beside and completely outside the mound. A separate horizontal steel measuring bar rests lightly across the central highest point and meets the staff at a precise right angle. An empty 300 mm metal slump cone stands nearby. A gloved technician steadies the tools without covering contact points.",
+    "Style/medium: documentary concrete laboratory photography, realistic wet cement paste, aggregate, galvanized tools, damp steel plate, gloves, boots, and workwear.",
+    "Composition/framing: landscape 3:2 close three-quarter overhead view; full mound, staff foot, horizontal bar contact, 90-degree intersection, and empty cone are visible.",
+    "Lighting/mood: neutral daylight, high inspection clarity, natural color.",
+    "Constraints: vertical staff stands beside concrete and never enters or touches it; horizontal bar is level and touches only the mound's highest point; low slumped mound, not a tall intact cone shape; no inserted ruler or probe, no slump-flow diameter measurement, no extra piles, collage, labels, arrows, logos, trademarks, or watermark; safe PPE."
   ]
 }
