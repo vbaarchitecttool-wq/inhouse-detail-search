@@ -7,6 +7,7 @@ const projectRoot = path.resolve(scriptDir, "..");
 const commentaryDir = path.join(projectRoot, "src", "commentary");
 const outputDir = path.join(projectRoot, "public", "diagrams");
 const outputPath = path.join(outputDir, "manifest.json");
+const promptOverridesPath = path.join(scriptDir, "diagram_photo_prompt_overrides.json");
 
 const hashLabel = (value) => {
   let hash = 0x811c9dc5;
@@ -17,7 +18,7 @@ const hashLabel = (value) => {
   return (hash >>> 0).toString(16).padStart(8, "0");
 };
 
-const buildPrompt = (label) => `Use case: scientific-educational
+const buildGenericPrompt = (label) => `Use case: scientific-educational
 Asset type: landscape visual layer for a Japanese construction specification learning card
 Primary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: ${label}
 Scene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic
@@ -26,6 +27,16 @@ Style/medium: documentary construction photography or physically realistic archi
 Composition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view
 Lighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color
 Constraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration`;
+
+const promptOverrides = fs.existsSync(promptOverridesPath)
+  ? JSON.parse(fs.readFileSync(promptOverridesPath, "utf8"))
+  : {};
+
+const buildPrompt = (label) => {
+  const override = promptOverrides[label];
+  if (Array.isArray(override)) return override.join("\n");
+  return override ?? buildGenericPrompt(label);
+};
 
 const files = fs
   .readdirSync(commentaryDir)

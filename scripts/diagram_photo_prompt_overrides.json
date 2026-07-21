@@ -1,0 +1,46 @@
+{
+  "重ね継手の長さ。フックなしはL1、フックありはL1hで、フック部分は長さに含めない": [
+    "Use case: scientific-educational",
+    "Asset type: landscape visual layer for Japanese construction specification item 5.3.4",
+    "Primary request: Create a highly photorealistic construction inspection photograph that unmistakably shows one correct reinforcing-bar lap splice (重ね継手), not a butt joint.",
+    "Scene/backdrop: a clean Japanese reinforced-concrete construction site before concrete placement, with only a small portion of a reinforcement cage visible.",
+    "Subject: two straight deformed reinforcing bars of the same diameter run side-by-side in parallel and overlap for a clearly long, substantial length. The two overlapping bars are touching closely and are secured together with realistic annealed tie wire at the overlap ends and center. Both separate bar ends remain visibly traceable through the overlap so the lap splice principle is obvious.",
+    "Style/medium: documentary construction photography, physically realistic steel ribs, tie wire, scale, and site wear.",
+    "Composition/framing: landscape 3:2, close oblique overhead view centered on the single lap splice; shallow enough depth of field to separate it from the cage while keeping the full overlap readable.",
+    "Lighting/mood: neutral daylight, high inspection clarity, natural color.",
+    "Constraints: technically plausible Japanese reinforcement work; exactly one clear lap splice; no hooks, no gas-pressure-weld bulge, no coupler, no welding, no gap, no cutaway, no collage; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no workers standing on reinforcement; no unsafe behavior."
+  ],
+  "ガス圧接部の合格基準。ふくらみの直径は鉄筋径の1.4倍以上、ふくらみの長さは1.1倍以上、圧接面のずれは4分の1以下、偏心量は5分の1以下、折れ曲がりは2度以下、片ふくらみは5分の1以下": [
+    "Use case: scientific-educational",
+    "Asset type: landscape visual layer for Japanese construction specification item 5.4.4",
+    "Primary request: Create a highly photorealistic inspection photograph of exactly one clearly ACCEPTABLE completed gas-pressure-welded reinforcing-bar joint.",
+    "Scene/backdrop: clean neutral inspection bench or uncluttered Japanese construction inspection area.",
+    "Subject: one horizontal deformed reinforcing bar joined at the center by gas pressure welding. The completed central upset bulge is smooth, compact, continuous, and bilaterally symmetrical like a neat low rounded barrel; both rebar axes are perfectly coaxial and straight; the joint plane is centered within the bulge. Show realistic heat discoloration but a clean finished surface.",
+    "Style/medium: documentary macro construction photography, realistic deformed-bar ribs and forged steel texture, not a diagram.",
+    "Composition/framing: landscape 3:2, one single joint fills the center, side-on perpendicular view, generous clear space around it, entire relevant straight lengths visible.",
+    "Lighting/mood: clean diffuse inspection lighting, high clarity, natural gray steel color.",
+    "Constraints: this is a good passing specimen; no cracks, burn cracks, pits, cavities, dents, sagging, sharp irregular lumps, excessive roughness, one-sided bulge, offset, eccentricity, bending, gap, extra weld beads, multiple specimens, racks, collage, tools, hands, text, labels, arrows, dimensions, logos, trademarks, or watermark."
+  ],
+  "圧接完了後の試験の流れ。全ての圧接部に外観試験を行い、ロットごとに30か所を抜き取って超音波探傷試験を行う。1ロットは1組の作業班が1日に行った圧接箇所。全箇所合格でロット合格": [
+    "Use case: scientific-educational",
+    "Asset type: landscape visual layer for Japanese construction specification item 5.4.10",
+    "Primary request: Create a highly photorealistic field inspection photograph unmistakably showing ultrasonic testing of a COMPLETED gas-pressure-welded reinforcing-bar joint.",
+    "Scene/backdrop: clean Japanese reinforced-concrete construction inspection area after gas pressure welding is finished; the bar is supported safely at working height.",
+    "Subject: one horizontal deformed reinforcing bar has a clearly visible, neat, smooth, symmetrical gas-pressure-weld upset bulge at its center. A qualified Japanese inspector in helmet and gloves is applying a small angled ultrasonic probe with coupling gel directly to the steel rebar surface immediately beside that bulge, aimed through the completed pressure-welded joint. A cable runs from the probe to a realistic handheld ultrasonic flaw detector showing a simple waveform. The inspector is examining the finished joint, not joining the bars.",
+    "Style/medium: documentary construction photography, physically realistic rebar ribs, forged upset bulge, probe, cable, and portable UT instrument.",
+    "Composition/framing: landscape 3:2 medium close-up; completed bulge, probe contact, inspector hand, and detector are all clearly readable; only one joint is the focal point.",
+    "Lighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color.",
+    "Constraints: completed gas-pressure weld must be obvious; one continuous aligned rebar with a central symmetrical bulge; no sleeve, coupler, butt gap, arc-weld bead, welding mask, welding torch, flames, sparks, active joining, grinding, cut ends, generic pipe testing, multiple confusing joints, text, labels, arrows, logos, trademarks, or watermark; safe PPE and posture."
+  ],
+  "外観試験で不合格となった圧接部の措置。ふくらみの直径や長さの不足と折れ曲がりは再加熱して修正できる。ずれ、偏心、片ふくらみの超過や焼割れなどの欠陥は圧接部を切り取って再圧接する": [
+    "Use case: scientific-educational",
+    "Asset type: landscape visual layer for Japanese construction specification item 5.4.11 (ア)",
+    "Primary request: Create a highly photorealistic technical construction photograph of the corrective action for a gas-pressure-welded rebar joint whose upset bulge diameter or length is insufficient: REHEAT the existing undersized bulge and APPLY AXIAL PRESSURE to enlarge it to the required shape.",
+    "Scene/backdrop: controlled Japanese construction-site gas-pressure-welding work area with fireproof ground protection.",
+    "Subject: one continuous horizontal deformed reinforcing bar is firmly held in a real gas-pressure-welding clamping/press apparatus on both sides. At the exact center there is already a small, continuous undersized pressure-weld bulge with no gap. A qualified worker in helmet, dark welding face shield, flame-resistant gloves and protective clothing uses a proper annular/multi-flame gas-pressure-welding burner to reheat that existing bulge evenly until orange-hot. The apparatus visibly grips both bar sides and applies axial compressive force toward the hot joint, causing the bulge to become fuller and symmetrical.",
+    "Style/medium: documentary close-up construction photography, physically plausible steel texture, clamps, hydraulic pressure mechanism, burner flames, hoses, and heat glow.",
+    "Composition/framing: landscape 3:2 medium close-up centered on the already-joined undersized bulge, surrounding burner, and opposed clamping/press jaws; worker remains secondary but safe operation is clear.",
+    "Lighting/mood: neutral site light with controlled orange heat glow, high technical clarity.",
+    "Constraints: this is corrective reheating and repressing of an EXISTING pressure-welded joint; bar is already continuous and has a visible small central bulge before correction; no butt gap, no two separated cut ends, no arc welding, no filler rod, no brazing, no single handheld cutting torch, no sparks, no cutting, no grinding, no coupler, no sleeve, no unrelated joints, no text, labels, arrows, logos, trademarks, or watermark; realistic Japanese gas-pressure-welding equipment and safe PPE."
+  ]
+}
