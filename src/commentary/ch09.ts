@@ -181,39 +181,6 @@ const SVG_TORCH_M = `
   </g>
 </svg>`;
 
-const SVG_SEAL_SECTION = `
-<svg viewBox="0 0 660 280" role="img" aria-label="シーリング目地の断面。二面接着はボンドブレーカーやバックアップ材で目地底と縁を切り、両側の被着体だけに接着させてムーブメントに追従させる。三面接着は動きの小さい打継ぎ目地などに使う">
-  <g fill="currentColor" opacity="0.35">
-    <rect x="60" y="60" width="90" height="160"/>
-    <rect x="240" y="60" width="90" height="160"/>
-    <rect x="360" y="60" width="90" height="160"/>
-    <rect x="540" y="60" width="90" height="160"/>
-  </g>
-  <g fill="currentColor" opacity="0.8">
-    <path d="M150 80 Q195 96 240 80 L240 120 Q195 104 150 120 Z"/>
-    <path d="M450 80 Q495 96 540 80 L540 130 L450 130 Z"/>
-  </g>
-  <g fill="currentColor" opacity="0.5">
-    <rect x="150" y="124" width="90" height="10"/>
-  </g>
-  <g fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.7">
-    <circle cx="195" cy="160" r="24"/>
-  </g>
-  <g fill="currentColor" font-size="13" font-weight="bold" text-anchor="middle">
-    <text x="195" y="40">二面接着（原則）</text>
-    <text x="495" y="40">三面接着</text>
-  </g>
-  <g fill="currentColor" font-size="11.5" text-anchor="middle" opacity="0.85">
-    <text x="195" y="146">ボンドブレーカー</text>
-    <text x="195" y="205">バックアップ材</text>
-    <text x="495" y="150">目地底にも接着</text>
-  </g>
-  <g fill="currentColor" font-size="12" opacity="0.85">
-    <text x="40" y="245">二面接着：目地底と縁を切り、左右2面だけ接着 → 目地の動き（ムーブメント）に追従できる</text>
-    <text x="40" y="266">三面接着：動きの小さい打継ぎ目地・ひび割れ誘発目地・建具枠回りに使える（9.7.4）</text>
-  </g>
-</svg>`;
-
 const SVG_SEAL_TEST = `
 <svg viewBox="0 0 640 200" role="img" aria-label="シーリングの簡易接着性試験。実際の部材にプライマーを塗りシーリング材を充填して硬化後に180度方向に引っ張り、シーリング材自体が切れる凝集破壊なら合格。界面からきれいに剥がれたら不合格">
   <g fill="currentColor" opacity="0.35">
@@ -587,12 +554,6 @@ const ch09: Record<string, Commentary> = {
       {
         term: "そぎ継ぎ",
         meaning: "シーリングの打継ぎを斜めに重ねる継ぎ方。垂直の突付けより水密性が高い。",
-      },
-    ],
-    diagrams: [
-      {
-        svg: SVG_SEAL_SECTION,
-        caption: "二面接着と三面接着（9.7.4）",
       },
     ],
   },
