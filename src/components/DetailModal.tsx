@@ -4,7 +4,8 @@ import RelatedDetails from "./RelatedDetails";
 import useFocusTrap from "../hooks/useFocusTrap";
 import { hasCommentary } from "../utils/search";
 import { reflowSpecText } from "../utils/text";
-import type { Detail } from "../types";
+import { getDiagramPhoto } from "../utils/diagramPhoto";
+import type { Detail, Diagram } from "../types";
 
 interface Props {
   detail: Detail | null;
@@ -19,6 +20,50 @@ interface Props {
   onToggleFavorite: (id: string) => void;
   shareUrl: string;
 }
+
+const DiagramVisual: React.FC<{ diagram: Diagram }> = ({ diagram }) => {
+  const [photoAvailable, setPhotoAvailable] = useState(true);
+  const photo = useMemo(() => getDiagramPhoto(diagram.svg), [diagram.svg]);
+
+  return (
+    <figure className="spec-diagram">
+      {photo && photoAvailable ? (
+        <div className="spec-diagram-photo">
+          <img
+            src={photo.src}
+            alt={photo.alt}
+            loading="lazy"
+            decoding="async"
+            onError={() => setPhotoAvailable(false)}
+          />
+          <span className="spec-diagram-photo-label">
+            施工イメージ（AI生成）
+          </span>
+        </div>
+      ) : null}
+
+      <div className="spec-diagram-explainer">
+        <div className="spec-diagram-explainer-title">
+          <span aria-hidden="true">↳</span>
+          部位・寸法・手順を図で確認
+        </div>
+        <div
+          className="spec-diagram-svg"
+          // 図解SVGは自作コンテンツのみだが、多層防御としてサニタイズする
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(diagram.svg, {
+              USE_PROFILES: { svg: true, svgFilters: true },
+            }),
+          }}
+        />
+      </div>
+
+      {diagram.caption ? (
+        <figcaption>{diagram.caption}</figcaption>
+      ) : null}
+    </figure>
+  );
+};
 
 const SOURCE_NOTE = "出典：公共建築工事標準仕様書（建築工事編）令和7年版（国土交通省）";
 
@@ -202,20 +247,7 @@ const DetailModal: React.FC<Props> = ({
                 <div className="spec-block">
                   <h4>🖼 図解</h4>
                   {diagrams.map((dg, i) => (
-                    <figure key={i} className="spec-diagram">
-                      <div
-                        className="spec-diagram-svg"
-                        // 図解SVGは自作コンテンツのみだが、多層防御としてサニタイズする
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(dg.svg, {
-                            USE_PROFILES: { svg: true, svgFilters: true },
-                          }),
-                        }}
-                      />
-                      {dg.caption ? (
-                        <figcaption>{dg.caption}</figcaption>
-                      ) : null}
-                    </figure>
+                    <DiagramVisual key={`${detail.id}-${i}`} diagram={dg} />
                   ))}
                 </div>
               ) : null}
