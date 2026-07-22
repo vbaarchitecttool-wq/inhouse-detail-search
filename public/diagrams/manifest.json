@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-22T06:53:48.105Z",
-  "count": 121,
+  "generatedAt": "2026-07-22T08:15:14.798Z",
+  "count": 122,
   "diagrams": [
     {
       "id": "01-priority",
@@ -152,6 +152,16 @@
       "hash": "e2126695",
       "assetPath": "/diagrams/photo-e2126695.webp",
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 試験杭の流れ。本杭に先立って試験杭を施工し、支持層を確認して本杭の管理基準を定める。試験杭の施工設備は本杭と同じものを使う。全ての本杭は管理基準と照合しながら施工する\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+    },
+    {
+      "id": "04-plate_load_test",
+      "chapter": 4,
+      "sourceFile": "src/commentary/ch04.ts",
+      "constant": "SVG_PLATE_LOAD_TEST",
+      "ariaLabel": "4.2.4 地盤の平板載荷試験。乱さず水平に整形した試験地盤に円形鋼製載荷板を密着させ、載荷板の中央に荷重計と油圧ジャッキを鉛直に設置し、重機を利用した反力装置に向けて段階的に載荷する。反力装置から独立した基準梁に4個の変位計を固定し、載荷板の沈下量を測定する",
+      "hash": "3e10d1eb",
+      "assetPath": "/diagrams/photo-3e10d1eb.webp",
+      "prompt": "Use case: scientific-educational\nAsset type: photorealistic landscape construction-method image for Japanese specification section 4.2.4\nPrimary request: Generate a technically accurate documentary-style field photograph of a static ground plate load test in progress at a Japanese building foundation excavation.\nScene/backdrop: daylight at the bottom of a clean shallow foundation excavation; compact natural soil surface; an excavator parked securely above the test point serves as the reaction mass.\nSubject: a rigid circular steel loading plate lies flat on a carefully leveled undisturbed soil surface. A calibrated load cell and compact hydraulic jack are centered vertically above it and push against a heavy horizontal steel reaction beam beneath the excavator. A slender reference beam spans the test area on remote supports and is completely independent from the reaction system. Four displacement gauges are evenly arranged around the plate edge on this reference beam, with vertical probes touching the plate. Hydraulic hoses lead to a hand pump and data logger at the side.\nStyle/medium: highly photorealistic Japanese construction-site documentary photography with realistic steel, hoses, dial indicators, soil texture, scale, gravity, connections, and tool wear.\nComposition/framing: landscape 3:2, slightly elevated three-quarter view; loading plate, centered jack stack, reaction beam, separate reference beam and four gauges are all clearly distinguishable in one uncluttered scene.\nLighting/mood: neutral overcast daylight, high inspection clarity, natural color.\nConstraints: technically plausible static plate load test; loading plate remains visible; exactly one centered jack stack; at least four displacement gauges; reference beam clearly separate from reaction system; no readable text, labels, arrows, dimensions, logos, trademarks, watermark, pile load test, CBR test, cone penetration test, laboratory scene, falling-weight device, floating equipment, bent load axis, collage, cutaway, or unsafe behavior."
     },
     {
       "id": "04-cement_milk",

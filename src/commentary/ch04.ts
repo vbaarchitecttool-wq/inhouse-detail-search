@@ -69,6 +69,30 @@ const SVG_SHIKENGUI = `
   </g>
 </svg>`;
 
+const SVG_PLATE_LOAD_TEST = `
+<svg viewBox="0 0 660 300" role="img" aria-label="4.2.4 地盤の平板載荷試験。乱さず水平に整形した試験地盤に円形鋼製載荷板を密着させ、載荷板の中央に荷重計と油圧ジャッキを鉛直に設置し、重機を利用した反力装置に向けて段階的に載荷する。反力装置から独立した基準梁に4個の変位計を固定し、載荷板の沈下量を測定する">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="55" y1="250" x2="605" y2="250"/>
+    <ellipse cx="330" cy="236" rx="75" ry="12"/>
+    <rect x="300" y="155" width="60" height="75" rx="6"/>
+    <rect x="290" y="132" width="80" height="23" rx="4"/>
+    <line x1="150" y1="105" x2="510" y2="105" stroke-width="12"/>
+    <line x1="105" y1="175" x2="555" y2="175" stroke-width="5"/>
+    <line x1="215" y1="175" x2="245" y2="225"/>
+    <line x1="445" y1="175" x2="415" y2="225"/>
+  </g>
+  <g fill="currentColor" font-size="13" text-anchor="middle">
+    <text x="330" y="45">反力装置</text>
+    <text x="330" y="95">反力梁</text>
+    <text x="330" y="127">荷重計</text>
+    <text x="385" y="198">油圧ジャッキ</text>
+    <text x="330" y="275">円形鋼製載荷板・乱さない試験地盤</text>
+    <text x="150" y="165">独立した基準梁</text>
+    <text x="205" y="215">変位計</text>
+    <text x="455" y="215">変位計</text>
+  </g>
+</svg>`;
+
 const SVG_CEMENT_MILK = `
 <svg viewBox="0 0 660 300" role="img" aria-label="セメントミルク工法の手順。アースオーガーで杭径プラス100ミリ程度の孔を掘削し、支持層に達したら根固め液と杭周固定液を注入しながらオーガーを引き抜き、既製杭を建て込んで軽打またはヤットコで根固め液中に貫入させる">
   <g fill="currentColor" opacity="0.2">
@@ -300,6 +324,12 @@ const ch04: Record<string, Commentary> = {
         term: "平板載荷試験",
         meaning:
           "直径30cm程度の鋼板を地盤に置いて荷重をかけ、沈下量から地耐力を確認する試験。直接基礎の確認に使う。",
+      },
+    ],
+    diagrams: [
+      {
+        svg: SVG_PLATE_LOAD_TEST,
+        caption: "地盤の平板載荷試験の装置構成（4.2.4）",
       },
     ],
   },

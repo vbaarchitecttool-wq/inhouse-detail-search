@@ -130,5 +130,16 @@
     "Composition/framing: landscape 3:2 close oblique view; the test strip and gloved hand dominate the center, while correctly sealed wall joints remain visible nearby for context; one coherent scene, not a collage.",
     "Lighting/mood: neutral outdoor daylight, high inspection clarity, natural color.",
     "Constraints: adhesion test after curing, 180-degree pull, cohesive failure leaving sealant on the substrate; no active caulking application, universal tensile machine, laboratory grips, dog-bone specimen, clean adhesive interface peel, bare clean wall beneath the strip, collage, text, captions, arrows, red boxes, UI, logos, trademarks, or watermark."
+  ],
+  "4.2.4 地盤の平板載荷試験。乱さず水平に整形した試験地盤に円形鋼製載荷板を密着させ、載荷板の中央に荷重計と油圧ジャッキを鉛直に設置し、重機を利用した反力装置に向けて段階的に載荷する。反力装置から独立した基準梁に4個の変位計を固定し、載荷板の沈下量を測定する": [
+    "Use case: scientific-educational",
+    "Asset type: photorealistic landscape construction-method image for Japanese specification section 4.2.4",
+    "Primary request: Generate a technically accurate documentary-style field photograph of a static ground plate load test in progress at a Japanese building foundation excavation.",
+    "Scene/backdrop: daylight at the bottom of a clean shallow foundation excavation; compact natural soil surface; an excavator parked securely above the test point serves as the reaction mass.",
+    "Subject: a rigid circular steel loading plate lies flat on a carefully leveled undisturbed soil surface. A calibrated load cell and compact hydraulic jack are centered vertically above it and push against a heavy horizontal steel reaction beam beneath the excavator. A slender reference beam spans the test area on remote supports and is completely independent from the reaction system. Four displacement gauges are evenly arranged around the plate edge on this reference beam, with vertical probes touching the plate. Hydraulic hoses lead to a hand pump and data logger at the side.",
+    "Style/medium: highly photorealistic Japanese construction-site documentary photography with realistic steel, hoses, dial indicators, soil texture, scale, gravity, connections, and tool wear.",
+    "Composition/framing: landscape 3:2, slightly elevated three-quarter view; loading plate, centered jack stack, reaction beam, separate reference beam and four gauges are all clearly distinguishable in one uncluttered scene.",
+    "Lighting/mood: neutral overcast daylight, high inspection clarity, natural color.",
+    "Constraints: technically plausible static plate load test; loading plate remains visible; exactly one centered jack stack; at least four displacement gauges; reference beam clearly separate from reaction system; no readable text, labels, arrows, dimensions, logos, trademarks, watermark, pile load test, CBR test, cone penetration test, laboratory scene, falling-weight device, floating equipment, bent load axis, collage, cutaway, or unsafe behavior."
   ]
 }
