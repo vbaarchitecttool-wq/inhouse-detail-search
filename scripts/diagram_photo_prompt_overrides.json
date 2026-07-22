@@ -121,14 +121,14 @@
   ],
   "シーリングの簡易接着性試験。実際の部材にプライマーを塗りシーリング材を充填して硬化後に180度方向に引っ張り、シーリング材自体が切れる凝集破壊なら合格。界面からきれいに剥がれたら不合格": [
     "Use case: scientific-educational",
-    "Asset type: landscape photographic visual for Japanese construction specification item 9.7.5, sealant adhesion test",
-    "Input images: the user-supplied image is the authoritative reference for the vertical tensile tester, two rigid substrate blocks, cured sealant specimen and extreme elongation; omit its collage, captions, badges, arrows, English word and UI.",
-    "Primary request: Create a highly photorealistic laboratory inspection photograph that makes the sealant tensile adhesion test and acceptable cohesive failure immediately understandable.",
-    "Scene/backdrop: clean Japanese construction-material testing laboratory with a neutral universal tensile tester.",
-    "Subject: one specimen is clamped vertically between upper and lower grips. Two small rigid rectangular substrate blocks are bonded by a cured light-gray sealant bead. The grips pull apart, stretching the sealant into a long narrow hourglass neck. A rough tear begins through the middle of the sealant itself while material remains firmly adhered across both substrate interfaces; neither interface peels cleanly away.",
-    "Style/medium: authentic documentary laboratory photography with realistic elastomer texture, rough cohesive tear fibers, brushed steel grips and practical equipment wear.",
-    "Composition/framing: landscape 3:2 tight front three-quarter close-up centered on one machine and one elongated specimen, both grips and both interfaces visible.",
-    "Lighting/mood: clean neutral laboratory lighting, high inspection clarity.",
-    "Constraints: one test stage only; cohesive failure in the sealant; no bare clean substrate face, adhesive interface failure, hand pulling, wall joint, collage, text, numbers, labels, arrows, colored captions, carousel controls, logos, trademarks, or watermark."
+    "Asset type: landscape photographic visual for Japanese construction specification item 9.7.5, on-site simplified sealant adhesion test",
+    "Input images: the user-supplied construction photograph is the authoritative reference for the real exterior-wall setting, textured gray panels, vertical and horizontal joints, green masking tape, white sealant, gloves, and practical site scale. The confusing old two-panel image and laboratory tensile-machine image must not be retained.",
+    "Primary request: Create a highly photorealistic, immediately understandable on-site simplified adhesion test performed on the actual exterior-wall substrate after the sealant has cured.",
+    "Scene/backdrop: a textured gray exterior wall at a Japanese construction or renovation site. Surrounding vertical and horizontal joints have neatly applied white sealant between green masking-tape lines.",
+    "Subject: beside the main joint, a small dedicated narrow test strip of cured white sealant has been prepared directly on the actual primed wall substrate. An inspector in work gloves has cut and freed one end and uses pliers to pull the strip back 180 degrees, folded nearly parallel against itself. The strip stretches and tears within the sealant material while a rough continuous layer of white residue remains bonded to the wall, clearly showing acceptable cohesive failure rather than clean interface peeling.",
+    "Style/medium: authentic documentary construction inspection photography with realistic textured wall coating, masking tape, cured elastomer texture, glove wear, pliers, and natural site imperfections.",
+    "Composition/framing: landscape 3:2 close oblique view; the test strip and gloved hand dominate the center, while correctly sealed wall joints remain visible nearby for context; one coherent scene, not a collage.",
+    "Lighting/mood: neutral outdoor daylight, high inspection clarity, natural color.",
+    "Constraints: adhesion test after curing, 180-degree pull, cohesive failure leaving sealant on the substrate; no active caulking application, universal tensile machine, laboratory grips, dog-bone specimen, clean adhesive interface peel, bare clean wall beneath the strip, collage, text, captions, arrows, red boxes, UI, logos, trademarks, or watermark."
   ]
 }
