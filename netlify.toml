@@ -12,3 +12,10 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Corrected diagram photos keep stable filenames, so force browsers and the
+# Service Worker to revalidate them instead of retaining an older replacement.
+[[headers]]
+  for = "/diagrams/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

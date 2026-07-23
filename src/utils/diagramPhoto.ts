@@ -1,4 +1,5 @@
 const SVG_ARIA_LABEL_PATTERN = /\baria-label="([^"]+)"/;
+const DIAGRAM_PHOTO_CACHE_REVISION = "20260724-1";
 
 const hashLabel = (value: string): string => {
   let hash = 0x811c9dc5;
@@ -20,6 +21,8 @@ export const getDiagramPhoto = (svg: string): DiagramPhoto | null => {
 
   return {
     alt: `AI生成の施工イメージ。${label}`,
-    src: `/diagrams/photo-${hashLabel(label)}.webp`,
+    src: `/diagrams/photo-${hashLabel(
+      label
+    )}.webp?v=${DIAGRAM_PHOTO_CACHE_REVISION}`,
   };
 };

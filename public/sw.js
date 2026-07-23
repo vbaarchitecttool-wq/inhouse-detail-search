@@ -5,7 +5,7 @@
 //  - PDF/DWG/DXF: cache-first（一度開いたら次回はオフラインでも閲覧可能）
 //  - データJSON: stale-while-revalidate
 
-const VERSION = "v2.0.0";
+const VERSION = "v2.1.0";
 const STATIC_CACHE = `ids-static-${VERSION}`;
 const ASSET_CACHE = `ids-assets-${VERSION}`;
 const FILES_CACHE = `ids-files-${VERSION}`;
@@ -93,6 +93,14 @@ self.addEventListener("fetch", (event) => {
 
   const dest = req.destination;
   const path = url.pathname.toLowerCase();
+
+  // Diagram photos are intentionally replaced at stable paths.
+  // Always check the network first so a corrected image is not hidden by an
+  // older Service Worker cache; retain the cached copy only for offline use.
+  if (path.startsWith("/diagrams/") && path.endsWith(".webp")) {
+    event.respondWith(networkFirst(req, ASSET_CACHE));
+    return;
+  }
 
   if (path.endsWith(".json")) {
     event.respondWith(staleWhileRevalidate(req, DATA_CACHE));
