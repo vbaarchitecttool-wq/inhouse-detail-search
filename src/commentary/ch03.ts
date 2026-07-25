@@ -32,6 +32,28 @@ const SVG_NEGIRI = `
   </g>
 </svg>`;
 
+const SVG_KAMABA_DRAINAGE = `
+<svg viewBox="0 0 660 260" role="img" aria-label="3.2.2 釜場排水。根切り底に排水溝で勾配をつけ、最も低い一角に設けた小さな集水桝の釜場へ雨水や湧き水を集め、水中ポンプと排水ホースで場外の沈砂槽へ排水する最も簡便な排水工法">
+  <g fill="currentColor" opacity="0.18">
+    <path d="M40 80 H620 V225 H40 Z"/>
+  </g>
+  <g stroke="currentColor" stroke-width="2.5" fill="none">
+    <line x1="40" y1="80" x2="620" y2="80"/>
+    <path d="M80 190 L500 215"/>
+    <rect x="500" y="175" width="75" height="55"/>
+    <path d="M535 195 C535 120 600 150 610 90"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="475,205 455,196 456,216"/>
+  </g>
+  <g fill="currentColor" font-size="13">
+    <text x="80" y="55" font-weight="bold">排水溝の勾配で水を集める</text>
+    <text x="470" y="250">釜場（集水桝）</text>
+    <text x="520" y="150">水中ポンプ</text>
+    <text x="550" y="105">排水ホース</text>
+  </g>
+</svg>`;
+
 const SVG_UMEMODOSHI = `
 <svg viewBox="0 0 660 250" role="img" aria-label="埋戻しと盛土。300ミリ程度ごとに締め固め、土質に応じて余盛りを行う。材料はA種の山砂の類からD種の再生コンクリート砂まで種別がある">
   <g fill="currentColor" opacity="0.2"><rect x="60" y="180" width="320" height="40"/></g>
@@ -152,6 +174,12 @@ const ch03: Record<string, Commentary> = {
         term: "釜場（かまば）",
         meaning:
           "根切り底の一角に掘る水たまりのくぼみ。水を集めてポンプで排水する。釜場排水は最も簡便な排水工法。",
+      },
+    ],
+    diagrams: [
+      {
+        svg: SVG_KAMABA_DRAINAGE,
+        caption: "最も簡便な釜場排水（3.2.2）",
       },
     ],
   },

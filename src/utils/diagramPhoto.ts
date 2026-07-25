@@ -1,5 +1,5 @@
 const SVG_ARIA_LABEL_PATTERN = /\baria-label="([^"]+)"/;
-const DIAGRAM_PHOTO_CACHE_REVISION = "20260724-1";
+const DIAGRAM_PHOTO_CACHE_REVISION = "20260725-1";
 
 const hashLabel = (value: string): string => {
   let hash = 0x811c9dc5;

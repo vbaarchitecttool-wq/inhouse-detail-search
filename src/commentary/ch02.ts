@@ -47,6 +47,24 @@ const SVG_KIJUN_FLOW = `
   </g>
 </svg>`;
 
+const SVG_BENCHMARK = `
+<svg viewBox="0 0 660 260" role="img" aria-label="2.2.2 ベンチマーク。工事中の高さの基準となる木杭又はコンクリート杭を移動のおそれのない場所に堅固に設け、赤白の保護柵で囲って重機や作業員の接触から養生し、位置、高さ及び設置方法について監督職員の検査を受ける">
+  <g stroke="currentColor" stroke-width="3" fill="none">
+    <line x1="80" y1="220" x2="580" y2="220"/>
+    <line x1="270" y1="90" x2="270" y2="220" stroke-width="12"/>
+    <line x1="190" y1="70" x2="190" y2="220" stroke-width="8"/>
+    <line x1="370" y1="70" x2="370" y2="220" stroke-width="8"/>
+    <line x1="170" y1="105" x2="390" y2="105" stroke-width="12"/>
+    <line x1="170" y1="155" x2="390" y2="155" stroke-width="8"/>
+  </g>
+  <g fill="currentColor" font-size="13">
+    <text x="245" y="55" font-weight="bold">ベンチマーク（高さの基準点）</text>
+    <text x="410" y="110">赤白の保護柵で養生</text>
+    <text x="410" y="158">接触・移動を防止</text>
+    <text x="200" y="244">動かない場所に堅固に設置</text>
+  </g>
+</svg>`;
+
 const SVG_YARIKATA = `
 <svg viewBox="0 0 660 280" role="img" aria-label="遣方の構成。建物の隅などの要所に地杭を打ち、上端をかんな削りした水貫を水平に固定する。水貫の間に水糸を張って建物の位置と水平の基準を表示する。基準は工事に支障のない場所に逃げ心として控えておく">
   <g stroke="currentColor" stroke-width="6" stroke-linecap="round">
@@ -188,6 +206,12 @@ const ch02: Record<string, Commentary> = {
         term: "ベンチマーク（BM）",
         meaning:
           "工事中の高さの基準点。敷地付近の動かない点に設け、建物の高さはすべてここから追う。",
+      },
+    ],
+    diagrams: [
+      {
+        svg: SVG_BENCHMARK,
+        caption: "ベンチマークの設置と養生（2.2.2）",
       },
     ],
   },

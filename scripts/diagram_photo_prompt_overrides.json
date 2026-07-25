@@ -141,5 +141,44 @@
     "Composition/framing: landscape 3:2, slightly elevated three-quarter view; loading plate, centered jack stack, reaction beam, separate reference beam and four gauges are all clearly distinguishable in one uncluttered scene.",
     "Lighting/mood: neutral overcast daylight, high inspection clarity, natural color.",
     "Constraints: technically plausible static plate load test; loading plate remains visible; exactly one centered jack stack; at least four displacement gauges; reference beam clearly separate from reaction system; no readable text, labels, arrows, dimensions, logos, trademarks, watermark, pile load test, CBR test, cone penetration test, laboratory scene, falling-weight device, floating equipment, bent load axis, collage, cutaway, or unsafe behavior."
+  ],
+  "2.2.2 ベンチマーク。工事中の高さの基準となる木杭又はコンクリート杭を移動のおそれのない場所に堅固に設け、赤白の保護柵で囲って重機や作業員の接触から養生し、位置、高さ及び設置方法について監督職員の検査を受ける": [
+    "Use case: scientific-educational",
+    "Asset type: landscape construction photograph for Japanese specification item 2.2.2",
+    "Input image: the user-supplied benchmark photograph is the authoritative reference for the small fixed point and compact red-and-white timber protective enclosure.",
+    "Primary request: Create a highly photorealistic Japanese construction-site photograph of a correctly installed and protected elevation benchmark.",
+    "Subject: one short immovable benchmark point with a metal survey mark on top, surrounded by four sturdy timber posts and red-and-white horizontal protective rails. The benchmark remains visible and separate from the enclosure.",
+    "Composition/framing: landscape 3:2, slightly elevated three-quarter close view with the full enclosure visible.",
+    "Constraints: not a batter board or tripod; no readable text, numbers, labels, arrows, logos, trademarks, watermark or unsafe placement."
+  ],
+  "根切りの断面。周辺状況や土質、地下水に適した工法とし、法面または山留めを設ける。根切り底は地盤をかく乱しないよう平たんに掘り、状態、土質、深さを確認して監督職員の検査を受ける": [
+    "Use case: precise-object-edit",
+    "Asset type: corrected landscape construction photograph for Japanese specification item 3.2.1",
+    "Primary request: Replace only the timber fall-prevention guardrails at the top perimeter of the excavation with 48.6 mm galvanized steel single-pipe guardrails.",
+    "Subject: continuous top rail and intermediate rail on galvanized steel pipe posts, realistic clamps and protective end caps.",
+    "Constraints: preserve the excavation, flat formation level, inspector, soil layers and brown retaining boards; no wooden guardrails remain; no text, labels, arrows, logos or watermark."
+  ],
+  "3.2.2 釜場排水。根切り底に排水溝で勾配をつけ、最も低い一角に設けた小さな集水桝の釜場へ雨水や湧き水を集め、水中ポンプと排水ホースで場外の沈砂槽へ排水する最も簡便な排水工法": [
+    "Use case: scientific-educational",
+    "Asset type: landscape construction photograph for Japanese specification item 3.2.2",
+    "Input image: the user-supplied sump-drainage photograph is the authoritative reference for the excavation, small square sump, wet soil, hose and field scale.",
+    "Primary request: Create a highly photorealistic photograph of the simplest sump-pumping drainage method in an excavation.",
+    "Subject: shallow drainage grooves slope to one small square sump at the low point; a submersible pump sits in collected muddy water and a thick discharge hose runs safely out of the excavation.",
+    "Constraints: unmistakably drainage, not concrete placement; no deep well, wellpoint system, text, labels, arrows, logos or watermark."
+  ],
+  "山留めの構成。左右の山留め壁が土圧を受け、壁に沿って腹起しを流し、腹起し同士を切りばりで突っ張って支える。設置期間中は点検と計測を行う": [
+    "Use case: scientific-educational",
+    "Asset type: landscape construction photograph for Japanese specification item 3.3.1",
+    "Input image: the user-supplied shoring photograph is the authoritative reference for continuous steel sheet piles and rust-red H-section walers and cross struts.",
+    "Primary request: Create a highly photorealistic correctly installed braced excavation made visibly from rolled H-section steel.",
+    "Subject: H-section walers along both walls and multiple H-section cross struts with end plates, gussets, stiffeners and bolts.",
+    "Constraints: no circular pipe struts, screw-jack tubes, timber walers, text, labels, arrows, logos or watermark."
+  ],
+  "地業工事の全体像。杭地業には既製コンクリート杭、鋼杭、場所打ちコンクリート杭がある。地盤改良には深層混合処理と浅層混合処理がある。そのほか砂利、砂、捨てコンクリート地業がある": [
+    "Use case: scientific-educational",
+    "Asset type: annotated landscape overview for Japanese specification item 4.1.1",
+    "Primary request: Preserve the existing photorealistic overview and add deterministic Japanese callout boxes and arrows in local post-processing.",
+    "Text (verbatim): 既製コンクリート杭; 鋼杭; 場所打ちコンクリート杭; 地盤改良; 砂利地業; 砂地業; 捨てコンクリート地業",
+    "Constraints: every label must point to the matching visible element; exact Japanese text; high contrast; no AI-rendered text, logos or watermark."
   ]
 }

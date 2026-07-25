@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-22T08:15:14.798Z",
-  "count": 122,
+  "generatedAt": "2026-07-25T02:24:27.013Z",
+  "count": 124,
   "diagrams": [
     {
       "id": "01-priority",
@@ -74,6 +74,16 @@
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 着工時に基準をつくる流れ。敷地の状況確認と監督職員への報告、縄張りで建物の位置を示す、ベンチマークで高さの基準をつくる、遣方で位置と水平の基準を表示する。縄張り、ベンチマーク、遣方はそれぞれ監督職員の検査を受ける\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
+      "id": "02-benchmark",
+      "chapter": 2,
+      "sourceFile": "src/commentary/ch02.ts",
+      "constant": "SVG_BENCHMARK",
+      "ariaLabel": "2.2.2 ベンチマーク。工事中の高さの基準となる木杭又はコンクリート杭を移動のおそれのない場所に堅固に設け、赤白の保護柵で囲って重機や作業員の接触から養生し、位置、高さ及び設置方法について監督職員の検査を受ける",
+      "hash": "03c0de3f",
+      "assetPath": "/diagrams/photo-03c0de3f.webp",
+      "prompt": "Use case: scientific-educational\nAsset type: landscape construction photograph for Japanese specification item 2.2.2\nInput image: the user-supplied benchmark photograph is the authoritative reference for the small fixed point and compact red-and-white timber protective enclosure.\nPrimary request: Create a highly photorealistic Japanese construction-site photograph of a correctly installed and protected elevation benchmark.\nSubject: one short immovable benchmark point with a metal survey mark on top, surrounded by four sturdy timber posts and red-and-white horizontal protective rails. The benchmark remains visible and separate from the enclosure.\nComposition/framing: landscape 3:2, slightly elevated three-quarter close view with the full enclosure visible.\nConstraints: not a batter board or tripod; no readable text, numbers, labels, arrows, logos, trademarks, watermark or unsafe placement."
+    },
+    {
       "id": "02-yarikata",
       "chapter": 2,
       "sourceFile": "src/commentary/ch02.ts",
@@ -111,7 +121,17 @@
       "ariaLabel": "根切りの断面。周辺状況や土質、地下水に適した工法とし、法面または山留めを設ける。根切り底は地盤をかく乱しないよう平たんに掘り、状態、土質、深さを確認して監督職員の検査を受ける",
       "hash": "ecc68b24",
       "assetPath": "/diagrams/photo-ecc68b24.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 根切りの断面。周辺状況や土質、地下水に適した工法とし、法面または山留めを設ける。根切り底は地盤をかく乱しないよう平たんに掘り、状態、土質、深さを確認して監督職員の検査を受ける\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "Use case: precise-object-edit\nAsset type: corrected landscape construction photograph for Japanese specification item 3.2.1\nPrimary request: Replace only the timber fall-prevention guardrails at the top perimeter of the excavation with 48.6 mm galvanized steel single-pipe guardrails.\nSubject: continuous top rail and intermediate rail on galvanized steel pipe posts, realistic clamps and protective end caps.\nConstraints: preserve the excavation, flat formation level, inspector, soil layers and brown retaining boards; no wooden guardrails remain; no text, labels, arrows, logos or watermark."
+    },
+    {
+      "id": "03-kamaba_drainage",
+      "chapter": 3,
+      "sourceFile": "src/commentary/ch03.ts",
+      "constant": "SVG_KAMABA_DRAINAGE",
+      "ariaLabel": "3.2.2 釜場排水。根切り底に排水溝で勾配をつけ、最も低い一角に設けた小さな集水桝の釜場へ雨水や湧き水を集め、水中ポンプと排水ホースで場外の沈砂槽へ排水する最も簡便な排水工法",
+      "hash": "5f22b478",
+      "assetPath": "/diagrams/photo-5f22b478.webp",
+      "prompt": "Use case: scientific-educational\nAsset type: landscape construction photograph for Japanese specification item 3.2.2\nInput image: the user-supplied sump-drainage photograph is the authoritative reference for the excavation, small square sump, wet soil, hose and field scale.\nPrimary request: Create a highly photorealistic photograph of the simplest sump-pumping drainage method in an excavation.\nSubject: shallow drainage grooves slope to one small square sump at the low point; a submersible pump sits in collected muddy water and a thick discharge hose runs safely out of the excavation.\nConstraints: unmistakably drainage, not concrete placement; no deep well, wellpoint system, text, labels, arrows, logos or watermark."
     },
     {
       "id": "03-umemodoshi",
@@ -131,7 +151,7 @@
       "ariaLabel": "山留めの構成。左右の山留め壁が土圧を受け、壁に沿って腹起しを流し、腹起し同士を切りばりで突っ張って支える。設置期間中は点検と計測を行う",
       "hash": "20b7fe5f",
       "assetPath": "/diagrams/photo-20b7fe5f.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 山留めの構成。左右の山留め壁が土圧を受け、壁に沿って腹起しを流し、腹起し同士を切りばりで突っ張って支える。設置期間中は点検と計測を行う\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "Use case: scientific-educational\nAsset type: landscape construction photograph for Japanese specification item 3.3.1\nInput image: the user-supplied shoring photograph is the authoritative reference for continuous steel sheet piles and rust-red H-section walers and cross struts.\nPrimary request: Create a highly photorealistic correctly installed braced excavation made visibly from rolled H-section steel.\nSubject: H-section walers along both walls and multiple H-section cross struts with end plates, gussets, stiffeners and bolts.\nConstraints: no circular pipe struts, screw-jack tubes, timber walers, text, labels, arrows, logos or watermark."
     },
     {
       "id": "04-jigyo_map",
@@ -141,7 +161,7 @@
       "ariaLabel": "地業工事の全体像。杭地業には既製コンクリート杭、鋼杭、場所打ちコンクリート杭がある。地盤改良には深層混合処理と浅層混合処理がある。そのほか砂利、砂、捨てコンクリート地業がある",
       "hash": "79bc3a51",
       "assetPath": "/diagrams/photo-79bc3a51.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 地業工事の全体像。杭地業には既製コンクリート杭、鋼杭、場所打ちコンクリート杭がある。地盤改良には深層混合処理と浅層混合処理がある。そのほか砂利、砂、捨てコンクリート地業がある\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "Use case: scientific-educational\nAsset type: annotated landscape overview for Japanese specification item 4.1.1\nPrimary request: Preserve the existing photorealistic overview and add deterministic Japanese callout boxes and arrows in local post-processing.\nText (verbatim): 既製コンクリート杭; 鋼杭; 場所打ちコンクリート杭; 地盤改良; 砂利地業; 砂地業; 捨てコンクリート地業\nConstraints: every label must point to the matching visible element; exact Japanese text; high contrast; no AI-rendered text, logos or watermark."
     },
     {
       "id": "04-shikengui",
