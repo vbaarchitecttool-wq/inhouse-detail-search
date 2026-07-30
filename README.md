@@ -17,13 +17,30 @@ npm run build    # 本番ビルド
 
 ## データ更新
 
-原文データ（`src/spec_index.json`）はPDFから再生成できる：
+原文データ（`src/spec_index.json`）はPDFから再生成する。**直接上書きせず** `/reindex-spec` を使う（消える条項・孤立する解説を先に検出するため）：
 
 ```bash
-python scripts/extract_spec.py <仕様書PDF> src/spec_index.json
+python scripts/extract_spec.py <仕様書PDF> <一時ファイル>
+node .claude/skills/reindex-spec/compare-index.mjs <一時ファイル>   # 差分を確認してから上書き
 ```
 
 やさしい解説は `src/commentary/` で章ごとに分離管理しており、再生成しても消えない。
+
+## Claude Code の自動化（`.claude/`）
+
+| 種別 | 名前 | 役割 |
+|---|---|---|
+| フック | `validate-commentary.mjs` | 解説の条項番号が原文に存在するか・重複・`index.ts` への登録漏れ・SVG規約を編集時に検査（PostToolUse） |
+| フック | `typecheck.mjs` | `.ts/.tsx` 編集時に `tsc --noEmit`（増分・約2秒） |
+| フック | `guard-generated.mjs` | 生成物（`spec_index.json`・`package-lock.json`）への直接書き込みをブロック（PreToolUse） |
+| フック | `trigger-ui-skills.mjs` | UIファイル編集時にUI品質スキル群を促す（セッション1回のみ） |
+| エージェント | `commentary-reviewer` | 解説を章単位でレビュー（原文との数値矛盾・「なぜ」の有無・トーン） |
+| エージェント | `diagram-reviewer` | SVG図解をレビュー（aria-labelと図中数値の一致・viewBox破綻） |
+| スキル | `/new-commentary <条項番号>` | 原文取得→雛形→正しい位置へ挿入まで一式 |
+| スキル | `/reindex-spec` | 原文インデックスの安全な再生成 |
+| MCP | `playwright` / `context7` | ブラウザ実操作での動作確認 / ライブラリ公式ドキュメント参照 |
+
+`.mcp.json` は初回セッションで承認が必要。Playwright は既定で Edge を使う（`--browser` で変更可）。
 
 ## 出典
 
