@@ -30,7 +30,7 @@ node .claude/skills/reindex-spec/compare-index.mjs <一時ファイル>   # 差�
 
 | 種別 | 名前 | 役割 |
 |---|---|---|
-| フック | `validate-commentary.mjs` | 解説の条項番号が原文に存在するか・重複・`index.ts` への登録漏れ・SVG規約を編集時に検査（PostToolUse） |
+| フック | `validate-commentary.mjs` | 解説の条項番号が原文に存在するか・重複・`index.ts` への登録漏れ・SVG規約・`aria-label` に対応するAI生成写真の有無を編集時に検査（PostToolUse） |
 | フック | `typecheck.mjs` | `.ts/.tsx` 編集時に `tsc --noEmit`（増分・約2秒） |
 | フック | `guard-generated.mjs` | 生成物（`spec_index.json`・`package-lock.json`）への直接書き込みをブロック（PreToolUse） |
 | フック | `trigger-ui-skills.mjs` | UIファイル編集時にUI品質スキル群を促す（セッション1回のみ） |

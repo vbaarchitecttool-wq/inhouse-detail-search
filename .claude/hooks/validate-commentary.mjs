@@ -7,10 +7,13 @@
 //   3. 章ファイルが index.ts に import / spread されていない（＝章まるごと消える）
 //   4. SVG が DESIGN.md の規約違反（currentColor 以外の色＝ダークテーマで破綻、
 //      role/aria-label 欠落＝図解の内容が非視覚利用者に届かない）
+//   5. aria-label に対応するAI生成写真が無い（aria-label は
+//      src/utils/diagramPhoto.ts のハッシュ元＝写真のファイル名。ラベルを1文字直すと
+//      photo-xxxx.webp が 404 になり、写真が黙って消える）
 //
 // 検証エラー: exit 2（stderr が Claude に返る） / 内部エラー: exit 1（利用者にのみ表示）
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve } from "node:path";
 
@@ -25,8 +28,21 @@ const PAINT_RE = /\b(fill|stroke)="([^"]*)"/g;
 /** テーマ追従のため、色は currentColor / none / inherit / url(#...) のみ許可 */
 const ALLOWED_PAINT = new Set(["currentcolor", "none", "inherit", "transparent"]);
 
+const PHOTO_DIR = join(ROOT, "public", "diagrams");
+const MANIFEST = join(PHOTO_DIR, "manifest.json");
+
 const errors = [];
 const warnings = [];
+
+/** src/utils/diagramPhoto.ts / scripts/build_diagram_photo_manifest.mjs と同一の FNV-1a */
+function hashLabel(value) {
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < value.length; i += 1) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193);
+  }
+  return (hash >>> 0).toString(16).padStart(8, "0");
+}
 
 function lineOf(text, index) {
   return text.slice(0, index).split("\n").length;
@@ -62,6 +78,8 @@ function validate() {
     .sort();
 
   const seen = new Map(); // 条項番号 -> 最初に定義したファイル
+  const labelHashes = new Map(); // aria-labelのハッシュ -> 最初に使った場所
+  const missingPhotos = [];
   let total = 0;
 
   for (const file of files) {
@@ -118,6 +136,23 @@ function validate() {
           `${where}  aria-label が短すぎます（"${label[1]}"）。図中の数値・条件が読み上げだけで伝わるか確認してください。`
         );
       }
+
+      // aria-label は AI生成写真のファイル名のハッシュ元でもある
+      if (label) {
+        const text = label[1].trim();
+        const hash = hashLabel(text);
+        const prev = labelHashes.get(hash);
+        if (prev) {
+          errors.push(
+            `${where}  aria-label が ${prev} と完全に同一です（ハッシュ ${hash} が衝突し、build_diagram_photo_manifest.mjs が失敗します）。図ごとに違う説明にしてください。`
+          );
+        } else {
+          labelHashes.set(hash, where);
+        }
+        if (!existsSync(join(PHOTO_DIR, `photo-${hash}.webp`))) {
+          missingPhotos.push({ where, hash, text });
+        }
+      }
       for (const paint of svg.matchAll(PAINT_RE)) {
         const value = paint[2].trim();
         if (ALLOWED_PAINT.has(value.toLowerCase()) || /^url\(/.test(value)) continue;
@@ -144,7 +179,33 @@ function validate() {
     }
   }
 
-  return { total, unique: seen.size, files: files.length };
+  // --- AI生成写真（aria-label のハッシュで紐づく）---
+  if (missingPhotos.length) {
+    warnings.push(
+      `対応する写真が無い図解が ${missingPhotos.length} 件あります（写真は表示されず、SVGにフォールバックします）:\n` +
+        missingPhotos
+          .map((m) => `      ${m.where}  photo-${m.hash}.webp が未生成 ／ label: 「${m.text.slice(0, 40)}…」`)
+          .join("\n") +
+        `\n      aria-label を編集した場合はハッシュが変わります。node scripts/build_diagram_photo_manifest.mjs でマニフェストを更新し、写真を生成し直してください。`
+    );
+  }
+  if (existsSync(MANIFEST)) {
+    const manifest = JSON.parse(readFileSync(MANIFEST, "utf8"));
+    const known = new Set(manifest.diagrams.map((d) => d.hash));
+    const unknown = [...labelHashes.keys()].filter((h) => !known.has(h));
+    if (unknown.length) {
+      warnings.push(
+        `public/diagrams/manifest.json が古くなっています（未登録の図解 ${unknown.length} 件）。node scripts/build_diagram_photo_manifest.mjs を実行してください。`
+      );
+    }
+  }
+
+  return {
+    total,
+    unique: seen.size,
+    files: files.length,
+    diagrams: labelHashes.size,
+  };
 }
 
 const raw = readStdin();

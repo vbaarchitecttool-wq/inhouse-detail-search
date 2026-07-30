@@ -72,6 +72,27 @@ node -e "const d=require('./src/spec_index.json');const fs=require('fs');const d
 - `font-size` は 11 以上。文字の `opacity` は 0.5 以上。
 - SVGはファイル冒頭の `const SVG_XXX = \`...\`` として定義し、`diagrams` から参照する。`caption` には条項番号を付ける（例「排水桝の断面（21.2.2）」）。
 
+### `aria-label` は写真とも連動している（重要）
+
+画面では **AI生成写真が主・SVGが従**（`DetailModal.tsx` の `DiagramVisual`）。その写真は `aria-label` から決まる：
+
+- ファイル名 = label の FNV-1a ハッシュ → `public/diagrams/photo-<hash>.webp`（`src/utils/diagramPhoto.ts`）
+- 生成プロンプト = label そのもの（`public/diagrams/manifest.json` の `prompt`）
+
+したがって：
+
+1. **既存の label を編集すると写真が 404 になり、黙って消える**（SVGへフォールバック）。編集したなら写真の作り直しが必要。
+2. 新しい図を足したら、マニフェストを更新して写真を生成する：
+
+```bash
+node scripts/build_diagram_photo_manifest.mjs   # manifest.json を再生成（未登録の図を検出）
+```
+
+3. label は「読み上げ説明」であると同時に「写真の指示書」。**何が写っていれば1年目に伝わるか**（材料・部位・工程の決定的瞬間）が読み取れる文にする。
+4. label が完全に同一の図を2つ作らない（ハッシュ衝突でマニフェスト生成が失敗する）。
+
+写真が未生成の場合はフックが警告するが、SVGにフォールバックするだけなのでブロックはしない。
+
 ## 4. 挿入と検証
 
 - 挿入位置は手順1のスクリプトが示した場所。**条項番号の昇順を崩さない**。

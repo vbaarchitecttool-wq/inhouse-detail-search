@@ -16,6 +16,13 @@ const GUARDED = [
       "原文を直す必要がある場合は scripts/extract_spec.py の抽出ロジックを修正し、/reindex-spec で再生成してください。",
   },
   {
+    pattern: /\/public\/diagrams\/manifest\.json$/,
+    reason:
+      "public/diagrams/manifest.json は scripts/build_diagram_photo_manifest.mjs が src/commentary/ の aria-label から生成する成果物です。",
+    instead:
+      "図解を足す・aria-label を直した場合は `node scripts/build_diagram_photo_manifest.mjs` で再生成してください。",
+  },
+  {
     pattern: /\/package-lock\.json$/,
     reason: "package-lock.json は npm が生成するロックファイルです。",
     instead: "依存を変えるなら npm install / npm uninstall を実行してください。",
