@@ -6,10 +6,10 @@ export interface SwCallbacks {
 export const register = (callbacks: SwCallbacks = {}): void => {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
 
-  // 開発時（npm start）はSWを登録しない。既存があれば解除する。
+  // 開発時（npm run dev）はSWを登録しない。既存があれば解除する。
   // Codespaces等の認証プロキシ配下ではSWがfetchを横取りして失敗し、
   // 画面が真っ黒になるため。SWは本番ビルドでのみ有効化する。
-  if (process.env.NODE_ENV !== "production") {
+  if (!import.meta.env.PROD) {
     unregister();
     return;
   }
@@ -25,7 +25,8 @@ export const register = (callbacks: SwCallbacks = {}): void => {
   }
 
   window.addEventListener("load", () => {
-    const swUrl = `${process.env.PUBLIC_URL || ""}/sw.js`;
+    // BASE_URL は既定 "/"。サブパス配信にした場合もここで追従する
+    const swUrl = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/sw.js`;
     navigator.serviceWorker
       .register(swUrl)
       .then((reg) => {
