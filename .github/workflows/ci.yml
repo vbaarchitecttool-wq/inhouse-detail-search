@@ -16,20 +16,19 @@ jobs:
           node-version: 22
           cache: npm
 
-      # .npmrc の legacy-peer-deps=true がそのまま効く
       - name: Install dependencies
         run: npm ci
 
-      # CI=true で react-scripts test は watch せず1回だけ実行して終了する。
-      # 内容: ユーティリティの単体テスト／原文インデックス・解説の整合性／アプリの煙テスト
+      - name: Typecheck
+        run: npm run typecheck
+
+      # error 0 件を維持する（warning は段階的解消のため許容）
+      - name: Lint
+        run: npm run lint
+
+      # ユーティリティの単体テスト／原文インデックス・解説の整合性／アプリの煙テスト
       - name: Test
         run: npm test
-        env:
-          CI: "true"
 
-      # CI=true にすると react-scripts は ESLint の warning もエラー扱いにする。
-      # Netlify（CI=false）より厳しい基準で、warning の混入をここで止める。
       - name: Build
         run: npm run build
-        env:
-          CI: "true"

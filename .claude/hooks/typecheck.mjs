@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 // .ts / .tsx 編集後に型チェックを走らせる PostToolUse フック。
 //
-// このプロジェクトにはテストが無く、netlify.toml が CI=false のため、
-// 型の取り違え（例: Commentary.points を string[] でなく string で書く）が
-// dev server を起動するまで表に出ない。編集直後に潰す。
+// 型の取り違え（例: Commentary.points を string[] でなく string で書く）を
+// dev server や CI を待たずに編集直後に潰す（CI でも npm run typecheck が走る）。
 //
 // 増分ビルド情報を .claude/.cache に持たせ、2回目以降を数秒に抑える。
 

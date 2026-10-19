@@ -11,15 +11,20 @@
 
 ```bash
 npm install
-npm start        # 開発サーバー
-npm run build    # 本番ビルド
-npm test         # テスト（watch モード。1回だけ回すなら CI=true npm test）
+npm run dev        # 開発サーバー（Vite）
+npm run build      # 型チェック（tsc）＋本番ビルド → dist/
+npm run preview    # ビルド結果のプレビュー
+npm run typecheck  # 型チェックのみ
+npm run lint       # ESLint（error 0 件を維持。warning は段階的解消）
+npm test           # テストを1回実行（Vitest）。watch は npm run test:watch
 ```
+
+Node 22 以上（`netlify.toml` / CI と同じ）。2026-10 に Create React App（react-scripts）から Vite へ移行した。
 
 ## テスト
 
-`react-scripts test`（Jest + Testing Library）。`main` への push と Pull Request では GitHub Actions が
-`npm test` → `npm run build` を自動で実行する（`.github/workflows/ci.yml`）。
+Vitest + Testing Library（`vite.config.ts` の `test` ブロック）。`main` への push と Pull Request では GitHub Actions が
+`typecheck` → `lint` → `test` → `build` を自動で実行する（`.github/workflows/ci.yml`）。
 
 | 置き場所 | 見ているもの |
 |---|---|
