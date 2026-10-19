@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # .npmrc の legacy-peer-deps=true がそのまま効く
+      - name: Install dependencies
+        run: npm ci
+
+      # CI=true にすると react-scripts は ESLint の warning もエラー扱いにする。
+      # Netlify（CI=false）より厳しい基準で、warning の混入をここで止める。
+      - name: Build
+        run: npm run build
+        env:
+          CI: "true"
