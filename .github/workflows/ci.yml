@@ -20,6 +20,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # CI=true で react-scripts test は watch せず1回だけ実行して終了する。
+      # 内容: ユーティリティの単体テスト／原文インデックス・解説の整合性／アプリの煙テスト
+      - name: Test
+        run: npm test
+        env:
+          CI: "true"
+
       # CI=true にすると react-scripts は ESLint の warning もエラー扱いにする。
       # Netlify（CI=false）より厳しい基準で、warning の混入をここで止める。
       - name: Build

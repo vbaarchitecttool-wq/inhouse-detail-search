@@ -13,7 +13,23 @@
 npm install
 npm start        # 開発サーバー
 npm run build    # 本番ビルド
+npm test         # テスト（watch モード。1回だけ回すなら CI=true npm test）
 ```
+
+## テスト
+
+`react-scripts test`（Jest + Testing Library）。`main` への push と Pull Request では GitHub Actions が
+`npm test` → `npm run build` を自動で実行する（`.github/workflows/ci.yml`）。
+
+| 置き場所 | 見ているもの |
+|---|---|
+| `src/utils/__tests__/` | 検索・並び替え・原文の折返し整形・保存・URL同期・写真ハッシュの単体テスト |
+| `src/__tests__/specIndex.test.ts` | `spec_index.json` の構造（23章・ID一意・章節の件数一致）。件数そのものは固定しない |
+| `src/__tests__/commentaryIntegrity.test.ts` | 解説キーが原文に存在するか・章ファイル間の重複・`index.ts` への登録漏れ・SVG規約・`manifest.json` との整合 |
+| `src/__tests__/App.smoke.test.tsx` | 実データでアプリを描画し、起動・検索・条項番号での先頭固定を確認 |
+
+解説や図解を編集したら、`.claude/hooks/validate-commentary.mjs` と同じ観点を `commentaryIntegrity` が CI で再検査する。
+aria-label を直した場合は `node scripts/build_diagram_photo_manifest.mjs` で `manifest.json` を更新しないと CI が落ちる。
 
 ## データ更新
 
