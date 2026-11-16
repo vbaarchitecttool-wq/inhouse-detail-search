@@ -14,13 +14,14 @@ import ActiveFilters from "./components/ActiveFilters";
 import RecentlyViewed from "./components/RecentlyViewed";
 import ShortcutsHelp from "./components/ShortcutsHelp";
 import ThemeToggle from "./components/ThemeToggle";
-import { SkeletonGrid } from "./components/SkeletonCard";
 import LiveRegion from "./components/LiveRegion";
 import UpdateBanner from "./components/UpdateBanner";
+import SearchRecovery from "./components/SearchRecovery";
+import OfflineTools from "./components/OfflineTools";
 
 import indexDataRaw from "./spec_index.json";
 import commentaryMap from "./commentary";
-import { searchDetails, sortDetails } from "./utils/search";
+import { searchDetails, sortDetails, buildRecovery } from "./utils/search";
 import {
   loadFavorites,
   saveFavorites,
@@ -32,7 +33,12 @@ import {
   loadTheme,
   saveTheme,
 } from "./utils/storage";
-import { readUrlState, writeUrlState, buildShareUrl } from "./utils/urlSync";
+import {
+  readUrlState,
+  writeUrlState,
+  isModalHistoryEntry,
+} from "./utils/urlSync";
+import { buildSectionIndex } from "./utils/clauseRefs";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
 import type { Detail, CategoryNode, SortType, ViewMode, Theme } from "./types";
 import "./styles.css";
@@ -40,6 +46,17 @@ import "./styles.css";
 const indexData = indexDataRaw as unknown as {
   details: Detail[];
   categories: CategoryNode[];
+  generatedAt?: string;
+};
+
+const APP_NAME = "NA 建築工事標準仕様書";
+const PAGE_SIZE = 120;
+/** 検索欄の下に出す「押すだけで試せる」例 */
+const EXAMPLE_QUERIES = ["かぶり厚さ", "山留め", "石膏ボード", "5.3.2"];
+
+const formatDataDate = (iso?: string): string => {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
+  return m ? `${m[1]}年${Number(m[2])}月${Number(m[3])}日` : "";
 };
 
 const App: React.FC = () => {
@@ -53,6 +70,19 @@ const App: React.FC = () => {
   const categoriesData = useMemo<CategoryNode[]>(
     () => (Array.isArray(indexData.categories) ? indexData.categories : []),
     []
+  );
+  const detailsById = useMemo(
+    () => new Map<string, Detail>(detailsData.map((d) => [d.id, d])),
+    [detailsData]
+  );
+  const titlesById = useMemo(
+    () => new Map<string, string>(detailsData.map((d) => [d.id, d.title])),
+    [detailsData]
+  );
+
+  const sectionIndex = useMemo(
+    () => buildSectionIndex(detailsData),
+    [detailsData]
   );
 
   const initial = useMemo(() => readUrlState(), []);
@@ -68,8 +98,13 @@ const App: React.FC = () => {
   const [favoritesOnly, setFavoritesOnly] = useState<boolean>(
     initial.favoritesOnly
   );
-  const [filteredDetails, setFilteredDetails] = useState<Detail[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
+  // 開いている条項は「検索結果の何番目か」ではなく条項番号で持つ。
+  // 共有リンク・参照リンク・最近見た から開いても、いまの検索条件を壊さずに済む。
+  const [selectedId, setSelectedId] = useState<string | null>(() =>
+    initial.detailId && detailsById.has(initial.detailId)
+      ? initial.detailId
+      : null
+  );
   const [favorites, setFavorites] = useState<Set<string>>(
     () => new Set(loadFavorites())
   );
@@ -77,15 +112,21 @@ const App: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>(() => loadViewMode());
   const [theme, setTheme] = useState<Theme>(() => loadTheme());
   const [helpOpen, setHelpOpen] = useState<boolean>(false);
-  const [isFiltering, setIsFiltering] = useState<boolean>(false);
   const [swRegistration, setSwRegistration] =
     useState<ServiceWorkerRegistration | null>(null);
   const [updateBannerOpen, setUpdateBannerOpen] = useState<boolean>(false);
   // 一度に描画するカード数の上限（大量ヒット時のDOM肥大を防ぐ）。フィルタ更新でリセット
-  const [visibleCount, setVisibleCount] = useState<number>(120);
+  const [visibleCount, setVisibleCount] = useState<number>(PAGE_SIZE);
+  // スマホでは章ツリーを畳んでおき、ボタンで開く
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
+  const [isOnline, setIsOnline] = useState<boolean>(() =>
+    typeof navigator === "undefined" ? true : navigator.onLine !== false
+  );
+  const [showToTop, setShowToTop] = useState<boolean>(false);
 
   const searchRef = useRef<SearchBarHandle>(null);
-  const restoredOnce = useRef<boolean>(false);
+  const lastSelectedRef = useRef<string | null>(selectedId);
+  const skipHistoryPushRef = useRef<boolean>(false);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -97,9 +138,9 @@ const App: React.FC = () => {
     saveTheme(theme);
 
     // モバイルのアドレスバー色（theme-color）を実効テーマの背景色に合わせる
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    const prefersDark =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
     const effectiveDark = theme === "dark" || (theme === "auto" && prefersDark);
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) {
@@ -107,50 +148,76 @@ const App: React.FC = () => {
     }
   }, [theme]);
 
-  useEffect(() => {
-    setIsFiltering(true);
-    const t = setTimeout(() => {
-      let results = searchDetails(
+  const hasQuery = searchQuery.trim().length > 0;
+  // キーワードがあるときは「関連度順」が既定（探している条項が先頭に来る）。
+  // キーワードが無いときは仕様書の目次どおり「条項順」。
+  const effectiveSort: SortType = hasQuery ? sortType : "category";
+
+  // 検索は実データ（約800条項）で数ミリ秒なので、待ち時間なしでその場で計算する
+  const searchedDetails = useMemo<Detail[]>(() => {
+    let results = sortDetails(
+      searchDetails(
         detailsData,
         searchQuery,
         selectedCategoryPaths,
         selectedContentFlags
-      );
-      if (favoritesOnly) {
-        results = results.filter((d) => favorites.has(d.id));
+      ),
+      effectiveSort
+    );
+    // 条項番号そのもの（例: 5.3.2）で検索されたときは、完全一致の項を先頭に固定する
+    const qn = searchQuery.trim();
+    if (/^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(qn)) {
+      const idx = results.findIndex((d) => d.number === qn);
+      if (idx > 0) {
+        results = [
+          results[idx],
+          ...results.slice(0, idx),
+          ...results.slice(idx + 1),
+        ];
       }
-      results = sortDetails(results, sortType);
-      // 条項番号そのもの（例: 5.3.2）で検索されたときは、完全一致の項を先頭に固定する
-      const qn = searchQuery.trim();
-      if (/^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(qn)) {
-        const idx = results.findIndex((d) => d.number === qn);
-        if (idx > 0) {
-          results = [
-            results[idx],
-            ...results.slice(0, idx),
-            ...results.slice(idx + 1),
-          ];
-        }
-      }
-      setFilteredDetails(results);
-      setVisibleCount(120);
-      setSelectedIndex((prev) => {
-        if (prev < 0) return prev;
-        if (prev >= results.length) return -1;
-        return prev;
-      });
-      setIsFiltering(false);
-    }, 80);
-    return () => clearTimeout(t);
+    }
+    return results;
   }, [
     detailsData,
     searchQuery,
     selectedCategoryPaths,
     selectedContentFlags,
-    sortType,
-    favoritesOnly,
-    favorites,
+    effectiveSort,
   ]);
+
+  const filteredDetails = useMemo<Detail[]>(
+    () =>
+      favoritesOnly
+        ? searchedDetails.filter((d) => favorites.has(d.id))
+        : searchedDetails,
+    [searchedDetails, favoritesOnly, favorites]
+  );
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchedDetails, favoritesOnly]);
+
+  const hasFilters =
+    selectedCategoryPaths.length > 0 ||
+    selectedContentFlags.length > 0 ||
+    favoritesOnly;
+
+  const recovery = useMemo(
+    () =>
+      filteredDetails.length === 0 && hasQuery
+        ? buildRecovery(detailsData, searchQuery, hasFilters)
+        : null,
+    [filteredDetails.length, hasQuery, detailsData, searchQuery, hasFilters]
+  );
+
+  const selectedIndex = useMemo(
+    () =>
+      selectedId ? filteredDetails.findIndex((d) => d.id === selectedId) : -1,
+    [filteredDetails, selectedId]
+  );
+  const selectedDetail: Detail | null = selectedId
+    ? detailsById.get(selectedId) || null
+    : null;
 
   useEffect(() => {
     const onUpdate = (e: Event) => {
@@ -167,49 +234,87 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    writeUrlState({
-      query: searchQuery,
-      categories: selectedCategoryPaths,
-      contentFlags: selectedContentFlags,
-      sortType,
-      favoritesOnly,
-      detailId:
-        selectedIndex >= 0 ? filteredDetails[selectedIndex]?.id || null : null,
-    });
+    const on = () => setIsOnline(true);
+    const off = () => setIsOnline(false);
+    window.addEventListener("online", on);
+    window.addEventListener("offline", off);
+    return () => {
+      window.removeEventListener("online", on);
+      window.removeEventListener("offline", off);
+    };
+  }, []);
+
+  useEffect(() => {
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(() => {
+        setShowToTop(window.scrollY > 700);
+        ticking = false;
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // URL と画面の同期。条項を「開いた」ときだけ履歴を1つ積み、
+  // ブラウザ／スマホの「戻る」で条項を閉じられるようにする。
+  useEffect(() => {
+    const prev = lastSelectedRef.current;
+    lastSelectedRef.current = selectedId;
+    const opening = !prev && !!selectedId && !skipHistoryPushRef.current;
+    skipHistoryPushRef.current = false;
+    writeUrlState(
+      {
+        query: searchQuery,
+        categories: selectedCategoryPaths,
+        contentFlags: selectedContentFlags,
+        sortType,
+        favoritesOnly,
+        detailId: selectedId,
+      },
+      opening ? "push" : "replace"
+    );
   }, [
     searchQuery,
     selectedCategoryPaths,
     selectedContentFlags,
     sortType,
     favoritesOnly,
-    selectedIndex,
-    filteredDetails,
+    selectedId,
   ]);
 
   useEffect(() => {
-    if (restoredOnce.current) return;
-    if (!initial.detailId) {
-      restoredOnce.current = true;
-      return;
-    }
-    const idx = filteredDetails.findIndex((d) => d.id === initial.detailId);
-    if (idx >= 0) {
-      setSelectedIndex(idx);
-      restoredOnce.current = true;
-    } else if (filteredDetails.length > 0) {
-      const fullIdx = detailsData.findIndex((d) => d.id === initial.detailId);
-      if (fullIdx >= 0) {
-        setSelectedCategoryPaths([]);
-        setSelectedContentFlags([]);
-        setFavoritesOnly(false);
+    const onPop = () => {
+      const id = readUrlState().detailId;
+      const next = id && detailsById.has(id) ? id : null;
+      if (next !== lastSelectedRef.current) {
+        skipHistoryPushRef.current = true;
+        setSelectedId(next);
       }
-      restoredOnce.current = true;
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, [detailsById]);
+
+  // 共有リンクで直接開いた条項も「最近見た」に残す
+  useEffect(() => {
+    if (initial.detailId && detailsById.has(initial.detailId)) {
+      setRecentIds(pushRecent(initial.detailId));
     }
-  }, [filteredDetails, initial.detailId, detailsData]);
+  }, [initial.detailId, detailsById]);
+
+  // タブ名・履歴・印刷ヘッダーに条項名が出るようにする
+  useEffect(() => {
+    document.title = selectedDetail
+      ? `${selectedDetail.number} ${selectedDetail.title}｜${APP_NAME}`
+      : APP_NAME;
+  }, [selectedDetail]);
 
   const handleSearch = useCallback((q: string) => setSearchQuery(q), []);
 
-  const handleToggleCategoryPath = (payload: string | string[]) => {
+  const handleToggleCategoryPath = useCallback((payload: string | string[]) => {
     setSelectedCategoryPaths((prev) => {
       if (Array.isArray(payload)) {
         const allExist = payload.every((p) => prev.includes(p));
@@ -224,17 +329,17 @@ const App: React.FC = () => {
         ? prev.filter((p) => p !== path)
         : [...prev, path];
     });
-  };
+  }, []);
 
-  const handleToggleContentFlag = (flag: string) => {
+  const handleToggleContentFlag = useCallback((flag: string) => {
     const t = String(flag || "");
     if (!t) return;
     setSelectedContentFlags((prev) =>
       prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
     );
-  };
+  }, []);
 
-  const handleToggleFavorite = (id: string) => {
+  const handleToggleFavorite = useCallback((id: string) => {
     setFavorites((prev) => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
@@ -242,51 +347,50 @@ const App: React.FC = () => {
       saveFavorites(Array.from(next));
       return next;
     });
-  };
+  }, []);
 
   const openDetailById = useCallback(
     (id: string) => {
-      const idx = filteredDetails.findIndex((d) => d.id === id);
-      if (idx >= 0) {
-        setSelectedIndex(idx);
-        setRecentIds(pushRecent(id));
-      } else {
-        const fullIdx = detailsData.findIndex((d) => d.id === id);
-        if (fullIdx >= 0) {
-          setSearchQuery("");
-          setSelectedCategoryPaths([]);
-          setSelectedContentFlags([]);
-          setFavoritesOnly(false);
-          setTimeout(() => {
-            const i = detailsData.findIndex((d) => d.id === id);
-            setSelectedIndex(i);
-            setRecentIds(pushRecent(id));
-          }, 0);
-        }
-      }
+      if (!detailsById.has(id)) return;
+      setSelectedId(id);
+      setRecentIds(pushRecent(id));
     },
-    [filteredDetails, detailsData]
+    [detailsById]
   );
 
-  const handleCardClick = (detail: Detail) => {
-    const idx = filteredDetails.findIndex((d) => d.id === detail.id);
-    if (idx >= 0) {
-      setSelectedIndex(idx);
-      setRecentIds(pushRecent(detail.id));
-    }
-  };
+  const handleCardClick = useCallback(
+    (detail: Detail) => openDetailById(detail.id),
+    [openDetailById]
+  );
 
-  const handleClearAll = () => {
-    setSearchQuery("");
+  const closeDetail = useCallback(() => {
+    // 条項を開くときに積んだ履歴があれば、それを戻す（＝閉じる）。
+    // 共有リンクから直接開いた場合は履歴が無いので、その場で閉じる。
+    if (isModalHistoryEntry()) window.history.back();
+    else setSelectedId(null);
+  }, []);
+
+  const stepDetail = useCallback(
+    (delta: number) => {
+      if (selectedIndex < 0) return;
+      const next = filteredDetails[selectedIndex + delta];
+      if (next) openDetailById(next.id);
+    },
+    [selectedIndex, filteredDetails, openDetailById]
+  );
+  const goPrev = useCallback(() => stepDetail(-1), [stepDetail]);
+  const goNext = useCallback(() => stepDetail(1), [stepDetail]);
+
+  const clearFilters = useCallback(() => {
     setSelectedCategoryPaths([]);
     setSelectedContentFlags([]);
     setFavoritesOnly(false);
-  };
+  }, []);
 
-  const selectedDetail: Detail | null =
-    selectedIndex >= 0 && filteredDetails[selectedIndex]
-      ? filteredDetails[selectedIndex]
-      : null;
+  const handleClearAll = () => {
+    setSearchQuery("");
+    clearFilters();
+  };
 
   useKeyboardShortcuts({
     isModalOpen: !!selectedDetail || helpOpen,
@@ -295,11 +399,10 @@ const App: React.FC = () => {
     onCloseHelp: () => setHelpOpen(false),
     onCloseModal: () => {
       if (helpOpen) setHelpOpen(false);
-      else setSelectedIndex(-1);
+      else closeDetail();
     },
-    onPrev: () => setSelectedIndex((i) => Math.max(0, i - 1)),
-    onNext: () =>
-      setSelectedIndex((i) => Math.min(filteredDetails.length - 1, i + 1)),
+    onPrev: goPrev,
+    onNext: goNext,
     onToggleFavorite: () => {
       if (selectedDetail) handleToggleFavorite(selectedDetail.id);
     },
@@ -310,29 +413,18 @@ const App: React.FC = () => {
     saveViewMode(m);
   };
 
-  const shareUrl = useMemo(
-    () =>
-      buildShareUrl({
-        query: searchQuery,
-        categories: selectedCategoryPaths,
-        contentFlags: selectedContentFlags,
-        sortType,
-        favoritesOnly,
-        detailId: selectedDetail?.id || null,
-      }),
-    [
-      searchQuery,
-      selectedCategoryPaths,
-      selectedContentFlags,
-      sortType,
-      favoritesOnly,
-      selectedDetail,
-    ]
-  );
+  const scrollToSearch = () => {
+    const reduce =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+    searchRef.current?.focus();
+  };
 
-  const liveMessage = isFiltering
-    ? "検索中"
-    : `${filteredDetails.length}件の条項が見つかりました`;
+  const liveMessage = `${filteredDetails.length}件の条項が見つかりました`;
+  const activeFilterCount =
+    selectedCategoryPaths.length + selectedContentFlags.length;
+  const dataDate = formatDataDate(indexData.generatedAt);
 
   return (
     <div className="app">
@@ -341,8 +433,14 @@ const App: React.FC = () => {
       </a>
       <header className="app-header">
         <div className="header-row">
-          <h1>NA 建築工事標準仕様書</h1>
+          <h1>{APP_NAME}</h1>
           <div className="header-actions">
+            {!isOnline ? (
+              <span className="offline-chip" role="status">
+                📴 オフライン
+                <span className="offline-chip-sub">（保存済みの内容を表示中）</span>
+              </span>
+            ) : null}
             <button
               type="button"
               className={`toggle-btn ${favoritesOnly ? "is-on" : ""}`}
@@ -357,7 +455,7 @@ const App: React.FC = () => {
             </button>
             <button
               type="button"
-              className="toggle-btn"
+              className="toggle-btn help-btn"
               onClick={() => setHelpOpen(true)}
               aria-label="キーボードショートカット"
               title="ショートカット (?)"
@@ -379,11 +477,25 @@ const App: React.FC = () => {
           value={searchQuery}
           onSearch={handleSearch}
         />
-        <p id="search-hint" className="search-hint">
-          例：かぶり厚さ、山留め、5.3.2　・
-          <kbd>⌘K</kbd> または <kbd>/</kbd> で検索フォーカス　・
-          <kbd>?</kbd> でショートカット
-        </p>
+        <div id="search-hint" className="search-hint">
+          <span className="search-examples">
+            <span className="search-examples-label">例：</span>
+            {EXAMPLE_QUERIES.map((q) => (
+              <button
+                key={q}
+                type="button"
+                className="example-chip"
+                onClick={() => setSearchQuery(q)}
+              >
+                {q}
+              </button>
+            ))}
+          </span>
+          <span className="search-hint-keys">
+            <kbd>⌘K</kbd> または <kbd>/</kbd> で検索フォーカス　・
+            <kbd>?</kbd> でショートカット
+          </span>
+        </div>
 
         <ActiveFilters
           query={searchQuery}
@@ -413,7 +525,27 @@ const App: React.FC = () => {
       </div>
 
       <div className="main-content">
-        <aside className="sidebar">
+        <button
+          type="button"
+          className="filter-toggle"
+          onClick={() => setFiltersOpen((v) => !v)}
+          aria-expanded={filtersOpen}
+          aria-controls="filter-panel"
+        >
+          <span>
+            📁 章・節で絞り込む
+            {activeFilterCount > 0 ? (
+              <span className="count-pill">{activeFilterCount}</span>
+            ) : null}
+          </span>
+          <span aria-hidden="true">{filtersOpen ? "▴" : "▾"}</span>
+        </button>
+
+        <aside
+          id="filter-panel"
+          className={`sidebar ${filtersOpen ? "is-open" : ""}`}
+          aria-label="章・節・コンテンツで絞り込み"
+        >
           <CategoryFilter
             categories={categoriesData}
             selectedCategoryPaths={selectedCategoryPaths}
@@ -427,7 +559,10 @@ const App: React.FC = () => {
 
         <main className="results-section" id="results-section" tabIndex={-1}>
           <div className="results-header">
-            <h2>検索結果：{filteredDetails.length}件</h2>
+            <h2>
+              {hasQuery || hasFilters ? "検索結果" : "すべての条項"}：
+              {filteredDetails.length}件
+            </h2>
             <div className="results-controls">
               <div className="view-switch" role="group" aria-label="表示モード">
                 <button
@@ -454,70 +589,98 @@ const App: React.FC = () => {
               <label>
                 ソート：
                 <select
-                  value={sortType}
+                  value={effectiveSort}
                   onChange={(e) => setSortType(e.target.value as SortType)}
                   className="sort-select"
                 >
-                  <option value="category">条項順</option>
-                  {searchQuery ? (
+                  {hasQuery ? (
                     <option value="relevance">関連度順</option>
                   ) : null}
+                  <option value="category">条項順</option>
                 </select>
               </label>
             </div>
           </div>
 
-          {isFiltering && filteredDetails.length === 0 ? (
-            <SkeletonGrid count={6} viewMode={viewMode} />
-          ) : (
-            <>
-              <div
-                className={
-                  viewMode === "list" ? "results-list" : "results-grid"
-                }
-              >
-                {filteredDetails.length > 0 ? (
-                  filteredDetails
-                    .slice(0, visibleCount)
-                    .map((detail) => (
-                      <DetailCard
-                        key={detail.id}
-                        detail={detail}
-                        query={searchQuery}
-                        isFavorite={favorites.has(detail.id)}
-                        onToggleFavorite={handleToggleFavorite}
-                        viewMode={viewMode}
-                        onClick={handleCardClick}
-                      />
-                    ))
-                ) : (
-                  <div className="no-results">
-                    <p>
-                      {favoritesOnly && favorites.size === 0
-                        ? "★ お気に入りはまだありません。カード右上の☆をタップして追加できます。"
-                        : selectedCategoryPaths.length === 0 && !searchQuery
-                        ? "左の章をチェックするか、キーワードを入力すると条項が表示されます。"
-                        : "検索条件に一致する条項が見つかりませんでした。"}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {filteredDetails.length > visibleCount ? (
-                <div className="load-more">
+          <div className={viewMode === "list" ? "results-list" : "results-grid"}>
+            {filteredDetails.length > 0 ? (
+              filteredDetails
+                .slice(0, visibleCount)
+                .map((detail) => (
+                  <DetailCard
+                    key={detail.id}
+                    detail={detail}
+                    query={searchQuery}
+                    isFavorite={favorites.has(detail.id)}
+                    onToggleFavorite={handleToggleFavorite}
+                    viewMode={viewMode}
+                    onClick={handleCardClick}
+                  />
+                ))
+            ) : recovery ? (
+              <SearchRecovery
+                query={searchQuery.trim()}
+                recovery={recovery}
+                onSearch={setSearchQuery}
+                onClearFilters={clearFilters}
+              />
+            ) : (
+              <div className="no-results">
+                <p>
+                  {favoritesOnly && favorites.size === 0
+                    ? "★ お気に入りはまだありません。カード右上の☆をタップして追加できます。"
+                    : "絞り込み条件に一致する条項が見つかりませんでした。"}
+                </p>
+                {hasFilters ? (
                   <button
                     type="button"
-                    className="load-more-btn"
-                    onClick={() => setVisibleCount((c) => c + 200)}
+                    className="recovery-primary"
+                    onClick={clearFilters}
                   >
-                    残り{filteredDetails.length - visibleCount}件を表示
+                    絞り込みを外す
                   </button>
-                </div>
-              ) : null}
-            </>
-          )}
+                ) : null}
+              </div>
+            )}
+          </div>
+
+          {filteredDetails.length > visibleCount ? (
+            <div className="load-more">
+              <button
+                type="button"
+                className="load-more-btn"
+                onClick={() => setVisibleCount((c) => c + 200)}
+              >
+                残り{filteredDetails.length - visibleCount}件を表示
+              </button>
+            </div>
+          ) : null}
         </main>
       </div>
+
+      <footer className="app-footer">
+        <OfflineTools />
+        <p className="app-footer-source">
+          原文：公共建築工事標準仕様書（建築工事編）令和7年版（国土交通省大臣官房官庁営繕部）
+          {dataDate ? `／原文データ取込日：${dataDate}` : ""}
+          ／全{detailsData.length}条項
+        </p>
+        <p className="app-footer-source">
+          解説・図解は社内作成の補足です。実務上の判断は原文と設計図書（特記仕様書等）を正としてください。
+        </p>
+      </footer>
+
+      {showToTop && !selectedDetail ? (
+        <button
+          type="button"
+          className="to-search-fab"
+          onClick={scrollToSearch}
+          aria-label="検索欄へ戻る"
+          title="検索欄へ戻る"
+        >
+          <span aria-hidden="true">🔍</span> 検索へ
+        </button>
+      ) : null}
 
       <LiveRegion message={liveMessage} />
 
@@ -533,17 +696,15 @@ const App: React.FC = () => {
           index={selectedIndex}
           total={filteredDetails.length}
           allDetails={detailsData}
+          titlesById={titlesById}
+          sections={sectionIndex}
           onOpenById={openDetailById}
           isFavorite={favorites.has(selectedDetail.id)}
           onToggleFavorite={handleToggleFavorite}
-          shareUrl={shareUrl}
-          onPrev={() => setSelectedIndex((i) => Math.max(0, i - 1))}
-          onNext={() =>
-            setSelectedIndex((i) =>
-              Math.min(filteredDetails.length - 1, i + 1)
-            )
-          }
-          onClose={() => setSelectedIndex(-1)}
+          query={searchQuery}
+          onPrev={goPrev}
+          onNext={goNext}
+          onClose={closeDetail}
         />
       )}
 

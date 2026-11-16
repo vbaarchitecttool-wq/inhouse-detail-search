@@ -1,5 +1,5 @@
 const SVG_ARIA_LABEL_PATTERN = /\baria-label="([^"]+)"/;
-const DIAGRAM_PHOTO_CACHE_REVISION = "20260725-1";
+export const DIAGRAM_PHOTO_CACHE_REVISION = "20260725-1";
 
 const hashLabel = (value: string): string => {
   let hash = 0x811c9dc5;
@@ -9,6 +9,10 @@ const hashLabel = (value: string): string => {
   }
   return (hash >>> 0).toString(16).padStart(8, "0");
 };
+
+/** 図解写真のURL。画面表示とオフライン一括保存で必ず同じ文字列になるよう、ここで一元化する */
+export const diagramPhotoUrl = (hash: string): string =>
+  `/diagrams/photo-${hash}.webp?v=${DIAGRAM_PHOTO_CACHE_REVISION}`;
 
 export interface DiagramPhoto {
   alt: string;
@@ -21,8 +25,6 @@ export const getDiagramPhoto = (svg: string): DiagramPhoto | null => {
 
   return {
     alt: `AI生成の施工イメージ。${label}`,
-    src: `/diagrams/photo-${hashLabel(
-      label
-    )}.webp?v=${DIAGRAM_PHOTO_CACHE_REVISION}`,
+    src: diagramPhotoUrl(hashLabel(label)),
   };
 };

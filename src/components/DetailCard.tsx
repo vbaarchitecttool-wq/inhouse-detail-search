@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import HighlightText from "./HighlightText";
-import { hasCommentary, hasDiagram } from "../utils/search";
+import { hasCommentary, hasDiagram, makeSnippet } from "../utils/search";
 import type { Detail, ViewMode } from "../types";
 
 interface Props {
@@ -11,8 +11,6 @@ interface Props {
   onToggleFavorite?: (id: string) => void;
   viewMode?: ViewMode;
 }
-
-const SNIPPET_LEN = 90;
 
 const DetailCard: React.FC<Props> = ({
   detail,
@@ -27,14 +25,8 @@ const DetailCard: React.FC<Props> = ({
     return arr.join(" › ");
   }, [detail]);
 
-  const snippet = useMemo(() => {
-    const summary = detail?.commentary?.plainSummary || "";
-    const src = summary || detail?.original || "";
-    const oneLine = src.replace(/\s+/g, " ").trim();
-    return oneLine.length > SNIPPET_LEN
-      ? `${oneLine.slice(0, SNIPPET_LEN)}…`
-      : oneLine;
-  }, [detail]);
+  // 検索語が原文の途中にだけある場合は、その前後を抜粋して「なぜ出てきたか」を見せる
+  const snippet = useMemo(() => makeSnippet(detail, query), [detail, query]);
 
   const commented = hasCommentary(detail);
   const diagrammed = hasDiagram(detail);
@@ -99,9 +91,12 @@ const DetailCard: React.FC<Props> = ({
           </p>
         </div>
 
-        {snippet ? (
+        {snippet.text ? (
           <p className="detail-card-snippet">
-            <HighlightText text={snippet} query={query} />
+            {snippet.fromOriginal ? (
+              <span className="snippet-source">原文</span>
+            ) : null}
+            <HighlightText text={snippet.text} query={query} />
           </p>
         ) : null}
 
@@ -124,4 +119,5 @@ const DetailCard: React.FC<Props> = ({
   );
 };
 
-export default DetailCard;
+// 検索結果は最大数百枚。お気に入りの切替などで全カードを描き直さないようメモ化する
+export default React.memo(DetailCard);

@@ -39,6 +39,13 @@ const SearchBar = forwardRef<SearchBarHandle, Props>(
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       onSearch(query);
+      // スマホでは確定したらキーボードを畳んで、結果を広く見せる
+      if (
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(pointer: coarse)").matches
+      ) {
+        inputRef.current?.blur();
+      }
     };
 
     const handleClear = () => {
@@ -63,6 +70,10 @@ const SearchBar = forwardRef<SearchBarHandle, Props>(
             className="search-input"
             aria-describedby="search-hint"
             autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck={false}
+            enterKeyHint="search"
           />
           {query ? (
             <button

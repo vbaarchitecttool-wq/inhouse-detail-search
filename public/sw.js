@@ -4,22 +4,56 @@
 //  - 静的アセット (JS/CSS/img/svg): cache-first
 //  - PDF/DWG/DXF: cache-first（一度開いたら次回はオフラインでも閲覧可能）
 //  - データJSON: stale-while-revalidate
+//
+// 現場（電波なし）対応:
+//  - インストール時に asset-manifest.json を読み、アプリ本体（JS/CSS）を先に保存する。
+//    これで「一度開いただけ」の端末でも、次からは圏外で起動できる。
+//    （以前は2回目の表示までJSが保存されず、初回のあと圏外だと真っ白になった）
+//  - 図解の写真は PHOTO_CACHE に分けて持つ。アプリ更新（VERSION 変更）では消さない。
+//    画面の「図解の写真も端末に保存する」ボタン（src/utils/offline.ts）もここへ保存する。
 
-const VERSION = "v2.1.0";
+const VERSION = "v2.2.0";
 const STATIC_CACHE = `ids-static-${VERSION}`;
 const ASSET_CACHE = `ids-assets-${VERSION}`;
 const FILES_CACHE = `ids-files-${VERSION}`;
 const DATA_CACHE = `ids-data-${VERSION}`;
+// src/utils/offline.ts の PHOTO_CACHE と同じ名前にすること
+const PHOTO_CACHE = "ids-photos-v1";
 
 const STATIC_URLS = ["./", "./index.html", "./manifest.json"];
 
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches
-      .open(STATIC_CACHE)
-      .then((cache) => cache.addAll(STATIC_URLS).catch(() => null))
-      .then(() => self.skipWaiting())
+// ビルドが出力する asset-manifest.json から、アプリ本体のファイル一覧を得る
+const listAppAssets = async () => {
+  try {
+    const res = await fetch("./asset-manifest.json", { cache: "no-store" });
+    if (!res.ok) return [];
+    const manifest = await res.json();
+    const files = Object.values(manifest.files || {});
+    return files.filter(
+      (f) =>
+        typeof f === "string" &&
+        /.(js|css)$/.test(f) &&
+        !f.endsWith("/sw.js")
+    );
+  } catch {
+    return [];
+  }
+};
+
+const precache = async () => {
+  const staticCache = await caches.open(STATIC_CACHE);
+  await staticCache.addAll(STATIC_URLS).catch(() => null);
+
+  const assets = await listAppAssets();
+  const assetCache = await caches.open(ASSET_CACHE);
+  // 1件の失敗で全体を止めない（保存できた分だけでも圏外で役に立つ）
+  await Promise.all(
+    assets.map((url) => assetCache.add(url).catch(() => null))
   );
+};
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(precache().then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", (event) => {
@@ -31,7 +65,13 @@ self.addEventListener("activate", (event) => {
           keys
             .filter(
               (k) =>
-                ![STATIC_CACHE, ASSET_CACHE, FILES_CACHE, DATA_CACHE].includes(k)
+                ![
+                  STATIC_CACHE,
+                  ASSET_CACHE,
+                  FILES_CACHE,
+                  DATA_CACHE,
+                  PHOTO_CACHE,
+                ].includes(k)
             )
             .map((k) => caches.delete(k))
         )
@@ -49,7 +89,13 @@ const networkFirst = async (req, cacheName) => {
   } catch {
     const cached = await cache.match(req);
     if (cached) return cached;
-    return cache.match("./index.html");
+    if (req.mode === "navigate") {
+      // ?id=5.3.2 のような共有リンクを圏外で開いても、保存済みの画面を返す
+      const shell =
+        (await caches.match("./index.html")) || (await caches.match("./"));
+      if (shell) return shell;
+    }
+    return Response.error();
   }
 };
 
@@ -98,7 +144,7 @@ self.addEventListener("fetch", (event) => {
   // Always check the network first so a corrected image is not hidden by an
   // older Service Worker cache; retain the cached copy only for offline use.
   if (path.startsWith("/diagrams/") && path.endsWith(".webp")) {
-    event.respondWith(networkFirst(req, ASSET_CACHE));
+    event.respondWith(networkFirst(req, PHOTO_CACHE));
     return;
   }
 
