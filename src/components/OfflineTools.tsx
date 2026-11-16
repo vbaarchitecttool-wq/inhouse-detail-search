@@ -38,7 +38,7 @@ const OfflineTools: React.FC = () => {
         if (!reg) return;
         await navigator.serviceWorker.ready;
         const script = document.querySelector<HTMLScriptElement>(
-          'script[src*="/static/js/"]'
+          'script[src*="/assets/"]'
         );
         if (!script) return;
         const saved = await caches.match(script.src);

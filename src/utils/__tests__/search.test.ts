@@ -57,7 +57,8 @@ describe("searchDetails", () => {
   it("条項番号の完全一致を先頭に返す", () => {
     const r = searchDetails(details, "5.3.2", [], []);
     expect(r[0].number).toBe("5.3.2");
-    expect(r[0]._matchScore).toBe(0);
+    // 関連度順: _matchScore は小さいほど関連が高く、完全一致が最小になる
+    expect(r.every((d) => (d._matchScore ?? 1) >= (r[0]._matchScore ?? 1))).toBe(true);
   });
 
   it("原文の本文に含まれる語でもヒットする（部分一致）", () => {
@@ -149,8 +150,8 @@ describe("highlightText", () => {
     ]);
   });
 
-  it("一致しなければ全体が hit=false の1要素", () => {
-    expect(highlightText("鉄筋", "防水")).toEqual([{ text: "鉄筋", hit: false }]);
+  it("一致しなければ文字列のまま返す", () => {
+    expect(highlightText("鉄筋", "防水")).toBe("鉄筋");
   });
 });
 

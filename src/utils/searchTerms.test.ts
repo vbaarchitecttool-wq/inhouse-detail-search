@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect } from "vitest";
 import indexData from "../spec_index.json";
 import { TERM_ALIASES, NEVER_ALIAS_WORDS } from "./searchTerms";
 import { foldText } from "./normalize";

@@ -6,7 +6,7 @@
 //  - データJSON: stale-while-revalidate
 //
 // 現場（電波なし）対応:
-//  - インストール時に asset-manifest.json を読み、アプリ本体（JS/CSS）を先に保存する。
+//  - インストール時に index.html が読み込むアプリ本体（JS/CSS）を先に保存する。
 //    これで「一度開いただけ」の端末でも、次からは圏外で起動できる。
 //    （以前は2回目の表示までJSが保存されず、初回のあと圏外だと真っ白になった）
 //  - 図解の写真は PHOTO_CACHE に分けて持つ。アプリ更新（VERSION 変更）では消さない。
@@ -22,19 +22,19 @@ const PHOTO_CACHE = "ids-photos-v1";
 
 const STATIC_URLS = ["./", "./index.html", "./manifest.json"];
 
-// ビルドが出力する asset-manifest.json から、アプリ本体のファイル一覧を得る
+// ビルド済みの index.html が読み込む JS/CSS（Vite は /assets/ 配下に出力）を一覧にする
 const listAppAssets = async () => {
   try {
-    const res = await fetch("./asset-manifest.json", { cache: "no-store" });
+    const res = await fetch("./index.html", { cache: "no-store" });
     if (!res.ok) return [];
-    const manifest = await res.json();
-    const files = Object.values(manifest.files || {});
-    return files.filter(
-      (f) =>
-        typeof f === "string" &&
-        /.(js|css)$/.test(f) &&
-        !f.endsWith("/sw.js")
-    );
+    const html = await res.text();
+    const found = new Set();
+    const re = /(?:src|href)="([^"]+\.(?:js|css))"/g;
+    let m;
+    while ((m = re.exec(html))) {
+      if (!m[1].endsWith("/sw.js")) found.add(m[1]);
+    }
+    return [...found];
   } catch {
     return [];
   }

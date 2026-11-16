@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect } from "vitest";
 import { splitClauseRefs, buildSectionIndex } from "./clauseRefs";
 import indexData from "../spec_index.json";
 import { reflowSpecText } from "./text";

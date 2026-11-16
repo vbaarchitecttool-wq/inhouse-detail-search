@@ -13,7 +13,7 @@ describe("readUrlState", () => {
       query: "",
       categories: [],
       contentFlags: [],
-      sortType: "category",
+      sortType: "relevance",
       favoritesOnly: false,
       detailId: null,
     });
@@ -33,9 +33,9 @@ describe("readUrlState", () => {
     });
   });
 
-  it("不正な sort は category に倒す", () => {
+  it("不正な sort は既定（relevance）に倒す", () => {
     setSearch("?sort=price");
-    expect(readUrlState().sortType).toBe("category");
+    expect(readUrlState().sortType).toBe("relevance");
   });
 });
 
@@ -59,7 +59,7 @@ describe("writeUrlState / buildShareUrl", () => {
       query: "",
       categories: [],
       contentFlags: [],
-      sortType: "category",
+      sortType: "relevance",
       favoritesOnly: false,
       detailId: null,
     });

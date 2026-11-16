@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect } from "vitest";
 import indexData from "../spec_index.json";
 import commentaryMap from "../commentary";
 import type { Detail } from "../types";

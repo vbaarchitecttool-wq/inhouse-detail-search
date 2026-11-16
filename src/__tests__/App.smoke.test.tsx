@@ -11,7 +11,7 @@ import App from "../App";
 const WAIT = { timeout: 10000 };
 
 const resultCount = (): number => {
-  const h = screen.getByRole("heading", { level: 2, name: /検索結果：\d+件/ });
+  const h = screen.getByRole("heading", { level: 2, name: /(検索結果|すべての条項)：\d+件/ });
   return Number(h.textContent?.match(/(\d+)件/)?.[1] ?? NaN);
 };
 
@@ -61,6 +61,6 @@ describe("App", () => {
 
     await user.clear(input);
     await user.type(input, "zzzz_no_such_word_9999");
-    await screen.findByText("検索条件に一致する条項が見つかりませんでした。", {}, WAIT);
+    await screen.findByText(/一致する条項は見つかりませんでした/, {}, WAIT);
   });
 });

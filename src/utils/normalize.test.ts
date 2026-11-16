@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect } from "vitest";
 import { foldText, foldWithMap, foldKeepKana, kanaFold } from "./normalize";
 
 describe("foldText（文字のゆれの吸収）", () => {
