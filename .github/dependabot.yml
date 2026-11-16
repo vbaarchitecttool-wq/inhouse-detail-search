@@ -1,0 +1,36 @@
+# Dependabot — 依存パッケージと GitHub Actions の更新を自動で PR にする
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates
+#
+# 運用:
+#   - 毎週月曜の朝（日本時間）にまとめてチェックする
+#   - npm のマイナー／パッチ更新は 1 本の PR にまとめる（PR が増えすぎないように）
+#   - メジャー更新（互換性が変わりうるもの）は 1 パッケージ 1 PR で個別に判断する
+#   - マージ前に CI（.github/workflows/ci.yml）が通ることを確認する
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Tokyo"
+    commit-message:
+      prefix: "ci"
