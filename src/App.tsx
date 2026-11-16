@@ -18,6 +18,10 @@ import LiveRegion from "./components/LiveRegion";
 import UpdateBanner from "./components/UpdateBanner";
 import SearchRecovery from "./components/SearchRecovery";
 import OfflineTools from "./components/OfflineTools";
+import ViewTabs from "./components/ViewTabs";
+import SheetView from "./components/SheetView";
+import GlossaryView from "./components/GlossaryView";
+import StudyView from "./components/StudyView";
 
 import indexDataRaw from "./spec_index.json";
 import commentaryMap from "./commentary";
@@ -32,6 +36,12 @@ import {
   saveViewMode,
   loadTheme,
   saveTheme,
+  loadNotes,
+  saveNotes,
+  loadReadIds,
+  saveReadIds,
+  loadQuizStats,
+  saveQuizStats,
 } from "./utils/storage";
 import {
   readUrlState,
@@ -39,8 +49,26 @@ import {
   isModalHistoryEntry,
 } from "./utils/urlSync";
 import { buildSectionIndex } from "./utils/clauseRefs";
+import { buildGlossary, recordAnswer } from "./utils/glossary";
+import { todayIso } from "./utils/sheet";
+import {
+  downloadText,
+  parseBackup,
+  serializeBackup,
+  summarizeUserData,
+} from "./utils/backup";
 import useKeyboardShortcuts from "./hooks/useKeyboardShortcuts";
-import type { Detail, CategoryNode, SortType, ViewMode, Theme } from "./types";
+import useCheckSheets from "./hooks/useCheckSheets";
+import type {
+  Detail,
+  CategoryNode,
+  SortType,
+  ViewMode,
+  Theme,
+  AppView,
+  QuizStat,
+  UserData,
+} from "./types";
 import "./styles.css";
 
 const indexData = indexDataRaw as unknown as {
@@ -53,6 +81,8 @@ const APP_NAME = "NA 建築工事標準仕様書";
 const PAGE_SIZE = 120;
 /** 検索欄の下に出す「押すだけで試せる」例 */
 const EXAMPLE_QUERIES = ["かぶり厚さ", "山留め", "石膏ボード", "5.3.2"];
+/** 原文データではなく、この端末の記録（メモ・既読）で絞り込むフラグ */
+const PERSONAL_FLAGS = ["note", "unread"];
 
 const formatDataDate = (iso?: string): string => {
   const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
@@ -123,6 +153,39 @@ const App: React.FC = () => {
     typeof navigator === "undefined" ? true : navigator.onLine !== false
   );
   const [showToTop, setShowToTop] = useState<boolean>(false);
+  const [view, setView] = useState<AppView>(initial.view ?? "search");
+  const [notes, setNotes] = useState<Record<string, string>>(() => loadNotes());
+  const [readIds, setReadIds] = useState<Set<string>>(() => {
+    const ids = new Set(loadReadIds());
+    // 共有リンクで直接開いた条項も「読んだ」に数える
+    if (initial.detailId && detailsById.has(initial.detailId)) {
+      ids.add(initial.detailId);
+    }
+    return ids;
+  });
+  const [quizStats, setQuizStats] = useState<Record<string, QuizStat>>(() =>
+    loadQuizStats()
+  );
+  const [appToast, setAppToast] = useState<string>("");
+  const sheets = useCheckSheets();
+  const toastTimer = useRef<number | undefined>(undefined);
+
+  const glossary = useMemo(() => buildGlossary(detailsData), [detailsData]);
+
+  useEffect(() => saveNotes(notes), [notes]);
+  useEffect(() => saveReadIds(Array.from(readIds)), [readIds]);
+  useEffect(() => saveQuizStats(quizStats), [quizStats]);
+  useEffect(() => () => window.clearTimeout(toastTimer.current), []);
+
+  const notify = useCallback((message: string) => {
+    setAppToast(message);
+    window.clearTimeout(toastTimer.current);
+    toastTimer.current = window.setTimeout(() => setAppToast(""), 3200);
+  }, []);
+
+  const markRead = useCallback((id: string) => {
+    setReadIds((prev) => (prev.has(id) ? prev : new Set(prev).add(id)));
+  }, []);
 
   const searchRef = useRef<SearchBarHandle>(null);
   const lastSelectedRef = useRef<string | null>(selectedId);
@@ -153,6 +216,11 @@ const App: React.FC = () => {
   // キーワードが無いときは仕様書の目次どおり「条項順」。
   const effectiveSort: SortType = hasQuery ? sortType : "category";
 
+  const dataFlags = useMemo(
+    () => selectedContentFlags.filter((f) => !PERSONAL_FLAGS.includes(f)),
+    [selectedContentFlags]
+  );
+
   // 検索は実データ（約800条項）で数ミリ秒なので、待ち時間なしでその場で計算する
   const searchedDetails = useMemo<Detail[]>(() => {
     let results = sortDetails(
@@ -160,7 +228,7 @@ const App: React.FC = () => {
         detailsData,
         searchQuery,
         selectedCategoryPaths,
-        selectedContentFlags
+        dataFlags
       ),
       effectiveSort
     );
@@ -181,21 +249,36 @@ const App: React.FC = () => {
     detailsData,
     searchQuery,
     selectedCategoryPaths,
-    selectedContentFlags,
+    dataFlags,
     effectiveSort,
   ]);
 
-  const filteredDetails = useMemo<Detail[]>(
-    () =>
-      favoritesOnly
-        ? searchedDetails.filter((d) => favorites.has(d.id))
-        : searchedDetails,
-    [searchedDetails, favoritesOnly, favorites]
-  );
+  const noteOnly = selectedContentFlags.includes("note");
+  const unreadOnly = selectedContentFlags.includes("unread");
+
+  const filteredDetails = useMemo<Detail[]>(() => {
+    if (!favoritesOnly && !noteOnly && !unreadOnly) return searchedDetails;
+    return searchedDetails.filter(
+      (d) =>
+        (!favoritesOnly || favorites.has(d.id)) &&
+        (!noteOnly || !!notes[d.id]) &&
+        // 開いた瞬間に既読になるので、いま開いている条項は一覧に残す（前後移動を保つ）
+        (!unreadOnly || !readIds.has(d.id) || d.id === selectedId)
+    );
+  }, [
+    searchedDetails,
+    favoritesOnly,
+    favorites,
+    noteOnly,
+    notes,
+    unreadOnly,
+    readIds,
+    selectedId,
+  ]);
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE);
-  }, [searchedDetails, favoritesOnly]);
+  }, [searchedDetails, favoritesOnly, noteOnly, unreadOnly]);
 
   const hasFilters =
     selectedCategoryPaths.length > 0 ||
@@ -273,10 +356,12 @@ const App: React.FC = () => {
         sortType,
         favoritesOnly,
         detailId: selectedId,
+        view,
       },
       opening ? "push" : "replace"
     );
   }, [
+    view,
     searchQuery,
     selectedCategoryPaths,
     selectedContentFlags,
@@ -304,6 +389,14 @@ const App: React.FC = () => {
       setRecentIds(pushRecent(initial.detailId));
     }
   }, [initial.detailId, detailsById]);
+
+  // チェックシートを開いている間だけ、印刷をシート用の表に切り替える
+  useEffect(() => {
+    const html = document.documentElement;
+    const on = view === "sheet" && !selectedId;
+    html.classList.toggle("sheet-open", on);
+    return () => html.classList.remove("sheet-open");
+  }, [view, selectedId]);
 
   // タブ名・履歴・印刷ヘッダーに条項名が出るようにする
   useEffect(() => {
@@ -354,9 +447,106 @@ const App: React.FC = () => {
       if (!detailsById.has(id)) return;
       setSelectedId(id);
       setRecentIds(pushRecent(id));
+      markRead(id);
     },
-    [detailsById]
+    [detailsById, markRead]
   );
+
+  const changeView = useCallback((next: AppView) => {
+    setView(next);
+    window.scrollTo({ top: 0 });
+  }, []);
+
+  const toggleSheetClause = sheets.toggleClause;
+  const handleToggleSheet = useCallback(
+    (id: string) => {
+      const added = toggleSheetClause(id);
+      const d = detailsById.get(id);
+      const label = d ? `${d.number} ${d.title}` : id;
+      notify(
+        added
+          ? `✓ ${label} をチェックシートに入れました`
+          : `${label} をチェックシートから外しました`
+      );
+    },
+    [toggleSheetClause, detailsById, notify]
+  );
+
+  const handleChangeNote = useCallback((id: string, text: string) => {
+    setNotes((prev) => {
+      const next = { ...prev };
+      if (text.trim()) next[id] = text;
+      else delete next[id];
+      return next;
+    });
+  }, []);
+
+  const handleQuizAnswer = useCallback(
+    (key: string, correct: boolean) =>
+      setQuizStats((prev) => recordAnswer(prev, key, correct)),
+    []
+  );
+
+  // 学習画面の章 →「さがす」で、その章のまだ読んでいない条項だけを並べる
+  const showUnreadOfChapter = useCallback(
+    (chapter: string) => {
+      const node = categoriesData.find((c) => c.name === chapter);
+      const leaves = (node?.children ?? []).map((ch) => `${chapter}/${ch.name}`);
+      setSearchQuery("");
+      setFavoritesOnly(false);
+      setSelectedCategoryPaths(leaves.length > 0 ? leaves : [chapter]);
+      setSelectedContentFlags(["unread"]);
+      changeView("search");
+    },
+    [categoriesData, changeView]
+  );
+
+  const handleExport = () => {
+    const data = {
+      favorites: Array.from(favorites),
+      notes,
+      sheets: sheets.state,
+      readIds: Array.from(readIds),
+      quizStats,
+    };
+    downloadText(
+      `NA標準仕様書_自分のデータ_${todayIso()}.json`,
+      serializeBackup(data),
+      "application/json"
+    );
+    notify(`✓ 書き出しました（${summarizeUserData(data)}）`);
+  };
+
+  const handleImport = async (file: File) => {
+    let data: UserData | null;
+    try {
+      data = parseBackup(await file.text());
+    } catch {
+      data = null;
+    }
+    if (!data) {
+      notify(
+        "このファイルは読み込めません。このアプリで書き出したファイルを選んでください"
+      );
+      return;
+    }
+    if (
+      !window.confirm(
+        `ファイルの内容（${summarizeUserData(
+          data
+        )}）で、この端末のデータを置き換えます。いまのお気に入り・メモ・チェックシート・学習の記録は消えます。よろしいですか？`
+      )
+    ) {
+      return;
+    }
+    setFavorites(new Set(data.favorites));
+    saveFavorites(data.favorites);
+    setNotes(data.notes);
+    sheets.replaceAll(data.sheets);
+    setReadIds(new Set(data.readIds));
+    setQuizStats(data.quizStats);
+    notify("✓ 読み込みました");
+  };
 
   const handleCardClick = useCallback(
     (detail: Detail) => openDetailById(detail.id),
@@ -394,7 +584,14 @@ const App: React.FC = () => {
 
   useKeyboardShortcuts({
     isModalOpen: !!selectedDetail || helpOpen,
-    onFocusSearch: () => searchRef.current?.focus(),
+    onFocusSearch: () => {
+      if (view !== "search") {
+        changeView("search");
+        window.setTimeout(() => searchRef.current?.focus(), 0);
+      } else {
+        searchRef.current?.focus();
+      }
+    },
     onOpenHelp: () => setHelpOpen(true),
     onCloseHelp: () => setHelpOpen(false),
     onCloseModal: () => {
@@ -444,7 +641,14 @@ const App: React.FC = () => {
             <button
               type="button"
               className={`toggle-btn ${favoritesOnly ? "is-on" : ""}`}
-              onClick={() => setFavoritesOnly((v) => !v)}
+              onClick={() => {
+                if (view !== "search") {
+                  setFavoritesOnly(true);
+                  changeView("search");
+                } else {
+                  setFavoritesOnly((v) => !v);
+                }
+              }}
               aria-pressed={favoritesOnly}
               title="お気に入りのみ表示"
             >
@@ -469,8 +673,15 @@ const App: React.FC = () => {
           公共建築工事標準仕様書（建築工事編）令和7年版ベース ＋
           1年生向けやさしい解説
         </p>
+        <ViewTabs
+          view={view}
+          onChange={changeView}
+          sheetCount={sheets.active?.items.length ?? 0}
+        />
       </header>
 
+      {view === "search" ? (
+        <>
       <div className="search-section">
         <SearchBar
           ref={searchRef}
@@ -613,6 +824,10 @@ const App: React.FC = () => {
                     query={searchQuery}
                     isFavorite={favorites.has(detail.id)}
                     onToggleFavorite={handleToggleFavorite}
+                    inSheet={sheets.activeIds.has(detail.id)}
+                    onToggleSheet={handleToggleSheet}
+                    hasNote={!!notes[detail.id]}
+                    isRead={readIds.has(detail.id)}
                     viewMode={viewMode}
                     onClick={handleCardClick}
                   />
@@ -657,6 +872,39 @@ const App: React.FC = () => {
           ) : null}
         </main>
       </div>
+        </>
+      ) : (
+        <main
+          className="results-section view-panel"
+          id="results-section"
+          tabIndex={-1}
+        >
+          {view === "sheet" ? (
+            <SheetView
+              api={sheets}
+              allDetails={detailsData}
+              detailsById={detailsById}
+              onOpenClause={openDetailById}
+              onGoSearch={() => changeView("search")}
+              notify={notify}
+            />
+          ) : view === "glossary" ? (
+            <GlossaryView items={glossary} onOpenClause={openDetailById} />
+          ) : (
+            <StudyView
+              allDetails={detailsData}
+              glossary={glossary}
+              readIds={readIds}
+              quizStats={quizStats}
+              onAnswer={handleQuizAnswer}
+              onOpenClause={openDetailById}
+              onShowUnread={showUnreadOfChapter}
+              onExport={handleExport}
+              onImport={handleImport}
+            />
+          )}
+        </main>
+      )}
 
       <footer className="app-footer">
         <OfflineTools />
@@ -670,7 +918,13 @@ const App: React.FC = () => {
         </p>
       </footer>
 
-      {showToTop && !selectedDetail ? (
+      {appToast ? (
+        <div className="app-toast" role="status" aria-live="polite">
+          {appToast}
+        </div>
+      ) : null}
+
+      {showToTop && !selectedDetail && view === "search" ? (
         <button
           type="button"
           className="to-search-fab"
@@ -682,7 +936,7 @@ const App: React.FC = () => {
         </button>
       ) : null}
 
-      <LiveRegion message={liveMessage} />
+      <LiveRegion message={view === "search" ? liveMessage : ""} />
 
       <UpdateBanner
         open={updateBannerOpen}
@@ -701,7 +955,11 @@ const App: React.FC = () => {
           onOpenById={openDetailById}
           isFavorite={favorites.has(selectedDetail.id)}
           onToggleFavorite={handleToggleFavorite}
-          query={searchQuery}
+          inSheet={sheets.activeIds.has(selectedDetail.id)}
+          onToggleSheet={sheets.toggleClause}
+          note={notes[selectedDetail.id] ?? ""}
+          onChangeNote={handleChangeNote}
+          query={view === "search" ? searchQuery : ""}
           onPrev={goPrev}
           onNext={goNext}
           onClose={closeDetail}

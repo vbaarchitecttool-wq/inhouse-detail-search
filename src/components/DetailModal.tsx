@@ -27,6 +27,12 @@ interface Props {
   isFavorite: boolean;
   onToggleFavorite: (id: string) => void;
   query?: string;
+  /** 使用中のチェックシートに入っているか */
+  inSheet: boolean;
+  onToggleSheet: (id: string) => void;
+  /** この条項に付けた自分のメモ */
+  note: string;
+  onChangeNote: (id: string, text: string) => void;
 }
 
 const APP_NAME = "NA 建築工事標準仕様書";
@@ -124,6 +130,10 @@ const DetailModal: React.FC<Props> = ({
   isFavorite,
   onToggleFavorite,
   query,
+  inSheet,
+  onToggleSheet,
+  note,
+  onChangeNote,
 }) => {
   const [toast, setToast] = useState<string>("");
   const containerRef = useFocusTrap<HTMLDivElement>(!!detail);
@@ -275,6 +285,34 @@ const DetailModal: React.FC<Props> = ({
           <div className="modal-actions">
             <button
               type="button"
+              className={`icon-button icon-button-labeled sheet-add ${
+                inSheet ? "is-on" : ""
+              }`}
+              onClick={() => {
+                onToggleSheet(detail.id);
+                showToast(
+                  inSheet
+                    ? "チェックシートから外しました"
+                    : "✓ チェックシートに入れました。「チェックシート」タブで判定を付けられます"
+                );
+              }}
+              aria-pressed={inSheet}
+              aria-label={
+                inSheet ? "チェックシートから外す" : "チェックシートに入れる"
+              }
+              title={
+                inSheet
+                  ? "チェックシートから外す"
+                  : "この条項のチェックポイントを検査チェックシートに入れる"
+              }
+            >
+              <span aria-hidden="true">{inSheet ? "✓" : "📋"}</span>
+              <span className="icon-button-text">
+                {inSheet ? "シート済" : "シート"}
+              </span>
+            </button>
+            <button
+              type="button"
               className="icon-button icon-button-labeled"
               onClick={handleShare}
               aria-label="この条項のリンクを共有"
@@ -357,6 +395,13 @@ const DetailModal: React.FC<Props> = ({
                   🖼 図解
                 </button>
               ) : null}
+              <button
+                type="button"
+                className="jump-chip"
+                onClick={() => jumpTo(".spec-note")}
+              >
+                📝 メモ{note.trim() ? "あり" : ""}
+              </button>
               {originalHits > 0 ? (
                 <button
                   type="button"
@@ -464,6 +509,30 @@ const DetailModal: React.FC<Props> = ({
               🧑‍🏫 この条項のやさしい解説は準備中です。上の原文をご覧ください。
             </div>
           )}
+
+          <section
+            className={`spec-section spec-note ${
+              note.trim() ? "" : "is-empty"
+            }`}
+          >
+            <h3>📝 自分のメモ</h3>
+            <textarea
+              className="sheet-input sheet-textarea spec-note-input"
+              value={note}
+              rows={3}
+              maxLength={4000}
+              onChange={(e) => onChangeNote(detail.id, e.target.value)}
+              placeholder="先輩に教わったこと、この現場の特記、気をつける点など"
+              aria-label="この条項のメモ"
+            />
+            {/* 印刷では入力欄の代わりに文字として出す */}
+            {note.trim() ? (
+              <p className="print-only spec-note-print">{note}</p>
+            ) : null}
+            <p className="spec-note-hint">
+              入力するとすぐこの端末に保存されます（ほかの人には見えません）。
+            </p>
+          </section>
 
           {tags.length > 0 ? (
             <div className="detail-card-tags" style={{ marginBottom: 16 }}>

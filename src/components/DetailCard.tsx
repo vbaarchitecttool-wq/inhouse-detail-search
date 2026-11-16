@@ -10,6 +10,11 @@ interface Props {
   isFavorite?: boolean;
   onToggleFavorite?: (id: string) => void;
   viewMode?: ViewMode;
+  /** 使用中のチェックシートに入っているか */
+  inSheet?: boolean;
+  onToggleSheet?: (id: string) => void;
+  hasNote?: boolean;
+  isRead?: boolean;
 }
 
 const DetailCard: React.FC<Props> = ({
@@ -19,6 +24,10 @@ const DetailCard: React.FC<Props> = ({
   isFavorite,
   onToggleFavorite,
   viewMode = "grid",
+  inSheet,
+  onToggleSheet,
+  hasNote,
+  isRead,
 }) => {
   const categoryText = useMemo(() => {
     const arr = Array.isArray(detail?.categoryPath) ? detail.categoryPath : [];
@@ -39,6 +48,11 @@ const DetailCard: React.FC<Props> = ({
   const handleStar = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggleFavorite?.(detail.id);
+  };
+
+  const handleSheet = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleSheet?.(detail.id);
   };
 
   const cardClass = [
@@ -72,6 +86,22 @@ const DetailCard: React.FC<Props> = ({
             <HighlightText text={detail.title} query={query} />
           </h3>
           <div className="detail-card-quick-actions">
+            {onToggleSheet ? (
+              <button
+                type="button"
+                className={`star-btn sheet-toggle ${inSheet ? "is-on" : ""}`}
+                onClick={handleSheet}
+                aria-pressed={!!inSheet}
+                aria-label={
+                  inSheet ? "チェックシートから外す" : "チェックシートに入れる"
+                }
+                title={
+                  inSheet ? "チェックシートから外す" : "チェックシートに入れる"
+                }
+              >
+                {inSheet ? "✓" : "📋"}
+              </button>
+            ) : null}
             <button
               type="button"
               className={`star-btn ${isFavorite ? "is-on" : ""}`}
@@ -103,6 +133,8 @@ const DetailCard: React.FC<Props> = ({
         <div className="detail-card-badges">
           {commented && <span className="badge badge-commentary">💡 解説</span>}
           {diagrammed && <span className="badge badge-diagram">🖼 図解</span>}
+          {hasNote && <span className="badge badge-note">📝 メモ</span>}
+          {isRead && <span className="badge badge-read">✓ 既読</span>}
         </div>
 
         {tags.length > 0 && (

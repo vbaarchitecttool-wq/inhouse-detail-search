@@ -3128,3 +3128,1132 @@ html[data-theme="dark"] .offline-ok {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ===============================
+   仕事で使う道具（画面の切替・検査チェックシート・メモ・用語辞典・学習）
+   DESIGN.md「Views」「Check Sheet」「Study」参照。色は既存トークン＋判定の2色（--ok / --ng）のみ
+   =============================== */
+
+:root {
+  --ok: #047857;
+  --ok-bg: rgba(5, 150, 105, 0.12);
+  --ng: #b91c1c;
+  --ng-bg: rgba(185, 28, 28, 0.1);
+}
+
+html[data-theme="dark"] {
+  --ok: #6ee7b7;
+  --ok-bg: rgba(52, 211, 153, 0.14);
+  --ng: #fca5a5;
+  --ng-bg: rgba(248, 113, 113, 0.16);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --ok: #6ee7b7;
+    --ok-bg: rgba(52, 211, 153, 0.14);
+    --ng: #fca5a5;
+    --ng-bg: rgba(248, 113, 113, 0.16);
+  }
+}
+
+/* --- 画面の切替 --- */
+.view-tabs {
+  display: flex;
+  gap: 4px;
+  margin-top: 12px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-sub);
+  width: fit-content;
+  max-width: 100%;
+}
+
+.view-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 14px;
+  border: none;
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: var(--text-softer);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.view-tab:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.view-tab.is-on {
+  background: var(--accent);
+  color: #fff;
+}
+
+.view-tab.is-on .count-pill {
+  background: rgba(255, 255, 255, 0.25);
+  color: inherit;
+}
+
+html[data-theme="dark"] .view-tab.is-on {
+  color: #0b1020;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .view-tab.is-on {
+    color: #0b1020;
+  }
+}
+
+/* --- さがす以外の画面の共通部品 --- */
+.view-panel {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.view-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: var(--s-4);
+}
+
+.view-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.view-count {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.view-empty {
+  padding: var(--s-5) var(--s-4);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--r-md);
+  display: grid;
+  gap: var(--s-4);
+}
+
+.view-empty-lead {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-soft);
+  max-width: 60ch;
+  text-wrap: pretty;
+}
+
+.view-steps {
+  display: grid;
+  gap: 8px;
+  padding-left: 1.4em;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-softer);
+}
+
+.view-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.view-note {
+  margin-top: var(--s-5);
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 72ch;
+}
+
+/* 入力欄とボタン（シート・辞典・学習で共通） */
+.sheet-input {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--panel-solid);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  max-width: 100%;
+}
+
+.sheet-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.sheet-textarea {
+  width: 100%;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.sheet-btn {
+  min-height: 40px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--panel-solid);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sheet-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.sheet-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.sheet-btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+html[data-theme="dark"] .sheet-btn-primary {
+  color: #0b1020;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .sheet-btn-primary {
+    color: #0b1020;
+  }
+}
+
+.sheet-btn-danger {
+  color: var(--ng);
+}
+
+.sheet-btn-danger:hover:not(:disabled) {
+  border-color: var(--ng);
+}
+
+.progress-bar {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progress-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.2s;
+}
+
+/* --- 検査チェックシート --- */
+.sheet-print {
+  display: none;
+}
+
+.sheet-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sheet-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: var(--s-4);
+}
+
+.sheet-field {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.sheet-field-label,
+.sheet-note-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sheet-progress {
+  display: grid;
+  gap: 6px;
+  margin-bottom: var(--s-3);
+}
+
+.sheet-progress-text {
+  font-size: 14px;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.sheet-progress-ng {
+  margin-left: 10px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--ng-bg);
+  color: var(--ng);
+  font-size: 12.5px;
+  font-weight: 800;
+}
+
+.sheet-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--s-4);
+}
+
+.sheet-groups {
+  list-style: none;
+  display: grid;
+  gap: var(--s-3);
+}
+
+.sheet-group {
+  display: grid;
+  gap: 10px;
+  padding: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-solid);
+}
+
+.sheet-group-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sheet-group-title {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sheet-group-title:hover:not(:disabled) {
+  color: var(--accent);
+}
+
+.sheet-group-title:disabled {
+  cursor: default;
+  color: var(--muted);
+}
+
+.sheet-group-tools {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.sheet-group-tools .icon-button {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+.sheet-group-summary {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-softer);
+  max-width: 72ch;
+}
+
+.sheet-rows {
+  list-style: none;
+  display: grid;
+}
+
+.sheet-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 10px 0 10px 12px;
+  border-top: 1px solid var(--line);
+  border-left: 3px solid transparent;
+}
+
+.sheet-row.is-ok {
+  border-left-color: var(--ok);
+}
+
+.sheet-row.is-ng {
+  border-left-color: var(--ng);
+  background: var(--ng-bg);
+}
+
+.sheet-row.is-na .sheet-row-text {
+  color: var(--muted);
+}
+
+.sheet-row-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--text-soft);
+}
+
+.sheet-row-own {
+  margin-right: 8px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.sheet-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sheet-states {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--panel-solid);
+}
+
+.sheet-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 0 10px;
+  border: none;
+  border-left: 1px solid var(--line);
+  background: transparent;
+  color: var(--text-softer);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sheet-state:first-child {
+  border-left: none;
+}
+
+.sheet-state:hover {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.sheet-state-ok.is-on {
+  background: var(--ok-bg);
+  color: var(--ok);
+}
+
+.sheet-state-ng.is-on {
+  background: var(--ng);
+  color: #fff;
+}
+
+html[data-theme="dark"] .sheet-state-ng.is-on {
+  color: #0b1020;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .sheet-state-ng.is-on {
+    color: #0b1020;
+  }
+}
+
+.sheet-state-na.is-on {
+  background: var(--line-strong);
+  color: var(--text);
+}
+
+.sheet-row-remove,
+.study-quit {
+  padding: 4px 6px;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 12.5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.sheet-extra {
+  display: flex;
+  gap: 8px;
+}
+
+.sheet-extra .sheet-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.sheet-note {
+  display: grid;
+  gap: 4px;
+}
+
+.sheet-manage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-top: var(--s-5);
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--line);
+}
+
+.sheet-starter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.sheet-danger {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* カード・条項ビューの「シートに入れる」 */
+.star-btn.sheet-toggle {
+  font-size: 15px;
+}
+
+.star-btn.sheet-toggle:hover {
+  background: rgba(37, 99, 235, 0.12);
+  color: var(--accent);
+}
+
+.star-btn.sheet-toggle.is-on,
+.icon-button.sheet-add.is-on {
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-weight: 800;
+}
+
+.badge-note {
+  background: rgba(245, 158, 11, 0.14);
+  color: #92400e;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+html[data-theme="dark"] .badge-note {
+  color: #fcd34d;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .badge-note {
+    color: #fcd34d;
+  }
+}
+
+.badge-read {
+  color: var(--muted);
+  background: transparent;
+}
+
+/* 条項ビューの「自分のメモ」 */
+.spec-note-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* 追加・書き出しなどの結果を伝える一時表示 */
+.app-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 1100;
+  max-width: min(92vw, 560px);
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--panel-solid);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.6;
+  box-shadow: var(--shadow-md);
+}
+
+/* --- 用語辞典 --- */
+.glossary-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--s-4);
+}
+
+.glossary-search {
+  flex: 1;
+  min-width: 220px;
+}
+
+.glossary-list {
+  display: grid;
+}
+
+.glossary-entry {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) 1fr;
+  gap: 4px 20px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+
+.glossary-entry dt {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.glossary-entry dd {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  min-width: 0;
+}
+
+.glossary-entry dd p {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--text-soft);
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+
+.glossary-source {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  padding: 2px 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.glossary-source:hover {
+  text-decoration: underline;
+}
+
+/* --- 学習 --- */
+.study-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+}
+
+.study-stat {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--panel-solid);
+}
+
+.study-stat-num {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+}
+
+.study-stat-num small {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.study-stat-label {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.study-card {
+  display: grid;
+  gap: 12px;
+  padding: var(--s-4);
+  margin-bottom: var(--s-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--panel-solid);
+}
+
+.study-card > h3 {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.study-lead {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-softer);
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+
+.study-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.study-start,
+.quiz-feedback-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.study-start .recovery-primary,
+.quiz-feedback-actions .recovery-primary,
+.view-empty-actions .recovery-primary {
+  margin-top: 0;
+}
+
+.quiz {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.quiz-count {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.quiz-question {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.quiz-choices {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+
+.quiz-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--panel-solid);
+  color: var(--text-soft);
+  font-size: 14.5px;
+  line-height: 1.75;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quiz-choice:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.quiz-choice:disabled {
+  cursor: default;
+}
+
+.quiz-choice-mark {
+  flex-shrink: 0;
+  width: 1.6em;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: center;
+}
+
+.quiz-choice.is-correct {
+  border-color: var(--ok);
+  background: var(--ok-bg);
+}
+
+.quiz-choice.is-correct .quiz-choice-mark,
+.quiz-result-ok {
+  color: var(--ok);
+}
+
+.quiz-choice.is-wrong {
+  border-color: var(--ng);
+  background: var(--ng-bg);
+}
+
+.quiz-choice.is-wrong .quiz-choice-mark,
+.quiz-result-ng {
+  color: var(--ng);
+}
+
+.quiz-choice.is-dim {
+  opacity: 0.55;
+}
+
+.quiz-feedback {
+  display: grid;
+  gap: 10px;
+}
+
+.quiz-result-ok,
+.quiz-result-ng {
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.quiz-score {
+  font-size: 18px;
+  color: var(--text);
+}
+
+.quiz-score strong {
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+}
+
+.quiz-wrong {
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.chapter-progress {
+  list-style: none;
+  display: grid;
+}
+
+.chapter-progress-row {
+  display: grid;
+  grid-template-columns: minmax(0, 15em) 1fr 5.5em;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 40px;
+  padding: 4px 6px;
+  border: none;
+  border-radius: var(--r-xs);
+  background: none;
+  color: var(--text-soft);
+  font-size: 13.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chapter-progress-row:hover {
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.chapter-progress-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chapter-progress-num {
+  text-align: right;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (pointer: coarse) {
+  .view-tab,
+  .sheet-btn,
+  .sheet-input,
+  .sheet-state {
+    min-height: 44px;
+  }
+  .sheet-input {
+    /* 16px 未満だと iOS が入力時に画面を勝手に拡大する */
+    font-size: 16px;
+  }
+  .sheet-group-tools .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+  .star-btn.sheet-toggle {
+    margin: -6px 0;
+  }
+  .chapter-progress-row {
+    min-height: 48px;
+  }
+  .sheet-row-remove,
+  .study-quit {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 640px) {
+  /* backdrop-filter は中の position: fixed の基準を自分にしてしまう。
+     スマホではヘッダーを固定しないので、ぼかしを外して下端のタブを画面基準にする */
+  .app-header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  /* スマホでは画面の切替を下端に固定する（親指が届く位置） */
+  .view-tabs {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    width: auto;
+    margin: 0;
+    padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px));
+    border: none;
+    border-top: 1px solid var(--line-strong);
+    border-radius: 0;
+    background: var(--panel-solid);
+    gap: 0;
+  }
+  .view-tab {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-height: 52px;
+    padding: 4px 2px;
+    font-size: 11px;
+    position: relative;
+  }
+  .view-tab-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+  .view-tab .count-pill {
+    position: absolute;
+    top: 4px;
+    left: calc(50% + 8px);
+  }
+  .to-search-fab {
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+  .app-toast {
+    bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+  .view-panel {
+    padding: var(--s-3);
+  }
+  .sheet-group {
+    padding: var(--s-3);
+  }
+  .sheet-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .sheet-row-actions {
+    justify-content: space-between;
+  }
+  .sheet-states {
+    flex: 1;
+  }
+  .sheet-state {
+    flex: 1;
+    justify-content: center;
+  }
+  .sheet-actions .sheet-btn,
+  .sheet-switch > * {
+    flex: 1 1 auto;
+  }
+  .glossary-entry {
+    grid-template-columns: 1fr;
+  }
+  .study-stats {
+    grid-template-columns: 1fr;
+  }
+  .study-stat {
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+  }
+  .study-stat-label {
+    order: -1;
+  }
+  .chapter-progress-row {
+    grid-template-columns: minmax(0, 1fr) 4.5em 4.5em;
+  }
+}
+
+/* --- 印刷：条項ビューのメモ、検査チェックシートの表 --- */
+@media print {
+  html.detail-open .spec-note-input,
+  html.detail-open .spec-note-hint,
+  html.detail-open .spec-note.is-empty,
+  html.detail-open .app-toast {
+    display: none !important;
+  }
+
+  .spec-note-print {
+    white-space: pre-wrap;
+    font-size: 10.5pt;
+    line-height: 1.75;
+  }
+
+  html.sheet-open,
+  html.sheet-open body {
+    height: auto;
+    background: #ffffff !important;
+    color: #000000;
+  }
+
+  html.sheet-open .app {
+    padding: 0;
+    max-width: none;
+    min-height: 0;
+  }
+
+  html.sheet-open .app > *:not(.view-panel) {
+    display: none !important;
+  }
+
+  html.sheet-open .view-panel {
+    max-width: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  html.sheet-open .sheet-screen {
+    display: none !important;
+  }
+
+  html.sheet-open .sheet-print {
+    display: block;
+    color: #000000;
+    font-size: 9.5pt;
+    line-height: 1.6;
+  }
+
+  .sheet-print-app {
+    font-size: 9pt;
+    color: #444444;
+  }
+
+  .sheet-print-title {
+    margin: 2pt 0 8pt;
+    font-size: 16pt;
+    font-weight: 800;
+  }
+
+  .sheet-print table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .sheet-print th,
+  .sheet-print td {
+    border: 0.75pt solid #555555;
+    padding: 4pt 6pt;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .sheet-print th {
+    background: #eeeeee;
+    font-weight: 700;
+    white-space: nowrap;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .sheet-print-meta {
+    margin-bottom: 8pt;
+  }
+
+  .sheet-print-meta th {
+    width: 14%;
+  }
+
+  .sheet-print-meta td {
+    width: 36%;
+  }
+
+  .sheet-print-stamp {
+    height: 34pt;
+  }
+
+  .sheet-print-table thead {
+    display: table-header-group;
+  }
+
+  .sheet-print-table tr {
+    break-inside: avoid;
+  }
+
+  .sheet-print-table .col-no {
+    width: 7%;
+    text-align: center;
+  }
+
+  .sheet-print-table .col-clause {
+    width: 20%;
+  }
+
+  .sheet-print-table .col-state {
+    width: 12%;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .sheet-print-table .col-note {
+    width: 20%;
+    white-space: pre-wrap;
+  }
+
+  .sheet-print-foot {
+    margin-top: 8pt;
+    font-size: 8.5pt;
+    color: #444444;
+  }
+}

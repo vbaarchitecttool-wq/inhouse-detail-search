@@ -16,6 +16,7 @@ describe("readUrlState", () => {
       sortType: "relevance",
       favoritesOnly: false,
       detailId: null,
+      view: "search",
     });
   });
 
@@ -30,6 +31,7 @@ describe("readUrlState", () => {
       sortType: "relevance",
       favoritesOnly: true,
       detailId: "5.3.2",
+      view: "search",
     });
   });
 
@@ -51,7 +53,19 @@ describe("writeUrlState / buildShareUrl", () => {
 
   it("書き込んだ状態を読み戻すと一致する（往復）", () => {
     writeUrlState(state);
-    expect(readUrlState()).toEqual(state);
+    expect(readUrlState()).toEqual({ ...state, view: "search" });
+  });
+
+  it("画面の切替（view）も往復する。さがす（既定）はURLに出さない", () => {
+    writeUrlState({ ...state, view: "sheet" });
+    expect(window.location.search).toContain("view=sheet");
+    expect(readUrlState().view).toBe("sheet");
+
+    writeUrlState({ ...state, view: "search" });
+    expect(window.location.search).not.toContain("view=");
+
+    setSearch("?view=admin");
+    expect(readUrlState().view).toBe("search");
   });
 
   it("既定値のパラメータは URL に出さない", () => {
@@ -62,6 +76,7 @@ describe("writeUrlState / buildShareUrl", () => {
       sortType: "relevance",
       favoritesOnly: false,
       detailId: null,
+      view: "search",
     });
     expect(window.location.search).toBe("");
   });

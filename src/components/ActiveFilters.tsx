@@ -3,6 +3,8 @@ import React from "react";
 const FLAG_LABELS: Record<string, string> = {
   commentary: "💡 解説あり",
   diagram: "🖼 図解あり",
+  note: "📝 メモあり",
+  unread: "👀 まだ読んでいない",
 };
 
 interface Props {

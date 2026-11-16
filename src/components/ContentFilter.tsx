@@ -12,6 +12,9 @@ const ContentFilter: React.FC<Props> = ({
   const flags = [
     { value: "commentary", label: "💡 やさしい解説あり" },
     { value: "diagram", label: "🖼 図解あり" },
+    // 以下の2つは、この端末に保存した自分の記録で絞り込む
+    { value: "note", label: "📝 自分のメモあり" },
+    { value: "unread", label: "👀 まだ読んでいない" },
   ];
 
   return (

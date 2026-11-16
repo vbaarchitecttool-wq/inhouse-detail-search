@@ -12,7 +12,7 @@
 //  - 図解の写真は PHOTO_CACHE に分けて持つ。アプリ更新（VERSION 変更）では消さない。
 //    画面の「図解の写真も端末に保存する」ボタン（src/utils/offline.ts）もここへ保存する。
 
-const VERSION = "v2.2.0";
+const VERSION = "v2.3.0";
 const STATIC_CACHE = `ids-static-${VERSION}`;
 const ASSET_CACHE = `ids-assets-${VERSION}`;
 const FILES_CACHE = `ids-files-${VERSION}`;

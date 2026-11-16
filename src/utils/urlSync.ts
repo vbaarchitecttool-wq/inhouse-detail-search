@@ -1,4 +1,4 @@
-import type { UrlState, SortType } from "../types";
+import type { UrlState, SortType, AppView } from "../types";
 
 const KEY_Q = "q";
 const KEY_CAT = "cat";
@@ -6,6 +6,12 @@ const KEY_FLAG = "flag";
 const KEY_SORT = "sort";
 const KEY_FAV = "fav";
 const KEY_ID = "id";
+const KEY_VIEW = "view";
+
+const VIEW_VALUES: AppView[] = ["search", "sheet", "glossary", "study"];
+
+const toView = (s: string | null): AppView =>
+  s && (VIEW_VALUES as string[]).includes(s) ? (s as AppView) : "search";
 
 const SORT_VALUES: SortType[] = ["category", "relevance"];
 
@@ -26,6 +32,7 @@ export const readUrlState = (): UrlState => {
       sortType: DEFAULT_SORT,
       favoritesOnly: false,
       detailId: null,
+      view: "search",
     };
   }
   const sp = new URLSearchParams(window.location.search);
@@ -42,6 +49,7 @@ export const readUrlState = (): UrlState => {
     sortType: toSort(sp.get(KEY_SORT)),
     favoritesOnly: sp.get(KEY_FAV) === "1",
     detailId: sp.get(KEY_ID) || null,
+    view: toView(sp.get(KEY_VIEW)),
   };
 };
 
@@ -54,6 +62,7 @@ const buildParams = (state: UrlState): URLSearchParams => {
     sp.set(KEY_SORT, state.sortType);
   if (state.favoritesOnly) sp.set(KEY_FAV, "1");
   if (state.detailId) sp.set(KEY_ID, state.detailId);
+  if (state.view && state.view !== "search") sp.set(KEY_VIEW, state.view);
   return sp;
 };
 
