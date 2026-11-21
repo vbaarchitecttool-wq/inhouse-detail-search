@@ -27,8 +27,8 @@ function progress(time: number, from: number, to: number, reduced: boolean) {
   return t * t * (3 - 2*t);
 }
 
-export default function ConstructionLesson({ lesson }: { lesson: Lesson }) {
-  const [{ time, playing }, dispatch] = useReducer(advance, { time: 0, playing: false });
+function LessonPlayer({ lesson, playOnMount }: { lesson: Lesson; playOnMount: boolean }) {
+  const [{ time, playing }, dispatch] = useReducer(advance, { time: 0, playing: playOnMount });
   useEffect(() => {
     if (!playing) return;
     let last = performance.now();
@@ -52,7 +52,7 @@ export default function ConstructionLesson({ lesson }: { lesson: Lesson }) {
   const step = time < 3400 ? 0 : time < 9400 ? 1 : 2;
   const { Scene } = lesson;
   return (
-    <section className="construction-lesson" aria-label={lesson.title}>
+    <>
       <header className="lesson-heading">
         <span>工程アニメーション</span>
         <h4>{lesson.title}</h4>
@@ -60,7 +60,7 @@ export default function ConstructionLesson({ lesson }: { lesson: Lesson }) {
       <div className="lesson-view">
         <span>{lesson.view}</span>
         <svg viewBox="0 0 420 202" role="img" aria-label={lesson.steps[step].text}>
-          <Scene fold={progress(time, 3400, 7200, reduced)} finish={progress(time, 9400, 13100, reduced)}/>
+          <Scene start={progress(time, 0, 3100, reduced)} fold={progress(time, 3400, 7200, reduced)} finish={progress(time, 9400, 13100, reduced)}/>
         </svg>
       </div>
       <div className="lesson-controls">
@@ -81,6 +81,26 @@ export default function ConstructionLesson({ lesson }: { lesson: Lesson }) {
         ))}
       </div>
       <p className="lesson-caption" aria-live="polite">{lesson.steps[step].text}</p>
+    </>
+  );
+}
+
+export default function ConstructionLesson({ options }: { options: readonly Lesson[] }) {
+  const [selection, setSelection] = useState({ index: 0, playRequest: 0 });
+  const lesson = options[selection.index];
+  return (
+    <section className="construction-lesson" aria-label={lesson.title}>
+      {options.length > 1 && (
+        <div className="lesson-choices" role="group" aria-label="試験方法を選んで再生">
+          {options.map((item, index) => (
+            <button key={item.title} type="button" aria-pressed={index === selection.index}
+              onClick={() => setSelection(prev => ({ index, playRequest: prev.playRequest + 1 }))}>
+              ▶ {item.choiceLabel ?? item.title}
+            </button>
+          ))}
+        </div>
+      )}
+      <LessonPlayer key={selection.playRequest} lesson={lesson} playOnMount={selection.playRequest > 0} />
     </section>
   );
 }

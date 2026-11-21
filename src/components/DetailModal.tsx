@@ -188,7 +188,7 @@ const DetailModal: React.FC<Props> = ({
   const commentary = detail.commentary;
   const commented = hasCommentary(detail);
   const diagrams = commentary?.diagrams || [];
-  const lesson = lessons[detail.id];
+  const lessonOptions = lessons[detail.id];
   const glossary = commentary?.glossary || [];
   const points = commentary?.points || [];
   const detailUrl = buildDetailUrl(detail.id);
@@ -390,7 +390,7 @@ const DetailModal: React.FC<Props> = ({
                   🧑‍🏫 解説
                 </button>
               ) : null}
-              {lesson && (
+              {lessonOptions && (
                 <button type="button" className="jump-chip" onClick={() => jumpTo(".construction-lesson")}>
                   ▶ 工程アニメ
                 </button>
@@ -481,7 +481,7 @@ const DetailModal: React.FC<Props> = ({
                 </div>
               ) : null}
 
-              {lesson && <ConstructionLesson key={detail.id} lesson={lesson} />}
+              {lessonOptions && <ConstructionLesson key={detail.id} options={lessonOptions} />}
 
               {diagrams.length > 0 ? (
                 <div className="spec-block">

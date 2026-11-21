@@ -1,8 +1,10 @@
 import type { ComponentType } from "react";
+import { adhesionTest, baseGrout, twoSidedJoint, ultrasonicScan, concreteCompaction, floorSeam } from "./AdditionalConstructionScenes";
 
-interface SceneProps { fold: number; finish: number }
+export interface SceneProps { start: number; fold: number; finish: number }
 export interface Lesson {
   title: string;
+  choiceLabel?: string;
   view: string;
   Scene: ComponentType<SceneProps>;
   steps: readonly { label: string; text: string }[];
@@ -148,37 +150,43 @@ function TilePullScene({ fold: setup, finish: load }: SceneProps) {
   </>;
 }
 
-export const lessons: Readonly<Partial<Record<string, Lesson>>> = {
-  "4.5.5": {
+export const lessons: Readonly<Partial<Record<string, readonly Lesson[]>>> = {
+  "4.5.5": [{
     title: "トレミー管の先端はどこにあるか", view: "打込み中の縦断面", Scene: TremieScene,
     steps: [
       { label: "管先端の位置", text: "打込み中の場面。根入れは、コンクリートの打上り面から管先端までの鉛直距離で読む。" },
       { label: "打上り面が上昇", text: "管からコンクリートを連続して打ち込む。管の高さを保っている間は打上り面が上がり、管の根入れが深くなる。" },
       { label: "管の高さを調整", text: "打上り面と管先端の深さを確認しながら管を引き上げる。打込み中は先端をコンクリート内に2m以上保持する。" },
     ],
-  },
-  "7.4.8": {
+  }],
+  "7.4.8": [{
     title: "高力ボルトの白線はどこが動くか", view: "トルシア形・正面と側面", Scene: BoltScene,
     steps: [
       { label: "一次締め後", text: "一次締め後、ボルトのねじ部・ナット・座金・添え板に一本の印を付ける。ピンテールはまだ付いている。" },
       { label: "本締め", text: "ナットを締めると、ナット上の印が移動する。ボルト・座金の印が添え板の印と同じ方向に残るかを見る。図の回転角は説明用。" },
       { label: "締付け後の確認", text: "ピンテールの破断と印のずれ方を確認。ナット回転量がボルト群の平均±30°の範囲、余長がねじ1～6山であることも確認する。" },
     ],
-  },
-  "9.7.5": {
+  }],
+  "9.7.5": [{
+    choiceLabel: "簡易接着性試験｜180°折返し",
     title: "シーリング材を180°折り返して引く", view: "簡易接着性試験・硬化後の側面", Scene: SealScene,
     steps: [
       { label: "つかみ代を確認", text: "実部材または化粧見本に作製した試験片を使う。シーリング材に弾性が現れたら、接着させていない端をつかむ。" },
       { label: "端を折り返す", text: "つかんだ端を被着面側へ180°折り返す。横から見て、材料が折り返し部でU字になる向きを確認する。" },
       { label: "面に沿って引く", text: "折り返した端を被着面に沿って引き、破壊した面を観察する。図は材料が被着面に薄く残る例。凝集破壊または薄層凝集破壊を合格とする。" },
     ],
-  },
-  "11.1.7": {
+  }, adhesionTest],
+  "11.1.7": [{
     title: "タイルの引張接着試験", view: "壁断面・セメントモルタル張りの例", Scene: TilePullScene,
     steps: [
       { label: "四周を切断", text: "試験タイルを囲む四周の目地をコンクリート面まで切り、周囲と切り離す。縦断面では上下2か所の切込みとして見える。" },
       { label: "試験機を設置", text: "試験タイルに鋼製アタッチメントを接着する。接着剤の硬化後、試験体の外側に反力脚を当て、中央の引張軸を壁面に垂直に合わせる。" },
       { label: "垂直に引く", text: "上下の脚が周囲の壁を押し、中央の軸が試験タイルを手前へ引く。破壊時の最大荷重を試験面積で割って引張接着強度を求め、破壊した位置・割合と併せて表11.1.2で判定する。" },
     ],
-  },
+  }],
+  "5.4.10": [ultrasonicScan],
+  "6.6.5": [concreteCompaction],
+  "7.10.3": [baseGrout],
+  "9.7.4": [twoSidedJoint],
+  "19.2.3": [floorSeam],
 };
