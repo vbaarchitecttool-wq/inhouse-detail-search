@@ -114,33 +114,22 @@ const SVG_HTB_FLOW = `
 
 const SVG_TORSHIA = `
 <svg viewBox="0 0 660 300" role="img" aria-label="トルシア形高力ボルト締付け後の合格確認4点。ピンテールが破断していること。マークのずれで共回りがないこと。ナット回転量が平均プラスマイナス30度の範囲。余長がねじ1山から6山">
-  <g fill="currentColor" opacity="0.85">
-    <rect x="60" y="60" width="120" height="16" rx="2"/>
-    <rect x="60" y="80" width="120" height="16" rx="2"/>
+  <g fill="currentColor" text-anchor="middle" font-size="13" font-weight="bold">
+    <text x="155" y="24">一次締め後・マーキング</text>
+    <text x="470" y="24">本締め後・マークの比較例</text>
   </g>
-  <g stroke="currentColor" stroke-width="8" stroke-linecap="round">
-    <line x1="120" y1="46" x2="120" y2="112"/>
+  <g fill="none" stroke="currentColor" stroke-width="1.8">
+    <circle cx="155" cy="90" r="47"/><polygon points="195,90 175,125 135,125 115,90 135,55 175,55"/>
+    <circle cx="155" cy="90" r="19"/><circle cx="155" cy="90" r="10" stroke-dasharray="2 2"/>
+    <circle cx="470" cy="90" r="47"/><polygon points="509,99 482,129 443,120 431,81 458,51 497,60"/>
+    <circle cx="470" cy="90" r="19"/>
   </g>
-  <g fill="currentColor">
-    <rect x="98" y="104" width="44" height="14" rx="3"/>
+  <g fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round">
+    <path d="M155 103 V147"/><path d="M470 103 V108 M470 131 V147 M488 82 L502 76"/>
   </g>
-  <g stroke="currentColor" stroke-width="3" stroke-dasharray="3 3" opacity="0.6">
-    <line x1="120" y1="118" x2="120" y2="140"/>
-  </g>
-  <g fill="currentColor" font-size="12" opacity="0.85">
-    <text x="150" y="135">ピンテール（破断して脱落＝所定張力の証拠）</text>
-  </g>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <circle cx="420" cy="90" r="40"/>
-    <circle cx="420" cy="90" r="22"/>
-  </g>
-  <g stroke="currentColor" stroke-width="3">
-    <line x1="420" y1="50" x2="420" y2="28"/>
-    <line x1="436" y1="74" x2="452" y2="60"/>
-  </g>
-  <g fill="currentColor" font-size="12" opacity="0.85">
-    <text x="480" y="40">マーク：ナットだけ回転＝正常</text>
-    <text x="480" y="62">（全部一緒に回る＝共回り→NG）</text>
+  <g fill="currentColor" font-size="12" text-anchor="middle">
+    <text x="155" y="165">ボルト・ナット・座金・添え板に一本の線</text>
+    <text x="470" y="165">ナットの印が移動。ほかの印は元の方向</text>
   </g>
   <g fill="currentColor" font-size="13" font-weight="bold">
     <text x="40" y="190">締付け後の合格確認（トルシア形・7.4.8）</text>

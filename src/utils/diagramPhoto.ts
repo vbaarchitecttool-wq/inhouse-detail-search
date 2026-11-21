@@ -2,7 +2,7 @@ import captions from "./diagramPhotoCaptions.json";
 
 const photoCaptions: Readonly<Record<string, string>> = captions;
 const SVG_ARIA_LABEL_PATTERN = /\baria-label="([^"]+)"/;
-export const DIAGRAM_PHOTO_CACHE_REVISION = "20261121-1";
+export const DIAGRAM_PHOTO_CACHE_REVISION = "20261121-2";
 
 const hashLabel = (value: string): string => {
   let hash = 0x811c9dc5;

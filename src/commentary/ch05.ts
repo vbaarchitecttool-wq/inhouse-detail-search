@@ -234,7 +234,7 @@ const SVG_GAS_QUALITY = `
 </svg>`;
 
 const SVG_GAS_TEST = `
-<svg viewBox="0 0 640 250" role="img" aria-label="圧接完了後の試験の流れ。全ての圧接部に外観試験を行い、ロットごとに30か所を抜き取って超音波探傷試験を行う。1ロットは1組の作業班が1日に行った圧接箇所。全箇所合格でロット合格">
+<svg viewBox="0 0 640 375" role="img" aria-label="圧接完了後の試験の流れ。全ての圧接部に外観試験を行い、ロットごとに30か所を抜き取って超音波探傷試験を行う。1ロットは1組の作業班が1日に行った圧接箇所。全箇所合格でロット合格">
   <g fill="none" stroke="currentColor" stroke-width="1.5">
     <rect x="30"  y="40" width="160" height="64" rx="8"/>
     <rect x="240" y="40" width="160" height="64" rx="8"/>
@@ -267,6 +267,19 @@ const SVG_GAS_TEST = `
     <text x="30" y="190">・1ロット＝1組の作業班が1日に行った圧接箇所</text>
     <text x="30" y="212">・超音波探傷試験か引張試験かは特記による（特記がなければ超音波探傷試験）</text>
     <text x="30" y="234">・不合格ロットは原因調査＋再発防止策を定めて監督職員の承諾を受けてから再開（5.4.11）</text>
+  </g>
+  <g fill="currentColor" font-size="13" font-weight="bold">
+    <text x="30" y="266">圧接中央部を調べる初期配置（模式図・平面）</text>
+  </g>
+  <g fill="currentColor" fill-opacity="0.10" stroke="currentColor" stroke-width="1.5">
+    <path d="M35 303 H188 Q201 290 214 303 H310 V324 H214 Q201 337 188 324 H35 Z"/>
+    <rect x="151" y="286" width="29" height="17" rx="2"/><rect x="151" y="324" width="29" height="17" rx="2"/>
+  </g>
+  <g fill="currentColor" font-size="12">
+    <text x="82" y="298">送信探触子</text><text x="82" y="341">受信探触子</text>
+    <text x="317" y="306">ふくらみの片側で、相対するリブに当てる。</text>
+    <text x="317" y="327">位置を変えて走査し、反対側でも行う。</text>
+    <text x="30" y="363">初期配置・走査範囲・感度調整は JIS Z 3062 による。</text>
   </g>
 </svg>`;
 

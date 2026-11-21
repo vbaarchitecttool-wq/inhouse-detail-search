@@ -6,27 +6,22 @@ import type { Commentary } from "../types";
 
 const SVG_MANHOLE = `
 <svg viewBox="0 0 660 250" role="img" aria-label="排水桝の断面。上部にふた、桝の側壁を側塊で積みモルタルで接合する。流入管と流出管が桝の内面に少し突き出るように取り付け、隙間はモルタルを内外から詰めて水漏れを防ぐ。汚水が混じる桝は底に流れの方向にならった半円形のインバート溝をモルタルで作る。深い桝には足掛け金物を取り付ける">
-  <g fill="none" stroke="currentColor" stroke-width="1.5">
-    <path d="M180 60 h300 M180 60 v150 h300 v-150"/>
-    <rect x="250" y="46" width="160" height="14"/>
+  <g fill="currentColor" font-size="13" font-weight="bold">
+    <text x="22" y="28">管の中心線に沿った縦断面</text><text x="468" y="28">流れに直角な横断面</text>
   </g>
-  <g fill="currentColor" opacity="0.15"><rect x="181" y="61" width="298" height="148"/></g>
-  <g fill="none" stroke="currentColor" stroke-width="1.5">
-    <path d="M120 110 h62 M120 128 h62"/>
-    <path d="M478 130 h62 M478 148 h62"/>
+  <g stroke="currentColor" stroke-width="1.8" fill="none">
+    <path d="M95 67 H356 M87 67 V114 M99 67 V115 M87 143 V187 H364 V153 M99 144 V175 H352 V152 M352 67 V122 M364 67 V123"/>
+    <rect x="168" y="56" width="115" height="11" rx="2"/>
+    <path d="M22 110 L105 115 V144 L22 139 M344 122 L433 127 M344 122 V152 L433 157"/>
+    <path d="M105 144 L344 152" stroke="currentColor" stroke-width="3"/>
+    <path d="M176 113 L265 116 l-8 -5 M265 116 l-9 5"/>
+    <path d="M473 86 V163 H630 V86 M473 110 H516 A35 35 0 0 0 586 110 H630"/>
   </g>
-  <g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M230 210 q100 -34 200 0"/></g>
-  <g fill="currentColor" opacity="0.85"><circle cx="210" cy="90" r="4"/><circle cx="210" cy="130" r="4"/></g>
   <g fill="currentColor" font-size="12">
-    <text x="255" y="40" font-weight="bold">ふた</text>
-    <text x="120" y="102">流入管</text>
-    <text x="486" y="122">流出管</text>
-    <text x="238" y="200">インバート（半円溝）</text>
-    <text x="150" y="150">足掛け金物</text>
-  </g>
-  <g fill="currentColor" font-size="12" opacity="0.8">
-    <text x="40" y="30" font-weight="bold">排水桝の断面（21.2.2）</text>
-    <text x="40" y="238">管は桝内面に突き出して取付け、隙間はモルタルを内外から詰める。汚水桝は底にインバート</text>
+    <text x="48" y="99">流入管</text><text x="373" y="112">流出管</text>
+    <text x="180" y="95">流れの向き</text><text x="142" y="211">管底から管底へ連続する溝底</text>
+    <text x="495" y="186">半円形のインバート</text>
+    <text x="22" y="240">汚水が混入する桝の例。管を取り付けた後、流れに沿って溝を作り、モルタルで仕上げる。</text>
   </g>
 </svg>`;
 
