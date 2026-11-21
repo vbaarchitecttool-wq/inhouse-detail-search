@@ -4264,3 +4264,60 @@ html[data-theme="dark"] .badge-note {
     color: #444444;
   }
 }
+
+.construction-lesson {
+  margin: 18px 0;
+  overflow: hidden;
+  background: var(--panel-solid);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-md);
+}
+.lesson-heading { padding: 16px 18px 12px; }
+.lesson-heading > span, .lesson-view > span, .lesson-time {
+  color: var(--muted-soft);
+  font-size: .78rem;
+}
+.lesson-heading h4 { margin: 4px 0 0; font-size: 1.1rem; }
+.lesson-view {
+  background: var(--original-bg);
+  padding: 9px 12px 4px;
+  color: var(--text);
+}
+.lesson-view > span { display: block; }
+.lesson-view svg {
+  display: block;
+  width: 100%;
+  max-width: 610px;
+  margin: 0 auto;
+  font: 14px var(--font-sans);
+  fill: currentColor;
+}
+.lesson-arrow, .lesson-leader, .lesson-mark { fill: none; }
+.lesson-leader { stroke: currentColor; stroke-width: 1.4; }
+.lesson-arrow, .lesson-mark { stroke: var(--accent); stroke-width: 2.4; }
+.lesson-mark { stroke-width: 4.6; }
+.lesson-controls, .lesson-steps { display: flex; align-items: center; gap: 10px; padding: 10px 16px; }
+.lesson-controls input { flex: 1; min-width: 40px; height: 32px; accent-color: var(--accent); cursor: pointer; }
+.lesson-time { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.lesson-play, .lesson-steps button {
+  font: inherit;
+  font-size: .85rem;
+  font-weight: 650;
+  cursor: pointer;
+  border-radius: var(--r-xs);
+  min-height: 40px;
+}
+.lesson-play { color: var(--panel-solid); background: var(--accent); border: 0; padding: 0 12px; }
+.lesson-steps { align-items: stretch; border-top: 1px solid var(--line); gap: 6px; padding-bottom: 4px; }
+.lesson-steps button {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  flex: 1; color: var(--text-soft); background: var(--panel-solid); border: 1px solid var(--line-strong); padding: 5px;
+}
+.lesson-steps button[aria-current] { color: var(--accent); border-color: var(--accent); background: var(--bg-grad-1); }
+.lesson-steps button span { font-variant-numeric: tabular-nums; }
+.lesson-caption { padding: 8px 17px 16px; color: var(--text-soft); line-height: 1.7; font-size: .94rem; }
+@media (max-width: 480px) {
+  .lesson-steps, .lesson-controls { padding-inline: 8px; }
+  .lesson-steps button { flex-direction: column; gap: 1px; font-size: .76rem; }
+}
+@media print { .construction-lesson { display: none; } }
