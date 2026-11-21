@@ -119,6 +119,21 @@ const SVG_WALL_LGS = `
   </g>
 </svg>`;
 
+const SVG_COPING = `
+<svg viewBox="0 0 640 210" role="img" aria-label="アルミニウム製笠木の模式断面。笠木本体の内側に固定金具があり、あと施工アンカーはコンクリート下地に固定する。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">アルミ笠木を横から見た納まりの例</text>
+  <rect x="72" y="111" width="148" height="68" fill="currentColor" fill-opacity="0.17" stroke="currentColor"/>
+  <rect x="72" y="100" width="148" height="11" fill="currentColor" fill-opacity="0.3" stroke="currentColor"/>
+  <path d="M47 107V66H244V107" fill="none" stroke="currentColor" stroke-width="6"/>
+  <path d="M66 99h18V79h126v20h18" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path d="M80 94v49M216 94v49" fill="none" stroke="currentColor" stroke-width="4"/>
+  <path d="M244 67h46M211 84h79M220 136h70" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="304" y="70" font-size="17" font-weight="bold">笠木本体</text>
+  <text x="304" y="92" font-size="16">固定金具</text>
+  <text x="304" y="142" font-size="16">あと施工アンカー</text>
+  <text x="27" y="201" font-size="14">モルタル仕上げの場合も、コンクリート部分で所定のアンカー長さを確保する。</text>
+</svg>`;
+
 const ch14: Record<string, Commentary> = {
   "14.1.1": {
     plainSummary:
@@ -378,7 +393,12 @@ const ch14: Record<string, Commentary> = {
       "はめあい方式で温度伸縮を逃がす",
       "コーナー・継手部の止水処理が雨仕舞いの要",
     ],
-    diagrams: [],
+    diagrams: [
+      {
+        svg: SVG_COPING,
+        caption: "アルミ笠木の本体・固定金具・下地（14.7.3）",
+      },
+    ],
   },
 };
 

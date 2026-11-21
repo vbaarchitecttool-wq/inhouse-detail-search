@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-25T02:24:27.013Z",
-  "count": 124,
+  "generatedAt": "2026-11-21T00:40:58.202Z",
+  "count": 132,
   "diagrams": [
     {
       "id": "01-priority",
@@ -101,7 +101,7 @@
       "ariaLabel": "手すり先行工法。足場の組立解体変更の作業時と使用時には、常時すべての作業床に手すり、中桟、幅木の機能を持つものを設置する",
       "hash": "1304904a",
       "assetPath": "/diagrams/photo-1304904a.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 手すり先行工法。足場の組立解体変更の作業時と使用時には、常時すべての作業床に手すり、中桟、幅木の機能を持つものを設置する\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "建築仕様書の教育用AI画像。足場外側の手すり・中桟・作業床端の幅木の位置。組立手順は下図で確認する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "02-kikenbutsu",
@@ -110,7 +110,7 @@
       "constant": "SVG_KIKENBUTSU",
       "ariaLabel": "危険物貯蔵所の要件。建物や仮設事務所、他の材料置場から隔離した場所に設け、屋根と壁は不燃材料で覆い、出入口に施錠し、火気厳禁の表示を行い、消火器を設ける",
       "hash": "942cfd80",
-      "assetPath": "/diagrams/photo-942cfd80.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 危険物貯蔵所の要件。建物や仮設事務所、他の材料置場から隔離した場所に設け、屋根と壁は不燃材料で覆い、出入口に施錠し、火気厳禁の表示を行い、消火器を設ける\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -120,7 +120,7 @@
       "constant": "SVG_NEGIRI",
       "ariaLabel": "根切りの断面。周辺状況や土質、地下水に適した工法とし、法面または山留めを設ける。根切り底は地盤をかく乱しないよう平たんに掘り、状態、土質、深さを確認して監督職員の検査を受ける",
       "hash": "ecc68b24",
-      "assetPath": "/diagrams/photo-ecc68b24.webp",
+      "assetPath": null,
       "prompt": "Use case: precise-object-edit\nAsset type: corrected landscape construction photograph for Japanese specification item 3.2.1\nPrimary request: Replace only the timber fall-prevention guardrails at the top perimeter of the excavation with 48.6 mm galvanized steel single-pipe guardrails.\nSubject: continuous top rail and intermediate rail on galvanized steel pipe posts, realistic clamps and protective end caps.\nConstraints: preserve the excavation, flat formation level, inspector, soil layers and brown retaining boards; no wooden guardrails remain; no text, labels, arrows, logos or watermark."
     },
     {
@@ -160,7 +160,7 @@
       "constant": "SVG_JIGYO_MAP",
       "ariaLabel": "地業工事の全体像。杭地業には既製コンクリート杭、鋼杭、場所打ちコンクリート杭がある。地盤改良には深層混合処理と浅層混合処理がある。そのほか砂利、砂、捨てコンクリート地業がある",
       "hash": "79bc3a51",
-      "assetPath": "/diagrams/photo-79bc3a51.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: annotated landscape overview for Japanese specification item 4.1.1\nPrimary request: Preserve the existing photorealistic overview and add deterministic Japanese callout boxes and arrows in local post-processing.\nText (verbatim): 既製コンクリート杭; 鋼杭; 場所打ちコンクリート杭; 地盤改良; 砂利地業; 砂地業; 捨てコンクリート地業\nConstraints: every label must point to the matching visible element; exact Japanese text; high contrast; no AI-rendered text, logos or watermark."
     },
     {
@@ -200,7 +200,7 @@
       "constant": "SVG_TREMIE",
       "ariaLabel": "場所打ちコンクリート杭のトレミー打設。掘削孔に鉄筋かごを設置し、トレミー管でコンクリートを打ち込む。トレミー管の先端は常にコンクリート中に2メートル以上入れて保持し、杭頭には余盛りを行う",
       "hash": "13d67a94",
-      "assetPath": "/diagrams/photo-13d67a94.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 場所打ちコンクリート杭のトレミー打設。掘削孔に鉄筋かごを設置し、トレミー管でコンクリートを打ち込む。トレミー管の先端は常にコンクリート中に2メートル以上入れて保持し、杭頭には余盛りを行う\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -320,7 +320,7 @@
       "constant": "SVG_GAS_TEST",
       "ariaLabel": "圧接完了後の試験の流れ。全ての圧接部に外観試験を行い、ロットごとに30か所を抜き取って超音波探傷試験を行う。1ロットは1組の作業班が1日に行った圧接箇所。全箇所合格でロット合格",
       "hash": "6c1c0235",
-      "assetPath": "/diagrams/photo-6c1c0235.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for Japanese construction specification item 5.4.10\nInput images: the user-supplied photograph is the authoritative reference for the actual on-site rebar-cage inspection arrangement, compact probe handling, detector placement, and field scale; omit screenshot arrows and UI.\nPrimary request: Create a highly photorealistic Japanese construction-site photograph of ultrasonic testing on one completed gas-pressure-welded reinforcing-bar joint, matching the practical inspection in the reference.\nScene/backdrop: installed reinforced-concrete foundation or beam rebar cage above formwork, with soil and concrete subgrade behind.\nSubject: one target horizontal deformed bar among tied reinforcement has a modest completed pressure-weld bulge between the inspector's hands. The inspector operates small realistic contact or angle probes on the curved ribbed bar immediately adjacent to the bulge using both hands. Thin cables run to a rugged portable ultrasonic flaw detector secured beside the cage in a protective metal frame, with a dark subtle waveform screen.\nStyle/medium: authentic documentary field inspection photography, realistic hands, mill-scale rebar, tie wire, probes, cables, weathered detector case, formwork, and construction dirt.\nComposition/framing: landscape 3:2 close overhead or oblique view; target bulge, both probe contact points, hands, cable paths, detector, and surrounding cage are visible.\nLighting/mood: neutral outdoor daylight, practical inspection clarity, natural unpolished color.\nConstraints: real field technique and compact equipment; completed pressure-weld bulge must be visible; no bench specimen, pipe, sleeve, coupler, active welding, torch, flame, sparks, oversized probe, invented scanner, laboratory rack, collage, text, labels, arrows, carousel controls, logos, trademarks, watermark, impossible cables, or extra fingers."
     },
     {
@@ -351,7 +351,7 @@
       "ariaLabel": "コンクリート強度の関係。設計基準強度Fcに構造体強度補正値Sを加えたものが調合管理強度。レディーミクストコンクリートの呼び強度は調合管理強度以上とする",
       "hash": "23b6b099",
       "assetPath": "/diagrams/photo-23b6b099.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for Japanese construction specification item 6.3.2, concrete mix proportion and trial-mix confirmation\nInput images: the user-supplied photograph is the reference for the required real-world measurement arrangement: a low slumped mound, a vertical calibrated staff beside it, and a horizontal straightedge meeting the staff.\nPrimary request: Create a highly photorealistic concrete quality-control photograph showing the slump confirmation step during a trial mix used to verify the planned concrete mix.\nScene/backdrop: clean outdoor quality-control area at a Japanese ready-mixed-concrete plant or site laboratory, level rigid damp metal base plate, mixing pan softly visible in the background.\nSubject: a cohesive fresh-concrete specimen has settled into a low broad naturally irregular mound without segregation. A vertical metric measuring staff stands on the plate immediately beside and completely outside the mound. A separate horizontal steel measuring bar rests lightly across the central highest point and meets the staff at a precise right angle. An empty 300 mm metal slump cone stands nearby. A gloved technician steadies the tools without covering contact points.\nStyle/medium: documentary concrete laboratory photography, realistic wet cement paste, aggregate, galvanized tools, damp steel plate, gloves, boots, and workwear.\nComposition/framing: landscape 3:2 close three-quarter overhead view; full mound, staff foot, horizontal bar contact, 90-degree intersection, and empty cone are visible.\nLighting/mood: neutral daylight, high inspection clarity, natural color.\nConstraints: vertical staff stands beside concrete and never enters or touches it; horizontal bar is level and touches only the mound's highest point; low slumped mound, not a tall intact cone shape; no inserted ruler or probe, no slump-flow diameter measurement, no extra piles, collage, labels, arrows, logos, trademarks, or watermark; safe PPE."
+      "prompt": "建築仕様書の教育用AI画像。圧縮試験の前に並べたコンクリートの円柱供試体。強度の関係は下図で確認する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "06-slump",
@@ -361,7 +361,7 @@
       "ariaLabel": "スランプ試験。高さ30センチのスランプコーンにコンクリートを詰めて引き上げ、頂部からの下がり量をスランプ値とする。スランプ8から18センチの許容差はプラスマイナス2.5センチ",
       "hash": "507bc7ee",
       "assetPath": "/diagrams/photo-507bc7ee.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for Japanese construction specification item 6.2.4, workability and slump\nInput images: the user-supplied photograph is a visual reference for the real slump-measurement setup and naturally collapsed concrete shape; do not copy its exact site or markings.\nPrimary request: Create a highly photorealistic Japanese construction-site receiving-inspection photograph showing the correct measurement stage of a JIS A 1101 concrete slump test immediately after the 300 mm slump cone has been lifted vertically.\nScene/backdrop: level rigid damp metal base plate near a ready-mix concrete truck at the unloading point, clean controlled testing area.\nSubject: a cohesive mound of fresh concrete has slumped substantially into a low rounded irregular shape without segregation. The empty metal slump cone stands upright immediately beside the mound. A straight steel tamping rod rests perfectly horizontal across the cone top and extends over the central highest point. A separate vertical metric rule measures the clear vertical drop from the underside of the horizontal rod to the concrete's central highest point; its flat lower tip only touches the surface and never enters the concrete.\nStyle/medium: documentary construction inspection photography, realistic wet concrete, aggregate texture, galvanized cone, steel rod, ruler, gloves, boots, and base plate.\nComposition/framing: landscape 3:2, close three-quarter overhead view; cone, horizontal reference rod, vertical air-gap measurement, and low slumped mound are unobstructed.\nLighting/mood: neutral daylight, high inspection clarity, natural color.\nConstraints: technically plausible JIS-style measurement; no tall intact cone-shaped specimen; no ruler or rod inserted into concrete; no measurement from the base plate to the top; no slump-flow diameter measurement; no unsupported freehand horizontal rod; no extra cones, collage, text, labels, arrows, logos, trademarks, or watermark; safe PPE."
+      "prompt": "建築仕様書の教育用AI画像。コーン上端でコンクリートをならした、引上げ前の状態。スランプの測定位置は下図に示す。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "06-time",
@@ -390,7 +390,7 @@
       "constant": "SVG_JOINT",
       "ariaLabel": "打継ぎの位置。梁とスラブはスパンの中央または端から4分の1付近に、柱と壁はスラブや基礎の上端に設ける",
       "hash": "c05e38ad",
-      "assetPath": "/diagrams/photo-c05e38ad.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 打継ぎの位置。梁とスラブはスパンの中央または端から4分の1付近に、柱と壁はスラブや基礎の上端に設ける\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -480,7 +480,7 @@
       "constant": "SVG_TORSHIA",
       "ariaLabel": "トルシア形高力ボルト締付け後の合格確認4点。ピンテールが破断していること。マークのずれで共回りがないこと。ナット回転量が平均プラスマイナス30度の範囲。余長がねじ1山から6山",
       "hash": "c0107733",
-      "assetPath": "/diagrams/photo-c0107733.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for Japanese construction specification item 7.4.8, post-tightening inspection\nInput images: the first user-supplied photograph is the reference for realistic weathered steel, nuts, washers, bolt layout, camera angle, and white paint. The second user-supplied diagram is the authoritative technical reference for the post-tightening marking pattern: the nut-side paint segment has rotated away from the stationary plate and washer reference segment; omit arrows, handwriting, cartoon figures, screenshot controls, and UI.\nPrimary request: Create a highly photorealistic close-up construction inspection photograph showing the correct after-final-tightening marking condition of torshear-type high-strength structural bolts.\nScene/backdrop: exposed weathered orange-brown structural steel splice plates at a Japanese steel construction site, with a small glimpse of blue safety mesh near one edge.\nSubject: five to seven completed torshear-type high-strength bolt assemblies, each with a large hexagonal nut and round flat washer correctly seated and a short broken pin-tail end. At every fastener show two clearly separated white witness-mark segments: a fixed radial reference line on the steel plate continuing only onto the washer at the 6-o'clock direction, and a white paint segment on one face or edge of the hexagonal nut rotated about 60 to 90 degrees away around the 8-to-10-o'clock direction. The nut-side mark and plate/washer-side mark must not connect or form one straight line. The consistent angular offset proves nut rotation while the fixed reference permits checking for co-rotation. Include realistic scuffed metal, slight surface rust, construction dust, and silver wear.\nStyle/medium: highly photorealistic documentary construction photography, technically plausible Japanese steelwork inspection, natural imperfect site texture.\nComposition/framing: landscape 3:2, tight oblique overhead close-up similar to the photographic reference, with focus centered on at least three complete assemblies where both separated mark segments are unmistakable.\nLighting/mood: strong natural daylight, crisp inspection visibility, realistic hard highlights and modest shadows.\nConstraints: final-tightening state only; broken pin tails; all nuts and washers correctly seated; obvious angular discontinuity between every nut mark and its plate/washer reference mark; no continuous aligned mark across plate, washer, and nut; no loose parts, tools, or workers; no labels, printed text, arrows, dimensions, slideshow navigation symbols, logos, trademarks, or watermark.\nAvoid: marks aligned in one straight radial line, pre-tightening appearance, unmarked bolts, excessive bolt projection, black pristine studio steel, generic bolt portrait, welds, rebar, schematic illustration, CGI appearance, unsafe or failed connection."
     },
     {
@@ -530,7 +530,7 @@
       "constant": "SVG_BASE",
       "ariaLabel": "柱底均しモルタルA種工法。柱建込み前にベースプレート中央下部に硬練りモルタルを所定高さに塗り、建込み後にベースプレート周囲に型枠を設け無収縮モルタルをあふれ出るまで圧入する",
       "hash": "e7500c62",
-      "assetPath": "/diagrams/photo-e7500c62.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 柱底均しモルタルA種工法。柱建込み前にベースプレート中央下部に硬練りモルタルを所定高さに塗り、建込み後にベースプレート周囲に型枠を設け無収縮モルタルをあふれ出るまで圧入する\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -550,7 +550,7 @@
       "constant": "SVG_CB_WALL",
       "ariaLabel": "補強コンクリートブロック造の配筋。縦筋はブロック空洞部の中心に配置し継手を設けず上下をがりょうや基礎に定着する。横筋は壁端部の縦筋に180度フックでかぎ掛けする。重ね継手45d、定着40d、かぶり20ミリ以上",
       "hash": "b8c78547",
-      "assetPath": "/diagrams/photo-b8c78547.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 補強コンクリートブロック造の配筋。縦筋はブロック空洞部の中心に配置し継手を設けず上下をがりょうや基礎に定着する。横筋は壁端部の縦筋に180度フックでかぎ掛けする。重ね継手45d、定着40d、かぶり20ミリ以上\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -560,7 +560,7 @@
       "constant": "SVG_CB_STACK",
       "ariaLabel": "ブロック積みのルール。1日の積上げ高さは1.6メートル程度まで。横筋を入れる段と最上段は基本形横筋ブロックを使う。目地モルタルは横目地は上端全面、縦目地は接合面に隙間なく塗る",
       "hash": "83758e0c",
-      "assetPath": "/diagrams/photo-83758e0c.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: ブロック積みのルール。1日の積上げ高さは1.6メートル程度まで。横筋を入れる段と最上段は基本形横筋ブロックを使う。目地モルタルは横目地は上端全面、縦目地は接合面に隙間なく塗る\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -580,7 +580,7 @@
       "constant": "SVG_FENCE",
       "ariaLabel": "補強コンクリートブロック塀の規定。高さは2.2メートル以下。ブロックの正味厚さは高さ2メートル以下で120ミリ、2メートルを超えると150ミリ。交差部や控壁には型枠状ブロックを使いコンクリートを充填する",
       "hash": "62e7f742",
-      "assetPath": "/diagrams/photo-62e7f742.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 補強コンクリートブロック塀の規定。高さは2.2メートル以下。ブロックの正味厚さは高さ2メートル以下で120ミリ、2メートルを超えると150ミリ。交差部や控壁には型枠状ブロックを使いコンクリートを充填する\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -671,17 +671,37 @@
       "ariaLabel": "トーチ工法。トーチバーナーで改質アスファルトシートの裏面と下地をあぶり、裏面のアスファルトを溶かしながら押し広げて密着させる。重ねは100ミリ以上で溶けたアスファルトがはみ出す程度に加熱する",
       "hash": "2efba031",
       "assetPath": "/diagrams/photo-2efba031.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: トーチ工法。トーチバーナーで改質アスファルトシートの裏面と下地をあぶり、裏面のアスファルトを溶かしながら押し広げて密着させる。重ねは100ミリ以上で溶けたアスファルトがはみ出す程度に加熱する\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "建築仕様書の教育用AI画像。シート重ね部に現れたアスファルトの例。施工後の外観で、バーナーの当て方は下図を参照。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "09-seal_test",
       "chapter": 9,
       "sourceFile": "src/commentary/ch09.ts",
       "constant": "SVG_SEAL_TEST",
-      "ariaLabel": "シーリングの簡易接着性試験。実際の部材にプライマーを塗りシーリング材を充填して硬化後に180度方向に引っ張り、シーリング材自体が切れる凝集破壊なら合格。界面からきれいに剥がれたら不合格",
-      "hash": "b0805ae1",
-      "assetPath": "/diagrams/photo-b0805ae1.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape photographic visual for Japanese construction specification item 9.7.5, on-site simplified sealant adhesion test\nInput images: the user-supplied construction photograph is the authoritative reference for the real exterior-wall setting, textured gray panels, vertical and horizontal joints, green masking tape, white sealant, gloves, and practical site scale. The confusing old two-panel image and laboratory tensile-machine image must not be retained.\nPrimary request: Create a highly photorealistic, immediately understandable on-site simplified adhesion test performed on the actual exterior-wall substrate after the sealant has cured.\nScene/backdrop: a textured gray exterior wall at a Japanese construction or renovation site. Surrounding vertical and horizontal joints have neatly applied white sealant between green masking-tape lines.\nSubject: beside the main joint, a small dedicated narrow test strip of cured white sealant has been prepared directly on the actual primed wall substrate. An inspector in work gloves has cut and freed one end and uses pliers to pull the strip back 180 degrees, folded nearly parallel against itself. The strip stretches and tears within the sealant material while a rough continuous layer of white residue remains bonded to the wall, clearly showing acceptable cohesive failure rather than clean interface peeling.\nStyle/medium: authentic documentary construction inspection photography with realistic textured wall coating, masking tape, cured elastomer texture, glove wear, pliers, and natural site imperfections.\nComposition/framing: landscape 3:2 close oblique view; the test strip and gloved hand dominate the center, while correctly sealed wall joints remain visible nearby for context; one coherent scene, not a collage.\nLighting/mood: neutral outdoor daylight, high inspection clarity, natural color.\nConstraints: adhesion test after curing, 180-degree pull, cohesive failure leaving sealant on the substrate; no active caulking application, universal tensile machine, laboratory grips, dog-bone specimen, clean adhesive interface peel, bare clean wall beneath the strip, collage, text, captions, arrows, red boxes, UI, logos, trademarks, or watermark."
+      "ariaLabel": "簡易接着性試験。実部材又は化粧見本で試験片を作り、弾性発現後に端を180°折り返して被着面に沿って引く。凝集破壊・薄層凝集破壊が合格。",
+      "hash": "fbe1dbb8",
+      "assetPath": "/diagrams/photo-fbe1dbb8.webp",
+      "prompt": "建築仕様書の教育用AI画像。左は角形バックアップ材の間に充填した試験片。右は硬化後に端を被着面と平行に引く様子。合否は実際の破断面で判定する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
+    },
+    {
+      "id": "09-seal_joint",
+      "chapter": 9,
+      "sourceFile": "src/commentary/ch09.ts",
+      "constant": "SVG_SEAL_JOINT",
+      "ariaLabel": "シーリング目地の横断面。深い目地ではバックアップ材で深さを調整し、所定深さの目地では底にボンドブレーカーを設ける。",
+      "hash": "4bb6e501",
+      "assetPath": "/diagrams/photo-4bb6e501.webp",
+      "prompt": "建築仕様書の教育用AI画像。外壁目地の例。青色は養生テープ、下方の丸い断面の材はバックアップ材、上方は充填したシーリング材。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
+    },
+    {
+      "id": "09-seal_tension",
+      "chapter": 9,
+      "sourceFile": "src/commentary/ch09.ts",
+      "constant": "SVG_SEAL_TENSION",
+      "ariaLabel": "引張接着性試験の原理。使用材料と同様に製作した被着体の間にシーリング材を設け、両被着体の間隔が開く方向に引っ張る。",
+      "hash": "2931c225",
+      "assetPath": "/diagrams/photo-2931c225.webp",
+      "prompt": "建築仕様書の教育用AI画像。引張接着性試験の載荷前の試験体の例。２枚の被着体の中央をシーリング材で接着している。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "10-methods",
@@ -690,7 +710,7 @@
       "constant": "SVG_METHODS",
       "ariaLabel": "石工事の3工法。湿式工法は引金物とだぼで留め裏込めモルタルを充填する。空積工法は内壁で受金物で受ける。乾式工法はファスナーとだぼで留めモルタルを使わず地震に追従する",
       "hash": "4a787b34",
-      "assetPath": "/diagrams/photo-4a787b34.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 石工事の3工法。湿式工法は引金物とだぼで留め裏込めモルタルを充填する。空積工法は内壁で受金物で受ける。乾式工法はファスナーとだぼで留めモルタルを使わず地震に追従する\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -712,6 +732,16 @@
       "hash": "174206fe",
       "assetPath": "/diagrams/photo-174206fe.webp",
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 外壁乾式工法。躯体にあと施工アンカーで一次ファスナーを付け、二次ファスナーを介してだぼで石材を留める。スライド方式やロッキング方式で地震の変位に追従し、取付け代は70mm程度、モルタルは使わない\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+    },
+    {
+      "id": "10-stair_stone",
+      "chapter": 10,
+      "sourceFile": "src/commentary/ch10.ts",
+      "constant": "SVG_STAIR_STONE",
+      "ariaLabel": "石張り階段の部分断面。水平の踏み石、垂直のけ上げ石、け上げ石背面の裏込めモルタルの位置。",
+      "hash": "01272847",
+      "assetPath": "/diagrams/photo-01272847.webp",
+      "prompt": "建築仕様書の教育用AI画像。石張り階段の仕上がり。水平な面が踏み石、正面の立ち上がった面がけ上げ石。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "11-tile_methods",
@@ -740,7 +770,7 @@
       "constant": "SVG_TILE_TEST",
       "ariaLabel": "タイルの施工後確認。全面を打診棒でたたいて浮きを探す打診と、油圧式試験機でタイルを引っ張る引張接着試験がある。合格は接着強度0.4ニュートン毎平方ミリ以上",
       "hash": "d528e6b3",
-      "assetPath": "/diagrams/photo-d528e6b3.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: タイルの施工後確認。全面を打診棒でたたいて浮きを探す打診と、油圧式試験機でタイルを引っ張る引張接着試験がある。合格は接着強度0.4ニュートン毎平方ミリ以上\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -752,6 +782,16 @@
       "hash": "cc31b8f4",
       "assetPath": "/diagrams/photo-cc31b8f4.webp",
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: タイルの伸縮調整目地の位置。外壁垂直方向は柱の両側や3〜4メートル程度ごと、水平方向は各階ごと打継ぎ目地の位置、床は4メートル以内ごとに設ける。目地は躯体と縁を切って設ける\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+    },
+    {
+      "id": "11-tile_ridges",
+      "chapter": 11,
+      "sourceFile": "src/commentary/ch11.ts",
+      "constant": "SVG_TILE_RIDGES",
+      "ariaLabel": "内装の壁タイル接着剤張り。壁面の接着剤のくし目とタイル裏あしの方向を平行にしない例。",
+      "hash": "ebfe150a",
+      "assetPath": "/diagrams/photo-ebfe150a.webp",
+      "prompt": "建築仕様書の教育用AI画像。壁タイルの張付け途中。左はタイルの表面、右は張付け前の接着剤のくし目。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "12-moisture",
@@ -781,7 +821,7 @@
       "ariaLabel": "天井下地の構成。スラブに打ち込んだインサートにつりボルトをねじ込み、野縁受け桟を吊り、それに直交して野縁を取り付ける。野縁にせっこうボード等を張る。つりボルトと野縁受けの間隔は900ミリ程度、野縁は450ミリ程度",
       "hash": "552bd357",
       "assetPath": "/diagrams/photo-552bd357.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 天井下地の構成。スラブに打ち込んだインサートにつりボルトをねじ込み、野縁受け桟を吊り、それに直交して野縁を取り付ける。野縁にせっこうボード等を張る。つりボルトと野縁受けの間隔は900ミリ程度、野縁は450ミリ程度\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "建築仕様書の教育用AI画像。コンクリートスラブから吊った木製天井下地。野縁と野縁受け桟の木目と直交方向に注目。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "13-shitabuki",
@@ -811,7 +851,7 @@
       "ariaLabel": "粘土瓦葺きの構成。野地板に下葺きを張り、瓦桟木を取り付けて桟瓦を引っ掛ける。瓦は緊結用釘やねじで留め、棟は棟補強用心材に冠瓦を固定する。緊結用釘は野地板厚の半分以上に達する長さ",
       "hash": "f3d137a8",
       "assetPath": "/diagrams/photo-f3d137a8.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 粘土瓦葺きの構成。野地板に下葺きを張り、瓦桟木を取り付けて桟瓦を引っ掛ける。瓦は緊結用釘やねじで留め、棟は棟補強用心材に冠瓦を固定する。緊結用釘は野地板厚の半分以上に達する長さ\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "建築仕様書の教育用AI画像。葺き上がった粘土瓦の重なり。固定ねじと下葺きは完成面からは見えない。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "13-toi",
@@ -831,7 +871,7 @@
       "ariaLabel": "あと施工アンカーの引張試験。1ロットから無作為に3本抜き取り、定めた強度まで引っ張る。全て合格でロット合格。不合格なら作業中止し原因調査、20パーセント追加抜取り",
       "hash": "34d42f7e",
       "assetPath": "/diagrams/photo-34d42f7e.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: あと施工アンカーの引張試験。1ロットから無作為に3本抜き取り、定めた強度まで引っ張る。全て合格でロット合格。不合格なら作業中止し原因調査、20パーセント追加抜取り\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "建築仕様書の教育用AI画像。試験機を装着する前のアンカーボルト。荷重・反力の取り方と判定は試験計画に従う。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "14-galv",
@@ -864,6 +904,16 @@
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 軽量鉄骨壁下地の構成。上下にランナを固定し、スタッドを差し込んで立てる。振れ止めを約1.2メートルごとに通し、スペーサでスタッドを押さえる。スタッド間隔は下地張りありで450ミリ、直張りで300ミリ\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
+      "id": "14-coping",
+      "chapter": 14,
+      "sourceFile": "src/commentary/ch14.ts",
+      "constant": "SVG_COPING",
+      "ariaLabel": "アルミニウム製笠木の模式断面。笠木本体の内側に固定金具があり、あと施工アンカーはコンクリート下地に固定する。",
+      "hash": "a0e2eea2",
+      "assetPath": "/diagrams/photo-a0e2eea2.webp",
+      "prompt": "建築仕様書の教育用AI画像。取付け後のアルミ笠木の上面と継目。内側の金具とアンカーの位置は下図に示す。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
+    },
+    {
       "id": "15-mortar_layers",
       "chapter": 15,
       "sourceFile": "src/commentary/ch15.ts",
@@ -881,7 +931,7 @@
       "ariaLabel": "上塗り仕上げの3種類。金ごて仕上げは塗装下地・防水下地・タイル接着剤張り下地。木ごて仕上げはセメントモルタル張りタイル下地。はけ引き仕上げは粗面に仕上げる",
       "hash": "f5a20a9c",
       "assetPath": "/diagrams/photo-f5a20a9c.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 上塗り仕上げの3種類。金ごて仕上げは塗装下地・防水下地・タイル接着剤張り下地。木ごて仕上げはセメントモルタル張りタイル下地。はけ引き仕上げは粗面に仕上げる\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "prompt": "建築仕様書の教育用AI画像。左から金ごて、木ごて、はけ引き。光を斜めから当て、平滑面・粒状の面・平行なはけ目を比べた仕上げ見本。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
     },
     {
       "id": "15-sl",
@@ -910,7 +960,7 @@
       "constant": "SVG_ROCKWOOL",
       "ariaLabel": "ロックウール吹付け。ロックウール60から85パーセントとセメント15から40パーセントを混合し、密度0.2グラム毎立方センチ以上で吹き付ける。吹付け厚さは所定の1.2倍とし、こてで圧縮して所定厚に仕上げる",
       "hash": "e3c75c1f",
-      "assetPath": "/diagrams/photo-e3c75c1f.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: ロックウール吹付け。ロックウール60から85パーセントとセメント15から40パーセントを混合し、密度0.2グラム毎立方センチ以上で吹き付ける。吹付け厚さは所定の1.2倍とし、こてで圧縮して所定厚に仕上げる\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -920,7 +970,7 @@
       "constant": "SVG_PERFORMANCE",
       "ariaLabel": "外部に面する建具の3つの性能。耐風圧性Sは風で変形・破損しない強さ、気密性Aは隙間風の少なさ、水密性Wは雨水の浸入しにくさ。等級が大きいほど高性能",
       "hash": "12e74dc6",
-      "assetPath": "/diagrams/photo-12e74dc6.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 外部に面する建具の3つの性能。耐風圧性Sは風で変形・破損しない強さ、気密性Aは隙間風の少なさ、水密性Wは雨水の浸入しにくさ。等級が大きいほど高性能\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -1064,6 +1114,26 @@
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: せっこうボードの直張り工法。コンクリート下地に団子状の直張り用接着材を点々と塗り、ボードを押し付けて定規でたたきながら上下左右を調整して張る。接着材の盛上げ高さは仕上げ厚さの2倍以上\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
+      "id": "19-wallpaper",
+      "chapter": 19,
+      "sourceFile": "src/commentary/ch19.ts",
+      "constant": "SVG_WALLPAPER",
+      "ariaLabel": "壁紙の柄合わせの正面図。隣り合う壁紙の継目をまたいで模様が連続するように裁ち合わせる。",
+      "hash": "998cb00f",
+      "assetPath": "/diagrams/photo-998cb00f.webp",
+      "prompt": "建築仕様書の教育用AI画像。継目部分をローラーで押さえる場面。隣り合う壁紙の柄の高さをそろえる。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
+    },
+    {
+      "id": "19-insulation_cast",
+      "chapter": 19,
+      "sourceFile": "src/commentary/ch19.ts",
+      "constant": "SVG_INSULATION_CAST",
+      "ariaLabel": "断熱材打込み工法。打込み前は型枠の内面に断熱材を固定し、脱型後は断熱材がコンクリート表面に残る。",
+      "hash": "67ea391b",
+      "assetPath": "/diagrams/photo-67ea391b.webp",
+      "prompt": "建築仕様書の教育用AI画像。壁の打込み前に型枠の内側に設けた板状断熱材。手前に鉄筋、奥に型枠が見える。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
+    },
+    {
       "id": "20-access_floor",
       "chapter": 20,
       "sourceFile": "src/commentary/ch20.ts",
@@ -1120,7 +1190,7 @@
       "constant": "SVG_STONE_WALL",
       "ariaLabel": "間知石積み。布積みは横目地が通る積み方、谷積みは石を斜めに互い違いに積む方式で標準はこちら。断面では、石の裏に裏込めコンクリートを打ちながら積み上げ、土圧を支える。水抜きは硬質塩ビ管を千鳥に設け、元部に土砂流出防止マットと砂利を置いて水を逃がす",
       "hash": "c63ab274",
-      "assetPath": "/diagrams/photo-c63ab274.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 間知石積み。布積みは横目地が通る積み方、谷積みは石を斜めに互い違いに積む方式で標準はこちら。断面では、石の裏に裏込めコンクリートを打ちながら積み上げ、土圧を支える。水抜きは硬質塩ビ管を千鳥に設け、元部に土砂流出防止マットと砂利を置いて水を逃がす\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -1130,7 +1200,7 @@
       "constant": "SVG_MANHOLE",
       "ariaLabel": "排水桝の断面。上部にふた、桝の側壁を側塊で積みモルタルで接合する。流入管と流出管が桝の内面に少し突き出るように取り付け、隙間はモルタルを内外から詰めて水漏れを防ぐ。汚水が混じる桝は底に流れの方向にならった半円形のインバート溝をモルタルで作る。深い桝には足掛け金物を取り付ける",
       "hash": "daa154db",
-      "assetPath": "/diagrams/photo-daa154db.webp",
+      "assetPath": null,
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 排水桝の断面。上部にふた、桝の側壁を側塊で積みモルタルで接合する。流入管と流出管が桝の内面に少し突き出るように取り付け、隙間はモルタルを内外から詰めて水漏れを防ぐ。汚水が混じる桝は底に流れの方向にならった半円形のインバート溝をモルタルで作る。深い桝には足掛け金物を取り付ける\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
@@ -1168,10 +1238,10 @@
       "chapter": 22,
       "sourceFile": "src/commentary/ch22.ts",
       "constant": "SVG_PAVEMENT_LAYERS",
-      "ariaLabel": "舗装の断面構成。下から路床（地盤・締固め度90％以上）、その上に路盤（砕石など・締固め度93％以上）、いちばん上に表層のアスファルトまたはコンクリート（締固め度94％以上）を重ねる。路盤と表層の間にはプライムコート（乳剤）を散布して密着させる。荷重は上から下の各層へ分散して伝わる",
-      "hash": "cc0c1d9e",
-      "assetPath": "/diagrams/photo-cc0c1d9e.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 舗装の断面構成。下から路床（地盤・締固め度90％以上）、その上に路盤（砕石など・締固め度93％以上）、いちばん上に表層のアスファルトまたはコンクリート（締固め度94％以上）を重ねる。路盤と表層の間にはプライムコート（乳剤）を散布して密着させる。荷重は上から下の各層へ分散して伝わる\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "ariaLabel": "舗装の断面構成。下から路床（地盤・締固め度90％以上）、その上に路盤（砕石など・締固め度93％以上）、いちばん上にアスファルト舗装の表層（締固め度94％以上）を重ねる。路盤と表層の間にはプライムコート（乳剤）を散布して密着させる。荷重は上から下の各層へ分散して伝わる",
+      "hash": "6da790a5",
+      "assetPath": "/diagrams/photo-6da790a5.webp",
+      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 舗装の断面構成。下から路床（地盤・締固め度90％以上）、その上に路盤（砕石など・締固め度93％以上）、いちばん上にアスファルト舗装の表層（締固め度94％以上）を重ねる。路盤と表層の間にはプライムコート（乳剤）を散布して密着させる。荷重は上から下の各層へ分散して伝わる\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
       "id": "22-asphalt_work",
@@ -1204,14 +1274,24 @@
       "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: インターロッキングブロック舗装。砂などのクッション材を所定厚さに仕上げ、その上にブロックを割付け図に従って敷き並べる。車路はヘリンボンボンド（矢羽根状の組み方）とし、かみ合いで荷重に強くする。一次転圧のあと目地に砂を詰め、二次転圧で目地砂を密実に充填する\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
+      "id": "22-gravel_types",
+      "chapter": 22,
+      "sourceFile": "src/commentary/ch22.ts",
+      "constant": "SVG_GRAVEL_TYPES",
+      "ariaLabel": "砂利敷きの仕上げ断面。A種は上敷き約30ミリと下敷き約60ミリ、B種は砂利又は砕石約60ミリ。",
+      "hash": "39247267",
+      "assetPath": "/diagrams/photo-39247267.webp",
+      "prompt": "建築仕様書の教育用AI画像。砂利を敷き均した通路の仕上がり。表面から判別できないＡ種・Ｂ種の構成は下図で確認する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
+    },
+    {
       "id": "23-soil_layer",
       "chapter": 23,
       "sourceFile": "src/commentary/ch23.ts",
       "constant": "SVG_SOIL_LAYER",
-      "ariaLabel": "樹木等に応じた有効土層の厚さ。有効土層とは植物の根が支障なく伸びられる土の層。高木（樹高12m以上）は100cm、高木（7〜12m未満）は80cm、低木（3〜7m未満）は60cm、低木（3m未満）は50cm、芝・地被類は30cmが標準。木が大きいほど根を張るため厚い土層が必要",
-      "hash": "6b3260b8",
-      "assetPath": "/diagrams/photo-6b3260b8.webp",
-      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 樹木等に応じた有効土層の厚さ。有効土層とは植物の根が支障なく伸びられる土の層。高木（樹高12m以上）は100cm、高木（7〜12m未満）は80cm、低木（3〜7m未満）は60cm、低木（3m未満）は50cm、芝・地被類は30cmが標準。木が大きいほど根を張るため厚い土層が必要\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
+      "ariaLabel": "樹木等に応じた有効土層の厚さ。有効土層とは植物の根が支障なく伸びられる土の層。高木（樹高12m以上）は100cm、高木（7〜12m未満）は80cm、高木（3〜7m未満）は60cm、低木（3m未満）は50cm、芝・地被類は30cmが標準。木が大きいほど根を張るため厚い土層が必要",
+      "hash": "ebe3ad4e",
+      "assetPath": null,
+      "prompt": "Use case: scientific-educational\nAsset type: landscape visual layer for a Japanese construction specification learning card\nPrimary request: Create one highly photorealistic, technically plausible construction visual that clearly represents this Japanese building-work topic: 樹木等に応じた有効土層の厚さ。有効土層とは植物の根が支障なく伸びられる土の層。高木（樹高12m以上）は100cm、高木（7〜12m未満）は80cm、高木（3〜7m未満）は60cm、低木（3m未満）は50cm、芝・地被類は30cmが標準。木が大きいほど根を張るため厚い土層が必要\nScene/backdrop: an authentic Japanese construction site, workshop, inspection area, or finished building location appropriate to the topic\nSubject: make the essential materials, components, workmanship, or decisive process stage prominent and easy for a first-year construction manager to recognize\nStyle/medium: documentary construction photography or physically realistic architectural visualization; realistic material texture, scale, joints, tools, wear, and site conditions\nComposition/framing: landscape 3:2, clear visual hierarchy, uncluttered, no collage; use a sectional or cutaway view only when the topic cannot be understood from an ordinary camera view\nLighting/mood: neutral daylight or clean inspection lighting, high clarity, natural color\nConstraints: technically plausible Japanese practice; educational accuracy over drama; no text, labels, arrows, dimensions, logos, trademarks, or watermark; no unsafe behavior; no unrelated equipment or decoration"
     },
     {
       "id": "23-tree_plant",

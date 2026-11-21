@@ -182,28 +182,51 @@ const SVG_TORCH_M = `
 </svg>`;
 
 const SVG_SEAL_TEST = `
-<svg viewBox="0 0 640 200" role="img" aria-label="シーリングの簡易接着性試験。実際の部材にプライマーを塗りシーリング材を充填して硬化後に180度方向に引っ張り、シーリング材自体が切れる凝集破壊なら合格。界面からきれいに剥がれたら不合格">
-  <g fill="currentColor" opacity="0.35">
-    <rect x="60" y="120" width="220" height="40"/>
-    <rect x="360" y="120" width="220" height="40"/>
-  </g>
-  <g fill="currentColor" opacity="0.8">
-    <rect x="120" y="104" width="100" height="16" rx="3"/>
-    <path d="M420 104 h100 v16 h-60 q-30 0 -20 -40 l-20 -2 q-8 30 0 42 Z" opacity="0.8"/>
-  </g>
-  <g stroke="currentColor" stroke-width="1.8">
-    <line x1="170" y1="80" x2="170" y2="56"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="170,50 164,62 176,62"/>
-  </g>
-  <g fill="currentColor" font-size="12.5" font-weight="bold" text-anchor="middle">
-    <text x="170" y="40">180°方向に引っ張る</text>
-  </g>
-  <g fill="currentColor" font-size="12" text-anchor="middle" opacity="0.85">
-    <text x="170" y="182">材料の中で切れる（凝集破壊）＝合格</text>
-    <text x="470" y="182">界面からスルッと剥がれる＝不合格</text>
-  </g>
+<svg viewBox="0 0 640 210" role="img" aria-label="簡易接着性試験。実部材又は化粧見本で試験片を作り、弾性発現後に端を180°折り返して被着面に沿って引く。凝集破壊・薄層凝集破壊が合格。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">簡易接着性試験　施工前に作る試験片</text>
+  <text x="24" y="57" font-size="17" font-weight="bold">① 充填時の横断面</text>
+  <text x="310" y="57" font-size="17" font-weight="bold">② 硬化後の側面</text>
+  <rect x="26" y="121" width="231" height="16" fill="currentColor" fill-opacity="0.18" stroke="currentColor"/>
+  <rect x="62" y="93" width="28" height="28" fill="currentColor" fill-opacity="0.75" stroke="currentColor"/>
+  <rect x="90" y="94" width="83" height="27" fill="currentColor" fill-opacity="0.28" stroke="currentColor"/>
+  <rect x="173" y="93" width="28" height="28" fill="currentColor" fill-opacity="0.75" stroke="currentColor"/>
+  <text x="25" y="160" font-size="15">両側は角形バックアップ材</text>
+  <text x="25" y="181" font-size="15">中央はシーリング材</text>
+  <rect x="312" y="121" width="282" height="16" fill="currentColor" fill-opacity="0.18" stroke="currentColor"/>
+  <path d="M535 115H377C350 115 350 84 377 84H486" fill="none" stroke="currentColor" stroke-width="9"/>
+  <path d="M503 84h57m-12 -8l12 8l-12 8" fill="none" stroke="currentColor" stroke-width="3"/>
+  <text x="319" y="159" font-size="15">端を180°折り返し、面に沿って引く</text>
+  <text x="25" y="203" font-size="14">合格となる破壊状態は凝集破壊・薄層凝集破壊。実際の試験片の破断面を確認する。</text>
+</svg>`;
+
+const SVG_SEAL_JOINT = `
+<svg viewBox="0 0 640 210" role="img" aria-label="シーリング目地の横断面。深い目地ではバックアップ材で深さを調整し、所定深さの目地では底にボンドブレーカーを設ける。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">目地を横から切って見る</text>
+  <text x="30" y="59" font-size="17" font-weight="bold">深い目地</text>
+  <text x="334" y="59" font-size="17" font-weight="bold">所定深さの目地</text>
+  <rect x="30" y="78" width="62" height="76" fill="currentColor" fill-opacity="0.17" stroke="currentColor"/>
+  <rect x="160" y="78" width="60" height="76" fill="currentColor" fill-opacity="0.17" stroke="currentColor"/>
+  <rect x="92" y="80" width="68" height="29" fill="currentColor" fill-opacity="0.63" stroke="currentColor"/>
+  <ellipse cx="126" cy="128" rx="34" ry="19" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path d="M334 78h60v34h68V78h60v76H334Z" fill="currentColor" fill-opacity="0.17" stroke="currentColor"/>
+  <rect x="394" y="80" width="68" height="28" fill="currentColor" fill-opacity="0.63" stroke="currentColor"/>
+  <path d="M394 111h68" fill="none" stroke="currentColor" stroke-width="4"/>
+  <text x="30" y="179" font-size="16">バックアップ材で充填深さを調整</text>
+  <text x="334" y="179" font-size="16">底面にボンドブレーカー</text>
+  <text x="30" y="201" font-size="14">濃色がシーリング材。左右の側面に接着する断面例。</text>
+</svg>`;
+
+const SVG_SEAL_TENSION = `
+<svg viewBox="0 0 640 210" role="img" aria-label="引張接着性試験の原理。使用材料と同様に製作した被着体の間にシーリング材を設け、両被着体の間隔が開く方向に引っ張る。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">引張接着性試験　試験体に力を加える向き</text>
+  <rect x="47" y="73" width="210" height="13" fill="currentColor" fill-opacity="0.65" stroke="currentColor"/>
+  <rect x="110" y="86" width="84" height="37" fill="currentColor" fill-opacity="0.25" stroke="currentColor"/>
+  <rect x="47" y="123" width="210" height="13" fill="currentColor" fill-opacity="0.65" stroke="currentColor"/>
+  <path d="M152 70V43m-7 8l7 -8l7 8M152 140v26m-7 -8l7 8l7 -8" fill="none" stroke="currentColor" stroke-width="3"/>
+  <text x="288" y="81" font-size="17" font-weight="bold">上下の板は被着体</text>
+  <text x="288" y="110" font-size="16">中央は硬化したシーリング材</text>
+  <text x="288" y="143" font-size="16">両側の被着体を離す方向に載荷</text>
+  <text x="26" y="195" font-size="15">試験方法は特記による。特記がない場合に用いるのは簡易接着性試験。</text>
 </svg>`;
 
 const ch09: Record<string, Commentary> = {
@@ -556,16 +579,26 @@ const ch09: Record<string, Commentary> = {
         meaning: "シーリングの打継ぎを斜めに重ねる継ぎ方。垂直の突付けより水密性が高い。",
       },
     ],
+    diagrams: [
+      {
+        svg: SVG_SEAL_JOINT,
+        caption: "目地底の処理と二面接着の例（9.7.4）",
+      },
+    ],
   },
 
   "9.7.5": {
     plainSummary:
-      "外部に面するシーリングは施工前に接着性試験を行う（同一組合せの試験成績書があれば承諾を受けて省略可）。特記がなければ簡易接着性試験：実部材にシーリングを打ち、硬化後180°に引っ張って「凝集破壊」なら合格。",
-    why: "シーリングの破壊には、材料自体が切れる凝集破壊と、界面から剥がれる接着破壊があります。凝集破壊は材料の実力どおり＝接着はOKという意味。界面からきれいに剥がれるのは接着不良（プライマー不適合など）のサインで不合格です。",
+      "外部に面するシーリングは施工前に接着性試験を行う（同一組合せの試験成績書があれば承諾を受けて省略可）。試験方法は特記に従い、特記がなければ簡易接着性試験とする。実部材または化粧見本にマスキング・プライマー塗布を行い、角形バックアップ材の間に充填する。弾性が出るまで硬化させて180°折り返して引き、凝集破壊または薄層凝集破壊を合格とする。",
+    why: "シーリングの破壊には、材料自体が切れる凝集破壊と、界面から剥がれる接着破壊があります。薄層凝集破壊では、被着面にシーリング材が薄く残ります。界面からきれいに剥がれるのは接着不良（プライマー不適合など）のサインで不合格です。",
     diagrams: [
       {
         svg: SVG_SEAL_TEST,
-        caption: "簡易接着性試験と合否の見方（9.7.5）",
+        caption: "簡易接着性試験の準備・引張方向と判定（9.7.5・図9.7.1）",
+      },
+      {
+        svg: SVG_SEAL_TENSION,
+        caption: "引張接着性試験の載荷方向（9.7.5・JIS A 1439）",
       },
     ],
   },

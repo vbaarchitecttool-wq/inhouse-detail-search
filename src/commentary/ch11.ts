@@ -113,6 +113,18 @@ const SVG_EXP_JOINT_TILE = `
   </g>
 </svg>`;
 
+const SVG_TILE_RIDGES = `
+<svg viewBox="0 0 640 210" role="img" aria-label="内装の壁タイル接着剤張り。壁面の接着剤のくし目とタイル裏あしの方向を平行にしない例。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">内装壁タイルを張る前に見る面</text>
+  <text x="35" y="58" font-size="17" font-weight="bold">壁面の接着剤</text>
+  <text x="345" y="58" font-size="17" font-weight="bold">タイルの裏面</text>
+  <rect x="35" y="72" width="220" height="78" fill="currentColor" fill-opacity="0.08" stroke="currentColor"/>
+  <rect x="345" y="72" width="220" height="78" fill="currentColor" fill-opacity="0.08" stroke="currentColor"/>
+  <path d="M42 81h206 M42 90h206 M42 99h206 M42 108h206 M42 117h206 M42 126h206 M42 135h206 M42 144h206" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path d="M354 78v66 M366 78v66 M378 78v66 M390 78v66 M402 78v66 M414 78v66 M426 78v66 M438 78v66 M450 78v66 M462 78v66 M474 78v66 M486 78v66 M498 78v66 M510 78v66 M522 78v66 M534 78v66 M546 78v66 M558 78v66" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="35" y="178" font-size="15">裏あしのあるタイルでは、裏あしとくし目の方向が平行にならないようにする。</text>
+</svg>`;
+
 const ch11: Record<string, Commentary> = {
   "11.1.1": {
     plainSummary:
@@ -319,6 +331,12 @@ const ch11: Record<string, Commentary> = {
         term: "裏あし",
         meaning:
           "タイル裏面の凹凸（あり足）。モルタルや接着剤が食い込んで接着力を高める。",
+      },
+    ],
+    diagrams: [
+      {
+        svg: SVG_TILE_RIDGES,
+        caption: "接着剤のくし目とタイル裏あしの方向（11.3.5）",
       },
     ],
   },

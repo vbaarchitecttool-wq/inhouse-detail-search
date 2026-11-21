@@ -59,11 +59,11 @@ const DiagramVisual: React.FC<{ diagram: Diagram }> = ({ diagram }) => {
             type="button"
             className="spec-diagram-zoomable"
             onClick={() => setZoom("photo")}
-            aria-label="施工イメージを拡大表示"
+            aria-label={`施工イメージを拡大表示　${photo.caption}`}
           >
             <img
               src={photo.src}
-              alt={photo.alt}
+              alt={photo.caption}
               loading="lazy"
               decoding="async"
               onError={() => setPhotoAvailable(false)}
@@ -75,6 +75,7 @@ const DiagramVisual: React.FC<{ diagram: Diagram }> = ({ diagram }) => {
           <span className="spec-diagram-photo-label">
             施工イメージ（AI生成）
           </span>
+          <p className="spec-photo-caption">{photo.caption}</p>
         </div>
       ) : null}
 
@@ -101,7 +102,7 @@ const DiagramVisual: React.FC<{ diagram: Diagram }> = ({ diagram }) => {
       {zoom ? (
         <DiagramZoom label={label} onClose={() => setZoom(null)}>
           {zoom === "photo" && photo ? (
-            <img className="zoom-photo" src={photo.src} alt={photo.alt} />
+            <img className="zoom-photo" src={photo.src} alt={photo.caption} />
           ) : (
             <div
               className="zoom-svg"

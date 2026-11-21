@@ -9,6 +9,7 @@ describe("図解写真のオフライン保存", () => {
         { hash: "b8d15871" },
         { hash: "b8d15871" },
         { hash: "../evil" },
+        { hash: "1a2b3c4d", assetPath: null },
         {},
         { hash: "03c0de3f" },
       ],

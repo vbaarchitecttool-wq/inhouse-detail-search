@@ -91,6 +91,33 @@ const SVG_GB_DIRECT = `
   </g>
 </svg>`;
 
+const SVG_WALLPAPER = `
+<svg viewBox="0 0 640 210" role="img" aria-label="壁紙の柄合わせの正面図。隣り合う壁紙の継目をまたいで模様が連続するように裁ち合わせる。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">継目をまたぐ柄のつながりを見る</text>
+  <rect x="38" y="48" width="246" height="108" fill="currentColor" fill-opacity="0.08" stroke="currentColor"/>
+  <path d="M160 48v108" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+  <path d="M39 94q31 -54 61 0t60 0t60 0t63 0 M39 127q31 -54 61 0t60 0t60 0t63 0" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path d="M160 156v17h125" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="298" y="179" font-size="16" font-weight="bold">継目</text>
+  <text x="315" y="86" font-size="17">左右の柄が同じ高さで</text>
+  <text x="315" y="114" font-size="17">連続するように張る。</text>
+</svg>`;
+
+const SVG_INSULATION_CAST = `
+<svg viewBox="0 0 640 210" role="img" aria-label="断熱材打込み工法。打込み前は型枠の内面に断熱材を固定し、脱型後は断熱材がコンクリート表面に残る。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">断熱材が残る側を断面で確認</text>
+  <text x="30" y="61" font-size="18" font-weight="bold">打込み前</text>
+  <text x="327" y="61" font-size="18" font-weight="bold">脱型後</text>
+  <rect x="37" y="76" width="17" height="79" fill="currentColor" fill-opacity="0.7" stroke="currentColor"/>
+  <rect x="54" y="76" width="36" height="79" fill="currentColor" fill-opacity="0.32" stroke="currentColor"/>
+  <path d="M118 80v70M149 80v70" fill="none" stroke="currentColor" stroke-width="4"/>
+  <text x="36" y="179" font-size="15">型枠 ｜ 断熱材 ｜ 鉄筋</text>
+  <rect x="344" y="76" width="36" height="79" fill="currentColor" fill-opacity="0.32" stroke="currentColor"/>
+  <rect x="380" y="76" width="135" height="79" fill="currentColor" fill-opacity="0.12" stroke="currentColor"/>
+  <text x="340" y="179" font-size="15">断熱材 ｜ コンクリート</text>
+  <text x="30" y="201" font-size="14">型枠への取付け金物と反対側の型枠は省略。</text>
+</svg>`;
+
 const ch19: Record<string, Commentary> = {
   "19.1.1": {
     plainSummary:
@@ -352,6 +379,12 @@ const ch19: Record<string, Commentary> = {
     plainSummary:
       "モルタル面・コンクリート面・ボード面ごとに素地ごしらえの工程が定められている（表19.8.1〜、特記がなければB種）。乾燥→汚れ除去→吸込止め/下地調整→穴埋め・パテかい→研磨→（A種はパテしごき・研磨）。材料は研磨紙を除き壁紙専用品。",
     why: "壁紙は薄いので下地の凸凹・継目がそのまま出ます。パテで平滑にする素地ごしらえが仕上がりを決めます。パテやシーラーを壁紙専用品にするのは、壁紙の接着不良やアクの染み出しを防ぐためです。",
+    diagrams: [
+      {
+        svg: SVG_WALLPAPER,
+        caption: "壁紙の継目と柄合わせ（19.8.3）",
+      },
+    ],
   },
 
   "19.9.1": {
@@ -377,6 +410,12 @@ const ch19: Record<string, Commentary> = {
     why: "打込み工法は断熱材が躯体と一体化するので断熱欠損が生じにくい反面、コーン跡や開口部の「熱橋（ヒートブリッジ）」になりやすい部分の補修が重要です。放置すると結露の原因になります。",
     points: [
       "コーン撤去跡・開口部のモルタル詰め部の断熱補修（熱橋対策）",
+    ],
+    diagrams: [
+      {
+        svg: SVG_INSULATION_CAST,
+        caption: "打込み前と脱型後の壁断面（19.9.3）",
+      },
     ],
   },
 

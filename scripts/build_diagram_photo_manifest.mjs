@@ -38,6 +38,10 @@ const buildPrompt = (label) => {
   return override ?? buildGenericPrompt(label);
 };
 
+const photoCaptions = JSON.parse(
+  fs.readFileSync(path.join(projectRoot, "src/utils/diagramPhotoCaptions.json"), "utf8")
+);
+
 const files = fs
   .readdirSync(commentaryDir)
   .filter((name) => /^ch\d{2}\.ts$/.test(name))
@@ -68,7 +72,7 @@ for (const file of files) {
       constant,
       ariaLabel,
       hash,
-      assetPath: `/diagrams/photo-${hash}.webp`,
+      assetPath: photoCaptions[hash] ? `/diagrams/photo-${hash}.webp` : null,
       prompt: buildPrompt(ariaLabel),
     });
   }

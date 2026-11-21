@@ -104,6 +104,22 @@ const SVG_DRY = `
   </g>
 </svg>`;
 
+const SVG_STAIR_STONE = `
+<svg viewBox="0 0 640 210" role="img" aria-label="石張り階段の部分断面。水平の踏み石、垂直のけ上げ石、け上げ石背面の裏込めモルタルの位置。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">石張り階段の部分断面</text>
+  <path d="M42 164H93V117H197V66H267V185H42Z" fill="currentColor" fill-opacity="0.15" stroke="currentColor"/>
+  <rect x="178" y="62" width="10" height="50" fill="currentColor" fill-opacity="0.6" stroke="currentColor"/>
+  <rect x="188" y="62" width="9" height="50" fill="currentColor" fill-opacity="0.31" stroke="currentColor"/>
+  <rect x="173" y="50" width="94" height="12" fill="currentColor" fill-opacity="0.6" stroke="currentColor"/>
+  <rect x="71" y="112" width="107" height="10" fill="currentColor" fill-opacity="0.6" stroke="currentColor"/>
+  <rect x="80" y="122" width="10" height="40" fill="currentColor" fill-opacity="0.6" stroke="currentColor"/>
+  <path d="M242 55l33 -13h30M181 83h-42l-18 -18H65M193 96l60 37h42" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="312" y="50" font-size="17" font-weight="bold">踏み石（水平面）</text>
+  <text x="20" y="59" font-size="15" font-weight="bold">け上げ石</text>
+  <text x="303" y="137" font-size="16" font-weight="bold">裏込めモルタル</text>
+  <text x="290" y="181" font-size="14">金物・目地等は省略した位置図</text>
+</svg>`;
+
 const ch10: Record<string, Commentary> = {
   "10.1.1": {
     plainSummary:
@@ -317,6 +333,12 @@ const ch10: Record<string, Commentary> = {
       {
         term: "け上げ石（蹴込み石）",
         meaning: "階段の垂直面（蹴込み部分）に張る石。",
+      },
+    ],
+    diagrams: [
+      {
+        svg: SVG_STAIR_STONE,
+        caption: "踏み石・け上げ石・裏込めの位置（10.6.3）",
       },
     ],
   },

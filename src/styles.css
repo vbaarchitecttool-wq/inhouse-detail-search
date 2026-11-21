@@ -2036,8 +2036,15 @@ html[data-theme="dark"] .spec-summary-box {
 .spec-diagram-photo img {
   display: block;
   width: 100%;
-  aspect-ratio: 3 / 2;
-  object-fit: cover;
+  max-height: 36rem;
+  object-fit: contain;
+}
+
+.spec-photo-caption {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  color: var(--text);
 }
 
 .spec-diagram-photo-label {

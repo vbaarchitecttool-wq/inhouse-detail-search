@@ -1,5 +1,8 @@
+import captions from "./diagramPhotoCaptions.json";
+
+const photoCaptions: Readonly<Record<string, string>> = captions;
 const SVG_ARIA_LABEL_PATTERN = /\baria-label="([^"]+)"/;
-export const DIAGRAM_PHOTO_CACHE_REVISION = "20260725-1";
+export const DIAGRAM_PHOTO_CACHE_REVISION = "20261121-1";
 
 const hashLabel = (value: string): string => {
   let hash = 0x811c9dc5;
@@ -15,7 +18,7 @@ export const diagramPhotoUrl = (hash: string): string =>
   `/diagrams/photo-${hash}.webp?v=${DIAGRAM_PHOTO_CACHE_REVISION}`;
 
 export interface DiagramPhoto {
-  alt: string;
+  caption: string;
   src: string;
 }
 
@@ -23,8 +26,12 @@ export const getDiagramPhoto = (svg: string): DiagramPhoto | null => {
   const label = svg.match(SVG_ARIA_LABEL_PATTERN)?.[1]?.trim();
   if (!label) return null;
 
+  const hash = hashLabel(label);
+  const caption = photoCaptions[hash];
+  if (!caption) return null;
+
   return {
-    alt: `AI生成の施工イメージ。${label}`,
-    src: diagramPhotoUrl(hashLabel(label)),
+    caption,
+    src: diagramPhotoUrl(hash),
   };
 };

@@ -5,14 +5,14 @@
 import type { Commentary } from "../types";
 
 const SVG_PAVEMENT_LAYERS = `
-<svg viewBox="0 0 660 250" role="img" aria-label="舗装の断面構成。下から路床（地盤・締固め度90％以上）、その上に路盤（砕石など・締固め度93％以上）、いちばん上に表層のアスファルトまたはコンクリート（締固め度94％以上）を重ねる。路盤と表層の間にはプライムコート（乳剤）を散布して密着させる。荷重は上から下の各層へ分散して伝わる">
+<svg viewBox="0 0 660 250" role="img" aria-label="舗装の断面構成。下から路床（地盤・締固め度90％以上）、その上に路盤（砕石など・締固め度93％以上）、いちばん上にアスファルト舗装の表層（締固め度94％以上）を重ねる。路盤と表層の間にはプライムコート（乳剤）を散布して密着させる。荷重は上から下の各層へ分散して伝わる">
   <g fill="currentColor" opacity="0.12"><rect x="80" y="175" width="500" height="55"/></g>
   <g fill="currentColor" opacity="0.28"><rect x="80" y="120" width="500" height="55"/></g>
   <g fill="currentColor" opacity="0.5"><rect x="80" y="88" width="500" height="32"/></g>
   <g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="80" y="88" width="500" height="142"/><line x1="80" y1="120" x2="580" y2="120"/><line x1="80" y1="175" x2="580" y2="175"/></g>
   <g fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"><line x1="80" y1="120" x2="580" y2="120"/></g>
   <g fill="currentColor" font-size="13" font-weight="bold">
-    <text x="95" y="108">表層（アスファルト／コンクリート）</text>
+    <text x="95" y="108">表層（アスファルト混合物）</text>
     <text x="95" y="152">路盤（砕石など）</text>
     <text x="95" y="207">路床（地盤）</text>
   </g>
@@ -23,7 +23,7 @@ const SVG_PAVEMENT_LAYERS = `
   </g>
   <g fill="currentColor" font-size="11.5" opacity="0.8"><text x="360" y="118">▲ プライムコート（乳剤）で密着</text></g>
   <g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M330 40 v34 M330 74 l-6 -8 M330 74 l6 -8"/></g>
-  <g fill="currentColor" font-size="12" opacity="0.8"><text x="342" y="52">荷重は上から各層へ分散</text><text x="80" y="30" font-weight="bold">舗装の断面構成（22章）</text></g>
+  <g fill="currentColor" font-size="12" opacity="0.8"><text x="342" y="52">荷重は上から各層へ分散</text><text x="80" y="30" font-weight="bold">アスファルト舗装の断面例（22章）</text></g>
 </svg>`;
 
 const SVG_ASPHALT_WORK = `
@@ -92,6 +92,21 @@ const SVG_INTERLOCK = `
   </g>
 </svg>`;
 
+const SVG_GRAVEL_TYPES = `
+<svg viewBox="0 0 640 210" role="img" aria-label="砂利敷きの仕上げ断面。A種は上敷き約30ミリと下敷き約60ミリ、B種は砂利又は砕石約60ミリ。" fill="currentColor">
+  <text x="20" y="27" font-size="20" font-weight="bold">砂利敷きの層を比べる</text>
+  <text x="34" y="60" font-size="18" font-weight="bold">Ａ種</text>
+  <text x="337" y="60" font-size="18" font-weight="bold">Ｂ種</text>
+  <rect x="35" y="76" width="91" height="24" fill="currentColor" fill-opacity="0.55" stroke="currentColor"/>
+  <rect x="35" y="100" width="91" height="48" fill="currentColor" fill-opacity="0.25" stroke="currentColor"/>
+  <rect x="337" y="100" width="91" height="48" fill="currentColor" fill-opacity="0.37" stroke="currentColor"/>
+  <text x="136" y="94" font-size="16">上敷き 約30 mm</text>
+  <text x="136" y="130" font-size="16">下敷き 約60 mm</text>
+  <text x="441" y="127" font-size="16">砂利・砕石 約60 mm</text>
+  <path d="M28 150h248M330 150h265" fill="none" stroke="currentColor" stroke-width="3"/>
+  <text x="34" y="181" font-size="15">共通する下地は、水はけを考えて勾配をとり、地均し・転圧する。</text>
+</svg>`;
+
 const ch22: Record<string, Commentary> = {
   "22.1.1": {
     plainSummary:
@@ -100,7 +115,7 @@ const ch22: Record<string, Commentary> = {
     diagrams: [
       {
         svg: SVG_PAVEMENT_LAYERS,
-        caption: "舗装の断面構成（22章）",
+        caption: "アスファルト舗装の断面例（22章）",
       },
     ],
   },
@@ -502,6 +517,12 @@ const ch22: Record<string, Commentary> = {
     plainSummary:
       "施工。下地は水はけよく勾配をとり地均し・転圧・締固め。A種は下敷きを60mm程度に敷き粘質土・砕石ダスト等を100㎡当たり2㎥敷き均して転圧、上敷きを30mm程度に敷き均す。B種は砂利・砕石を60mm程度に敷き均して仕上げる。",
     why: "砂利敷きも下地の水はけ（勾配）が大切です。水がたまると砂利が沈み、ぬかるみになります。A種で下敷きに粘質土やダストを混ぜるのは、砂利のすき間を埋めて締まりやすく、歩きやすくするためです。",
+    diagrams: [
+      {
+        svg: SVG_GRAVEL_TYPES,
+        caption: "砂利敷きのA種・B種の断面比較（22.9.3）",
+      },
+    ],
   },
 };
 

@@ -4,7 +4,7 @@
 // 初回表示時にまとめて端末へ保存する。図解の写真（約12MB）は通信量が大きいので
 // 自動では取らず、利用者がボタンを押したときだけ一括保存する。
 
-import { diagramPhotoUrl } from "./diagramPhoto";
+import { DIAGRAM_PHOTO_CACHE_REVISION, diagramPhotoUrl } from "./diagramPhoto";
 
 /** public/sw.js の PHOTO_CACHE と同じ名前にすること（SW がここから写真を返す） */
 export const PHOTO_CACHE = "ids-photos-v1";
@@ -20,7 +20,7 @@ export interface SaveResult {
 }
 
 interface DiagramManifest {
-  diagrams?: { hash?: string }[];
+  diagrams?: { hash?: string; assetPath?: string | null }[];
 }
 
 export const canSaveOffline = (): boolean =>
@@ -32,7 +32,7 @@ export const canSaveOffline = (): boolean =>
 export const photoUrlsFromManifest = (manifest: DiagramManifest): string[] => {
   const hashes = new Set<string>();
   for (const d of manifest?.diagrams || []) {
-    if (d && typeof d.hash === "string" && /^[0-9a-f]{8}$/.test(d.hash)) {
+    if (d && d.assetPath !== null && typeof d.hash === "string" && /^[0-9a-f]{8}$/.test(d.hash)) {
       hashes.add(d.hash);
     }
   }
@@ -44,7 +44,7 @@ const CONCURRENCY = 4;
 export const saveAllDiagramPhotos = async (
   onProgress: (p: SaveProgress) => void
 ): Promise<SaveResult> => {
-  const res = await fetch("/diagrams/manifest.json", { cache: "no-cache" });
+  const res = await fetch(`/diagrams/manifest.json?v=${DIAGRAM_PHOTO_CACHE_REVISION}`, { cache: "no-cache" });
   if (!res.ok) throw new Error(`manifest ${res.status}`);
   const urls = photoUrlsFromManifest((await res.json()) as DiagramManifest);
   const cache = await caches.open(PHOTO_CACHE);

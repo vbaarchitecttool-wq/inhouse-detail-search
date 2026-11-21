@@ -46,30 +46,8 @@
     "Lighting/mood: neutral site daylight plus controlled localized flame glow, practical unpolished color.",
     "Constraints: compact in-situ equipment, not a factory machine; existing joined bulge visible with no gap; reheating and repressing, not initial joining. No huge press, lathe, bench apparatus, separated ends, arc welding, electrode, filler rod, cutting torch, sparks shower, grinding, coupler, sleeve, collage, text, labels, arrows, carousel controls, logos, trademarks, or watermark; realistic safe PPE."
   ],
-  "スランプ試験。高さ30センチのスランプコーンにコンクリートを詰めて引き上げ、頂部からの下がり量をスランプ値とする。スランプ8から18センチの許容差はプラスマイナス2.5センチ": [
-    "Use case: scientific-educational",
-    "Asset type: landscape visual layer for Japanese construction specification item 6.2.4, workability and slump",
-    "Input images: the user-supplied photograph is a visual reference for the real slump-measurement setup and naturally collapsed concrete shape; do not copy its exact site or markings.",
-    "Primary request: Create a highly photorealistic Japanese construction-site receiving-inspection photograph showing the correct measurement stage of a JIS A 1101 concrete slump test immediately after the 300 mm slump cone has been lifted vertically.",
-    "Scene/backdrop: level rigid damp metal base plate near a ready-mix concrete truck at the unloading point, clean controlled testing area.",
-    "Subject: a cohesive mound of fresh concrete has slumped substantially into a low rounded irregular shape without segregation. The empty metal slump cone stands upright immediately beside the mound. A straight steel tamping rod rests perfectly horizontal across the cone top and extends over the central highest point. A separate vertical metric rule measures the clear vertical drop from the underside of the horizontal rod to the concrete's central highest point; its flat lower tip only touches the surface and never enters the concrete.",
-    "Style/medium: documentary construction inspection photography, realistic wet concrete, aggregate texture, galvanized cone, steel rod, ruler, gloves, boots, and base plate.",
-    "Composition/framing: landscape 3:2, close three-quarter overhead view; cone, horizontal reference rod, vertical air-gap measurement, and low slumped mound are unobstructed.",
-    "Lighting/mood: neutral daylight, high inspection clarity, natural color.",
-    "Constraints: technically plausible JIS-style measurement; no tall intact cone-shaped specimen; no ruler or rod inserted into concrete; no measurement from the base plate to the top; no slump-flow diameter measurement; no unsupported freehand horizontal rod; no extra cones, collage, text, labels, arrows, logos, trademarks, or watermark; safe PPE."
-  ],
-  "コンクリート強度の関係。設計基準強度Fcに構造体強度補正値Sを加えたものが調合管理強度。レディーミクストコンクリートの呼び強度は調合管理強度以上とする": [
-    "Use case: scientific-educational",
-    "Asset type: landscape visual layer for Japanese construction specification item 6.3.2, concrete mix proportion and trial-mix confirmation",
-    "Input images: the user-supplied photograph is the reference for the required real-world measurement arrangement: a low slumped mound, a vertical calibrated staff beside it, and a horizontal straightedge meeting the staff.",
-    "Primary request: Create a highly photorealistic concrete quality-control photograph showing the slump confirmation step during a trial mix used to verify the planned concrete mix.",
-    "Scene/backdrop: clean outdoor quality-control area at a Japanese ready-mixed-concrete plant or site laboratory, level rigid damp metal base plate, mixing pan softly visible in the background.",
-    "Subject: a cohesive fresh-concrete specimen has settled into a low broad naturally irregular mound without segregation. A vertical metric measuring staff stands on the plate immediately beside and completely outside the mound. A separate horizontal steel measuring bar rests lightly across the central highest point and meets the staff at a precise right angle. An empty 300 mm metal slump cone stands nearby. A gloved technician steadies the tools without covering contact points.",
-    "Style/medium: documentary concrete laboratory photography, realistic wet cement paste, aggregate, galvanized tools, damp steel plate, gloves, boots, and workwear.",
-    "Composition/framing: landscape 3:2 close three-quarter overhead view; full mound, staff foot, horizontal bar contact, 90-degree intersection, and empty cone are visible.",
-    "Lighting/mood: neutral daylight, high inspection clarity, natural color.",
-    "Constraints: vertical staff stands beside concrete and never enters or touches it; horizontal bar is level and touches only the mound's highest point; low slumped mound, not a tall intact cone shape; no inserted ruler or probe, no slump-flow diameter measurement, no extra piles, collage, labels, arrows, logos, trademarks, or watermark; safe PPE."
-  ],
+  "スランプ試験。高さ30センチのスランプコーンにコンクリートを詰めて引き上げ、頂部からの下がり量をスランプ値とする。スランプ8から18センチの許容差はプラスマイナス2.5センチ": "建築仕様書の教育用AI画像。コーン上端でコンクリートをならした、引上げ前の状態。スランプの測定位置は下図に示す。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "コンクリート強度の関係。設計基準強度Fcに構造体強度補正値Sを加えたものが調合管理強度。レディーミクストコンクリートの呼び強度は調合管理強度以上とする": "建築仕様書の教育用AI画像。圧縮試験の前に並べたコンクリートの円柱供試体。強度の関係は下図で確認する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
   "トルシア形高力ボルト締付け後の合格確認4点。ピンテールが破断していること。マークのずれで共回りがないこと。ナット回転量が平均プラスマイナス30度の範囲。余長がねじ1山から6山": [
     "Use case: scientific-educational",
     "Asset type: landscape visual layer for Japanese construction specification item 7.4.8, post-tightening inspection",
@@ -118,18 +96,6 @@
     "Composition/framing: landscape 3:2, low wide-angle view across the roof, joint grid leading into the distance, perimeter details visible.",
     "Lighting/mood: neutral bright daylight, natural color.",
     "Constraints: narrow flush or neatly sealed joints only; continuous intact upstands; no deep trench, wide black channel, missing perimeter concrete, exposed membrane, standing water, workers, text, labels, arrows, website badge, carousel controls, logos, trademarks, or watermark."
-  ],
-  "シーリングの簡易接着性試験。実際の部材にプライマーを塗りシーリング材を充填して硬化後に180度方向に引っ張り、シーリング材自体が切れる凝集破壊なら合格。界面からきれいに剥がれたら不合格": [
-    "Use case: scientific-educational",
-    "Asset type: landscape photographic visual for Japanese construction specification item 9.7.5, on-site simplified sealant adhesion test",
-    "Input images: the user-supplied construction photograph is the authoritative reference for the real exterior-wall setting, textured gray panels, vertical and horizontal joints, green masking tape, white sealant, gloves, and practical site scale. The confusing old two-panel image and laboratory tensile-machine image must not be retained.",
-    "Primary request: Create a highly photorealistic, immediately understandable on-site simplified adhesion test performed on the actual exterior-wall substrate after the sealant has cured.",
-    "Scene/backdrop: a textured gray exterior wall at a Japanese construction or renovation site. Surrounding vertical and horizontal joints have neatly applied white sealant between green masking-tape lines.",
-    "Subject: beside the main joint, a small dedicated narrow test strip of cured white sealant has been prepared directly on the actual primed wall substrate. An inspector in work gloves has cut and freed one end and uses pliers to pull the strip back 180 degrees, folded nearly parallel against itself. The strip stretches and tears within the sealant material while a rough continuous layer of white residue remains bonded to the wall, clearly showing acceptable cohesive failure rather than clean interface peeling.",
-    "Style/medium: authentic documentary construction inspection photography with realistic textured wall coating, masking tape, cured elastomer texture, glove wear, pliers, and natural site imperfections.",
-    "Composition/framing: landscape 3:2 close oblique view; the test strip and gloved hand dominate the center, while correctly sealed wall joints remain visible nearby for context; one coherent scene, not a collage.",
-    "Lighting/mood: neutral outdoor daylight, high inspection clarity, natural color.",
-    "Constraints: adhesion test after curing, 180-degree pull, cohesive failure leaving sealant on the substrate; no active caulking application, universal tensile machine, laboratory grips, dog-bone specimen, clean adhesive interface peel, bare clean wall beneath the strip, collage, text, captions, arrows, red boxes, UI, logos, trademarks, or watermark."
   ],
   "4.2.4 地盤の平板載荷試験。乱さず水平に整形した試験地盤に円形鋼製載荷板を密着させ、載荷板の中央に荷重計と油圧ジャッキを鉛直に設置し、重機を利用した反力装置に向けて段階的に載荷する。反力装置から独立した基準梁に4個の変位計を固定し、載荷板の沈下量を測定する": [
     "Use case: scientific-educational",
@@ -180,5 +146,20 @@
     "Primary request: Preserve the existing photorealistic overview and add deterministic Japanese callout boxes and arrows in local post-processing.",
     "Text (verbatim): 既製コンクリート杭; 鋼杭; 場所打ちコンクリート杭; 地盤改良; 砂利地業; 砂地業; 捨てコンクリート地業",
     "Constraints: every label must point to the matching visible element; exact Japanese text; high contrast; no AI-rendered text, logos or watermark."
-  ]
+  ],
+  "手すり先行工法。足場の組立解体変更の作業時と使用時には、常時すべての作業床に手すり、中桟、幅木の機能を持つものを設置する": "建築仕様書の教育用AI画像。足場外側の手すり・中桟・作業床端の幅木の位置。組立手順は下図で確認する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "シーリング目地の横断面。深い目地ではバックアップ材で深さを調整し、所定深さの目地では底にボンドブレーカーを設ける。": "建築仕様書の教育用AI画像。外壁目地の例。青色は養生テープ、下方の丸い断面の材はバックアップ材、上方は充填したシーリング材。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "簡易接着性試験。実部材又は化粧見本で試験片を作り、弾性発現後に端を180°折り返して被着面に沿って引く。凝集破壊・薄層凝集破壊が合格。": "建築仕様書の教育用AI画像。左は角形バックアップ材の間に充填した試験片。右は硬化後に端を被着面と平行に引く様子。合否は実際の破断面で判定する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "引張接着性試験の原理。使用材料と同様に製作した被着体の間にシーリング材を設け、両被着体の間隔が開く方向に引っ張る。": "建築仕様書の教育用AI画像。引張接着性試験の載荷前の試験体の例。２枚の被着体の中央をシーリング材で接着している。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "トーチ工法。トーチバーナーで改質アスファルトシートの裏面と下地をあぶり、裏面のアスファルトを溶かしながら押し広げて密着させる。重ねは100ミリ以上で溶けたアスファルトがはみ出す程度に加熱する": "建築仕様書の教育用AI画像。シート重ね部に現れたアスファルトの例。施工後の外観で、バーナーの当て方は下図を参照。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "石張り階段の部分断面。水平の踏み石、垂直のけ上げ石、け上げ石背面の裏込めモルタルの位置。": "建築仕様書の教育用AI画像。石張り階段の仕上がり。水平な面が踏み石、正面の立ち上がった面がけ上げ石。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "内装の壁タイル接着剤張り。壁面の接着剤のくし目とタイル裏あしの方向を平行にしない例。": "建築仕様書の教育用AI画像。壁タイルの張付け途中。左はタイルの表面、右は張付け前の接着剤のくし目。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "天井下地の構成。スラブに打ち込んだインサートにつりボルトをねじ込み、野縁受け桟を吊り、それに直交して野縁を取り付ける。野縁にせっこうボード等を張る。つりボルトと野縁受けの間隔は900ミリ程度、野縁は450ミリ程度": "建築仕様書の教育用AI画像。コンクリートスラブから吊った木製天井下地。野縁と野縁受け桟の木目と直交方向に注目。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "粘土瓦葺きの構成。野地板に下葺きを張り、瓦桟木を取り付けて桟瓦を引っ掛ける。瓦は緊結用釘やねじで留め、棟は棟補強用心材に冠瓦を固定する。緊結用釘は野地板厚の半分以上に達する長さ": "建築仕様書の教育用AI画像。葺き上がった粘土瓦の重なり。固定ねじと下葺きは完成面からは見えない。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "あと施工アンカーの引張試験。1ロットから無作為に3本抜き取り、定めた強度まで引っ張る。全て合格でロット合格。不合格なら作業中止し原因調査、20パーセント追加抜取り": "建築仕様書の教育用AI画像。試験機を装着する前のアンカーボルト。荷重・反力の取り方と判定は試験計画に従う。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "アルミニウム製笠木の模式断面。笠木本体の内側に固定金具があり、あと施工アンカーはコンクリート下地に固定する。": "建築仕様書の教育用AI画像。取付け後のアルミ笠木の上面と継目。内側の金具とアンカーの位置は下図に示す。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "上塗り仕上げの3種類。金ごて仕上げは塗装下地・防水下地・タイル接着剤張り下地。木ごて仕上げはセメントモルタル張りタイル下地。はけ引き仕上げは粗面に仕上げる": "建築仕様書の教育用AI画像。左から金ごて、木ごて、はけ引き。光を斜めから当て、平滑面・粒状の面・平行なはけ目を比べた仕上げ見本。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "壁紙の柄合わせの正面図。隣り合う壁紙の継目をまたいで模様が連続するように裁ち合わせる。": "建築仕様書の教育用AI画像。継目部分をローラーで押さえる場面。隣り合う壁紙の柄の高さをそろえる。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "断熱材打込み工法。打込み前は型枠の内面に断熱材を固定し、脱型後は断熱材がコンクリート表面に残る。": "建築仕様書の教育用AI画像。壁の打込み前に型枠の内側に設けた板状断熱材。手前に鉄筋、奥に型枠が見える。 対象の部位・工程に限定し、文字や寸法線を描き込まない。",
+  "砂利敷きの仕上げ断面。A種は上敷き約30ミリと下敷き約60ミリ、B種は砂利又は砕石約60ミリ。": "建築仕様書の教育用AI画像。砂利を敷き均した通路の仕上がり。表面から判別できないＡ種・Ｂ種の構成は下図で確認する。 対象の部位・工程に限定し、文字や寸法線を描き込まない。"
 }

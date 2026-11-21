@@ -5,7 +5,7 @@
 import type { Commentary } from "../types";
 
 const SVG_SOIL_LAYER = `
-<svg viewBox="0 0 660 230" role="img" aria-label="樹木等に応じた有効土層の厚さ。有効土層とは植物の根が支障なく伸びられる土の層。高木（樹高12m以上）は100cm、高木（7〜12m未満）は80cm、低木（3〜7m未満）は60cm、低木（3m未満）は50cm、芝・地被類は30cmが標準。木が大きいほど根を張るため厚い土層が必要">
+<svg viewBox="0 0 660 230" role="img" aria-label="樹木等に応じた有効土層の厚さ。有効土層とは植物の根が支障なく伸びられる土の層。高木（樹高12m以上）は100cm、高木（7〜12m未満）は80cm、高木（3〜7m未満）は60cm、低木（3m未満）は50cm、芝・地被類は30cmが標準。木が大きいほど根を張るため厚い土層が必要">
   <g fill="currentColor" opacity="0.15"><rect x="40" y="150" width="580" height="60"/></g>
   <g fill="none" stroke="currentColor" stroke-width="1.5"><line x1="40" y1="150" x2="620" y2="150"/></g>
   <g fill="none" stroke="currentColor" stroke-width="1.4">
@@ -25,7 +25,7 @@ const SVG_SOIL_LAYER = `
   <g fill="currentColor" font-size="11" text-anchor="middle">
     <text x="95" y="172">高木</text><text x="95" y="186" opacity="0.8">12m以上</text>
     <text x="205" y="172">高木</text><text x="205" y="186" opacity="0.8">7〜12m</text>
-    <text x="315" y="172">低木</text><text x="315" y="186" opacity="0.8">3〜7m</text>
+    <text x="315" y="172">高木</text><text x="315" y="186" opacity="0.8">3〜7m</text>
     <text x="425" y="172">低木</text><text x="425" y="186" opacity="0.8">3m未満</text>
     <text x="535" y="172">芝・地被</text>
   </g>
@@ -152,7 +152,7 @@ const ch23: Record<string, Commentary> = {
 
   "23.2.2": {
     plainSummary:
-      "植栽基盤の整備の適用は特記（芝・地被類は必ず整備）。有効土層の面積・厚さは特記（なければ表23.2.1：高木100/80cm・低木60/50cm・芝地被30cm）。排水設備の設置は特記。整備工法は表23.2.2（A〜D種、なければ樹木はA種・芝地被はB種）。土壌改良材の適用は特記。",
+      "植栽基盤の整備の適用は特記（芝・地被類は必ず整備）。有効土層の面積・厚さは特記（なければ表23.2.1：高木100/80/60cm・低木50cm・芝地被30cm）。排水設備の設置は特記。整備工法は表23.2.2（A〜D種、なければ樹木はA種・芝地被はB種）。土壌改良材の適用は特記。",
     why: "木の大きさに応じて必要な土の厚さ（有効土層）が決まります。高木は深く根を張るので100cm、芝は30cmで足りる、という具合です。ここが浅いと根が伸びず、木が育たない・倒れる原因になります。",
     points: [
       "有効土層は樹高に応じて（高木100cm〜芝地被30cm）",
