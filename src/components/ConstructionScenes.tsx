@@ -90,6 +90,64 @@ function TremieScene({ fold, finish }: SceneProps) {
   </>;
 }
 
+function TilePullScene({ fold: setup, finish: load }: SceneProps) {
+  // The plate meets the test tile before the reaction bridge is seated.
+  const plateOffset = 26 * Math.max(0, 1 - setup * 2);
+  const frameOffset = 45 * (1 - setup);
+  const arrowLength = 32 * load;
+  return <>
+    <rect x="25" y="26" width="78" height="145" fill={ink} opacity=".15"/>
+    <text x="63" y="102" textAnchor="middle" fontSize="12">下地</text>
+    <text x="63" y="118" textAnchor="middle" fontSize="11">コンクリート</text>
+    <path d="M103 26v145" className="lesson-leader"/>
+    {[{ y: 26, height: 40 }, { y: 70, height: 58 }, { y: 132, height: 39 }].map(({ y, height }) => (
+      <g key={y}>
+        <rect x="104" y={y} width="15" height={height} fill={ink} opacity=".35"/>
+        <rect x="119" y={y} width="11" height={height} fill={paper} stroke={ink}/>
+      </g>
+    ))}
+    <text x="105" y="192" textAnchor="middle">壁の断面</text>
+    {setup === 0 ? <>
+      <path d="M103 68h28l27-22h44 M103 130h28l27 19h44" className="lesson-leader"/>
+      <text x="154" y="36">切込み</text>
+      <text x="145" y="105">試験タイル</text>
+      <rect x="288" y="46" width="83" height="93" fill={paper} stroke={ink}/>
+      <path d="M315 46v93m29-93v93 M288 76h83m-83 32h83" className="lesson-leader"/>
+      <rect x="315" y="76" width="29" height="32" fill="none" stroke={accent} strokeWidth="3"/>
+      <text x="329" y="162" textAnchor="middle">正面から見た四周</text>
+    </> : <>
+      <g transform={`translate(${plateOffset} 0)`} opacity={Math.min(1, setup * 5)}>
+        <rect x="130" y="75" width="11" height="48" rx="1" fill={accent}/>
+        <path d="M141 99h12" stroke={ink} strokeWidth="7"/>
+      </g>
+      <g transform={`translate(${frameOffset} 0)`} opacity={setup}>
+        <g fill={paper} stroke={ink} strokeWidth="2">
+          <path d="M137 42h94v114h-94v-6h87V48h-87Z"/>
+          <rect x="130" y="34" width="7" height="22" rx="1"/>
+          <rect x="130" y="143" width="7" height="22" rx="1"/>
+          <rect x="231" y="85" width="48" height="28" rx="3"/>
+        </g>
+        <path d="M152 99h79" stroke={ink} strokeWidth="4"/>
+      </g>
+      {load === 0 ? <>
+        <text x="272" y="35">反力脚</text>
+        <path d="M265 31h-93l-36 6" className="lesson-leader"/>
+        <text x="270" y="71">アタッチメント</text>
+        <path d="M262 67h-76l-47 15" className="lesson-leader"/>
+        <text x="286" y="104" fontSize="12">油圧部</text>
+      </> : <>
+        <g stroke={ink} fill="none" strokeWidth="2.5" opacity={Math.min(1,load * 5)}>
+          {[52, 146].map(y => <path key={y} d={`M${145+arrowLength} ${y}H137l7 -4m-7 4 7 4`}/>)}
+        </g>
+        <path d={`M151 92h${17+arrowLength}l-8 -5m8 5-8 5`} className="lesson-arrow"/>
+        <text x="274" y="44">壁を押す</text>
+        <text x="271" y="79" fill={accent} fontWeight="bold">試験体を引く</text>
+        <text x="274" y="158">壁を押す</text>
+      </>}
+    </>}
+  </>;
+}
+
 export const lessons: Readonly<Partial<Record<string, Lesson>>> = {
   "4.5.5": {
     title: "トレミー管の先端はどこにあるか", view: "打込み中の縦断面", Scene: TremieScene,
@@ -113,6 +171,14 @@ export const lessons: Readonly<Partial<Record<string, Lesson>>> = {
       { label: "つかみ代を確認", text: "実部材または化粧見本に作製した試験片を使う。シーリング材に弾性が現れたら、接着させていない端をつかむ。" },
       { label: "端を折り返す", text: "つかんだ端を被着面側へ180°折り返す。横から見て、材料が折り返し部でU字になる向きを確認する。" },
       { label: "面に沿って引く", text: "折り返した端を被着面に沿って引き、破壊した面を観察する。図は材料が被着面に薄く残る例。凝集破壊または薄層凝集破壊を合格とする。" },
+    ],
+  },
+  "11.1.7": {
+    title: "タイルの引張接着試験", view: "壁断面・セメントモルタル張りの例", Scene: TilePullScene,
+    steps: [
+      { label: "四周を切断", text: "試験タイルを囲む四周の目地をコンクリート面まで切り、周囲と切り離す。縦断面では上下2か所の切込みとして見える。" },
+      { label: "試験機を設置", text: "試験タイルに鋼製アタッチメントを接着する。接着剤の硬化後、試験体の外側に反力脚を当て、中央の引張軸を壁面に垂直に合わせる。" },
+      { label: "垂直に引く", text: "上下の脚が周囲の壁を押し、中央の軸が試験タイルを手前へ引く。破壊時の最大荷重を試験面積で割って引張接着強度を求め、破壊した位置・割合と併せて表11.1.2で判定する。" },
     ],
   },
 };

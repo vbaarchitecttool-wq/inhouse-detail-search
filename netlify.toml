@@ -5,6 +5,12 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# 11.1.7の図解説明更新前に発行した写真URL
+[[redirects]]
+  from = "/diagrams/photo-d528e6b3.webp"
+  to = "/diagrams/photo-9aee2b2c.webp"
+  status = 301
+
 # SPA（React）用: どのパスに来ても index.html を返す
 [[redirects]]
   from = "/*"

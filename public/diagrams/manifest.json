@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-21T01:50:41.216Z",
+  "generatedAt": "2026-11-21T07:06:56.871Z",
   "count": 132,
   "diagrams": [
     {
@@ -768,9 +768,9 @@
       "chapter": 11,
       "sourceFile": "src/commentary/ch11.ts",
       "constant": "SVG_TILE_TEST",
-      "ariaLabel": "タイルの施工後確認。全面を打診棒でたたいて浮きを探す打診と、油圧式試験機でタイルを引っ張る引張接着試験がある。合格は接着強度0.4ニュートン毎平方ミリ以上",
-      "hash": "d528e6b3",
-      "assetPath": "/diagrams/photo-d528e6b3.webp",
+      "ariaLabel": "タイル施工後の打診と引張接着試験。周囲を切り離した試験体を壁面に垂直に引き、強度と破壊状況を張付け材料別に判定する。",
+      "hash": "9aee2b2c",
+      "assetPath": "/diagrams/photo-9aee2b2c.webp",
       "prompt": "Side-oblique macro of a hydraulic pull-off adhesion tester mounted on a VERTICAL ceramic tiled wall in Japanese test lab. Make reaction frame an open bridge with two visible feet bearing on the adjacent tiles ABOVE and BELOW a square isolated test tile (perimeter kerf visible). Square steel dolly glued FLAT to center tile, central pull rod coupled axially to it, perpendicular to wall, horizontally projecting from wall through center of freestanding bridge, compact hydraulic actuator attached outside, small pressure gauge. Clearly show air gap on both sides of central dolly. No hand, no writing.\nCorrect the two feet of the hydraulic tile pull-off tester. Work on exact attached photo. Aim accurate reaction geometry for teaching: both foot pressure pads must have their broad FLAT face PARALLEL to VERTICAL tiled wall so their entire round backs are pressed against flat tile surfaces. Current pads lying horizontally edge-on to the wall at grout lines are wrong. Move contact points UP by half a tile for upper one and DOWN by half a tile for bottom one. Extend vertical span of the steel bridge so feet land on the CENTERS of large flat tiles above and below the test tile, far from its edges. Show feet as rectangular blocks on ends of the bridge, with broad flat black rubber shoe against wall, seen edge-on (thin vertical profile, vertical wall contact from top to bottom). Remove any feet over grout lines. Keep single central glued square dolly and straight horizontal drawbar at right angle to vertical wall, plus hydraulic actuator. Frame open and photorealistic, clean scene. No large prominent gauge numbers, no people."
     },
     {
