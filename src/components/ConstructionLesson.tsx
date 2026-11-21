@@ -2,7 +2,9 @@ import { useEffect, useReducer, useState } from "react";
 import type { Lesson } from "./ConstructionScenes";
 
 const duration = 15000;
-const stops = [0, 8800, duration];
+// Pause each scene after its movement settles, while its caption is still active.
+const originalTiming = { starts: [0, 3400, 9400], ends: [3100, 7200, 13100], stops: [0, 8800, duration] };
+const inspectionTiming = { starts: [0, 5000, 10000], ends: [3800, 8600, 13700], stops: [4000, 9000, 14500] };
 const clock = (ms: number) => "0:" + String(Math.floor(ms / 1000)).padStart(2, "0");
 
 interface State { time: number; playing: boolean }
@@ -49,7 +51,8 @@ function LessonPlayer({ lesson, playOnMount }: { lesson: Lesson; playOnMount: bo
 
   const [motionPreference] = useState(() => window.matchMedia?.("(prefers-reduced-motion: reduce)"));
   const reduced = motionPreference?.matches ?? false;
-  const step = time < 3400 ? 0 : time < 9400 ? 1 : 2;
+  const { starts, ends, stops } = lesson.inspectionStep === undefined ? originalTiming : inspectionTiming;
+  const step = time < starts[1] ? 0 : time < starts[2] ? 1 : 2;
   const { Scene } = lesson;
   return (
     <>
@@ -60,7 +63,8 @@ function LessonPlayer({ lesson, playOnMount }: { lesson: Lesson; playOnMount: bo
       <div className="lesson-view">
         <span>{lesson.view}</span>
         <svg viewBox="0 0 420 202" role="img" aria-label={lesson.steps[step].text}>
-          <Scene start={progress(time, 0, 3100, reduced)} fold={progress(time, 3400, 7200, reduced)} finish={progress(time, 9400, 13100, reduced)}/>
+          <Scene start={progress(time, starts[0], ends[0], reduced)} fold={progress(time, starts[1], ends[1], reduced)}
+            finish={progress(time, starts[2], ends[2], reduced)} time={reduced ? stops[step] : time}/>
         </svg>
       </div>
       <div className="lesson-controls">
@@ -76,7 +80,7 @@ function LessonPlayer({ lesson, playOnMount }: { lesson: Lesson; playOnMount: bo
         {lesson.steps.map(({ label }, index) => (
           <button key={label} type="button" aria-current={step === index ? "step" : undefined}
             onClick={() => dispatch({ type: "seek", value: stops[index] })}>
-            <span>{index + 1}</span>{label}
+            <span>{index + 1}</span><span>{label}{lesson.inspectionStep === index && <small className="inspection-stop">確認場面</small>}</span>
           </button>
         ))}
       </div>

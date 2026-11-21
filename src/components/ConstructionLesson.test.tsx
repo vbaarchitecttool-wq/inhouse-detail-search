@@ -50,3 +50,27 @@ it("9.7.5では選んだ試験だけが先頭から再生され、工程表示�
     vi.useRealTimers();
   }
 });
+
+it.each([
+  ["16.1.2", 2], ["6.6.4", 1], ["21.2.2", 1],
+  ["8.2.7", 2], ["7.7.6", 2], ["20.4.3", 1],
+] as const)("%s は確認場面で止まり、その位置から再開できる", (id, step) => {
+  vi.useFakeTimers();
+  try {
+    const options = lessons[id]!;
+    render(<ConstructionLesson options={options}/>);
+    fireEvent.click(screen.getByRole("button", { name: /再生/ }));
+    fireEvent.click(screen.getByRole("button", { name: /確認場面/ }));
+    const slider = screen.getByRole("slider");
+    const at = step === 1 ? "9000" : "14500";
+    act(() => vi.advanceTimersByTime(1200));
+    expect(slider).toHaveValue(at);
+    expect(screen.getByRole("img")).toHaveAccessibleName(options[0].steps[step].text);
+    fireEvent.click(screen.getByRole("button", { name: /再生/ }));
+    act(() => vi.advanceTimersByTime(6100));
+    expect(slider).toHaveValue("15000");
+    expect(screen.getByRole("button", { name: /もう一度/ })).toBeInTheDocument();
+  } finally {
+    vi.useRealTimers();
+  }
+});

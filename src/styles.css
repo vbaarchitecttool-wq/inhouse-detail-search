@@ -4334,3 +4334,5 @@ html[data-theme="dark"] .badge-note {
 .lesson-choices button[aria-pressed="true"] {
   border-color: var(--accent); color: var(--accent); background: var(--bg-grad-1); font-weight: 650;
 }
+
+.inspection-stop { display: block; font-size: .7rem; font-weight: 500; line-height: 1.3; }

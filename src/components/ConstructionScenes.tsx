@@ -1,10 +1,13 @@
 import type { ComponentType } from "react";
 import { adhesionTest, baseGrout, twoSidedJoint, ultrasonicScan, concreteCompaction, floorSeam } from "./AdditionalConstructionScenes";
 
-export interface SceneProps { start: number; fold: number; finish: number }
+import { fieldInspectionLessons } from "./FieldInspectionScenes";
+
+export interface SceneProps { start: number; fold: number; finish: number; time: number }
 export interface Lesson {
   title: string;
   choiceLabel?: string;
+  inspectionStep?: 0 | 1 | 2;
   view: string;
   Scene: ComponentType<SceneProps>;
   steps: readonly { label: string; text: string }[];
@@ -184,6 +187,7 @@ export const lessons: Readonly<Partial<Record<string, readonly Lesson[]>>> = {
       { label: "垂直に引く", text: "上下の脚が周囲の壁を押し、中央の軸が試験タイルを手前へ引く。破壊時の最大荷重を試験面積で割って引張接着強度を求め、破壊した位置・割合と併せて表11.1.2で判定する。" },
     ],
   }],
+  ...fieldInspectionLessons,
   "5.4.10": [ultrasonicScan],
   "6.6.5": [concreteCompaction],
   "7.10.3": [baseGrout],
